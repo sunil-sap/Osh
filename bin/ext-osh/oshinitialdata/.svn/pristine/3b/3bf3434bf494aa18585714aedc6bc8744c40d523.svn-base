@@ -1,0 +1,4 @@
+INSERT_UPDATE CronJob; code[unique=true];job(code);singleExecutable;sessionLanguage(isocode)
+;imageMagickCreateMediajob;createMediaCronjob;false;en
+;imagesImportJob;imagesImportJob;false;en
+;checkImageProductExistanceJob;checkProductExistanceJob;false;en

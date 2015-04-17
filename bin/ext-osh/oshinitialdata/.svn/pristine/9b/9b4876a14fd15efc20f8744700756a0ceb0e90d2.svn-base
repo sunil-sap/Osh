@@ -1,0 +1,24 @@
+# ImpEx for Importing Supplier Media
+
+# Macros / Replacement Parameter definitions
+$productCatalog=oshProductCatalog
+$storeName=osh
+
+$catalogVersion=catalogversion(catalog(id[default=$productCatalog]),version[default='Staged'])[unique=true,default=$productCatalog:Staged]
+$thumbnail=thumbnail(code, $catalogVersion)
+$siteResource=jar:com.hybris.osh.initialdata.setup.InitialDataSystemSetup&/oshinitialdata/import/productCatalogs/$productCatalog
+
+INSERT_UPDATE Media;code[unique=true];realfilename;@media[translator=de.hybris.platform.impex.jalo.media.MediaDataTranslator];mime[default='image/jpg'];$catalogVersion
+;/productimages/sonyimage.jpg;$siteResource/images/productimages/sonyimage.jpg
+;/productimages/narolacimage.jpg;$siteResource/images/productimages/narolacimage.jpg
+;/productimages/appleimage.jpg;$siteResource/images/productimages/appleimage.jpg
+;/productimages/samsungimage.jpg;$siteResource/images/productimages/samsungimage.jpg
+;/productimages/ambujaimage.jpg;$siteResource/images/productimages/ambujaimage.jpg
+
+
+UPDATE Category;code[unique=true];$thumbnail;allowedPrincipals(uid)[default='customergroup'];$catalogVersion
+ ;sony;/productimages/sonyimage.jpg
+ ;narolac;/productimages/narolacimage.jpg
+ ;apple;/productimages/appleimage.jpg
+ ;samsung;/productimages/samsungimage.jpg
+ ;ambuja;/productimages/ambujaimage.jpg

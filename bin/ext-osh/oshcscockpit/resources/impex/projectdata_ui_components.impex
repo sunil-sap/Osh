@@ -1,0 +1,65 @@
+###############################################################################
+#	i. Macro definitions
+###############################################################################
+
+###############################################################################
+#
+#	1. Configuration files (media)
+#
+###############################################################################
+
+INSERT_UPDATE CockpitUIConfigurationMedia;code[unique=true];mime;realfilename;@media[translator=de.hybris.platform.impex.jalo.media.MediaDataTranslator][forceWrite=true]
+;updateentry_updateentrylist_cockpitgroup_ui_config;text/xml; UpdateEntry_UpdateEntryList_CockpitGroup.xml;jar:com.hybris.osh.jalo.OshcscockpitManager&/oshcscockpit/import/config/UpdateEntry_UpdateEntryList_CockpitGroup.xml
+;updateentry_updateentryedit_cockpitgroup_ui_config;text/xml; UpdateEntry_UpdateEntryEdit_CockpitGroup.xml;jar:com.hybris.osh.jalo.OshcscockpitManager&/oshcscockpit/import/config/UpdateEntry_UpdateEntryEdit_CockpitGroup.xml
+;orderentry_updatesorderentrylist_cockpitgroup_ui_config;text/xml; OrderEntry_ReturnsOrderEntryList_CockpitGroup.xml;jar:com.hybris.osh.jalo.OshcscockpitManager&/oshcscockpit/import/config/OrderEntry_ReturnsOrderEntryList_CockpitGroup.xml
+;returnentry_returnrequestlistdetail_cockpitgroup_ui_config;text/xml; ReturnEntry_ReturnRequestListDetail_CockpitGroup.xml;jar:com.hybris.osh.jalo.OshcscockpitManager&/oshcscockpit/import/config/ReturnEntry_ReturnRequestListDetail_CockpitGroup.xml
+;consignmententry_consignmentlist_cockpitgroup_ui_config;text/xml; ConsignmentEntry_ConsignmentList_CockpitGroup.xml; jar:com.hybris.osh.jalo.OshcscockpitManager&/oshcscockpit/import/config/ConsignmentEntry_ConsignmentList_CockpitGroup.xml
+;orderentrycancelrecordentry_orderentrymodificationrecordentrylistdetail_cockpitgroup_ui_config;text/xml;OrderEntryCancelRecordEntry_OrderEntryModificationRecordEntryListDetails_CockpitGroup.xml; jar:com.hybris.osh.jalo.OshcscockpitManager&/oshcscockpit/import/config/OrderEntryCancelRecordEntry_OrderEntryModificationRecordEntryListDetails_CockpitGroup.xml
+
+;address_orderdetailsbillingaddress_cockpitgroup_ui_config;text/xml; Address_OrderDetailsAddress_CockpitGroup.xml; jar:de.hybris.platform.cscockpit.jalo.CscockpitManager&/oshcscockpit/import/config/Address_OrderDetailsAddress_CockpitGroup.xml
+;address_orderdetailsdeliveryaddress_cockpitgroup_ui_config;text/xml; Address_OrderDetailsAddress_CockpitGroup.xml; jar:de.hybris.platform.cscockpit.jalo.CscockpitManager&/oshcscockpit/import/config/Address_OrderDetailsAddress_CockpitGroup.xml
+;consignment_consignmentlist_cockpitgroup_ui_config;text/xml; Consignment_ConsignmentList_CockpitGroup.xml; jar:de.hybris.platform.cscockpit.jalo.CscockpitManager&/oshcscockpit/import/config/Consignment_ConsignmentList_CockpitGroup.xml
+;ordercancelrecordentry_ordermodificationrecordlistdetail_cockpitgroup_ui_config;text/xml; OrderCancelRecordEntry_OrderModificationRecordListDetail_CockpitGroup.xml; jar:de.hybris.platform.cscockpit.jalo.CscockpitManager&/oshcscockpit/import/config/OrderCancelRecordEntry_OrderModificationRecordListDetail_CockpitGroup.xml
+
+
+;creditentry_creditentrylist_cockpitgroup_ui_config;text/xml; CreditEntry_CreditEntryList_CockpitGroup.xml;jar:com.hybris.osh.jalo.OshcscockpitManager&/oshcscockpit/import/config/CreditEntry_CreditEntryList_CockpitGroup.xml
+;creditentry_creditentryedit_cockpitgroup_ui_config;text/xml; CreditEntry_CreditEntryEdit_CockpitGroup.xml;jar:com.hybris.osh.jalo.OshcscockpitManager&/oshcscockpit/import/config/CreditEntry_CreditEntryEdit_CockpitGroup.xml
+#;creditPaymentTransaction_creditPaymentTransactionlist_cockpitgroup_ui_config;text/xml; creditPaymentTransaction_creditPaymentTransactionList_CockpitGroup.xml;jar:com.hybris.osh.jalo.OshcscockpitManager&/oshcscockpit/import/config/creditPaymentTransaction_creditPaymentTransactionList_CockpitGroup.xml
+
+
+###############################################################################
+#
+#	2. Configuration mappings (principal, type, context code)
+#
+###############################################################################
+
+INSERT_UPDATE CockpitUIComponentConfiguration;code[unique=true];factoryBean;objectTemplateCode[unique=true];principal(uid)[unique=true];media(code);
+
+#credit amount 
+
+;creditEntryList;listViewConfigurationFactory;CreditPaymentTransaction;cockpitgroup;creditentry_creditentrylist_cockpitgroup_ui_config;
+;creditEntryEdit;editorConfigurationFactory;CreditPaymentTransaction;cockpitgroup;creditentry_creditentryedit_cockpitgroup_ui_config;
+#;creditPaymentTransactionList;listViewConfigurationFactory;CreditPaymentTransaction;cockpitgroup;creditPaymentTransaction_creditPaymentTransactionlist_cockpitgroup_ui_config;
+
+
+
+# Refund & Replacement returns popups - returnable order entries - product details
+;returnsOrderEntryList;listViewConfigurationFactory;AbstractOrderEntry;cockpitgroup;orderentry_updatesorderentrylist_cockpitgroup_ui_config;
+
+# Refund popup - RefundEntry list and editor properties (must match up)
+;updateEntryList;listViewConfigurationFactory;ConsignmentEntry;cockpitgroup;updateentry_updateentrylist_cockpitgroup_ui_config;
+;updateEntryEdit;editorConfigurationFactory;ConsignmentEntry;cockpitgroup;updateentry_updateentryedit_cockpitgroup_ui_config;
+;returnRequestListDetail;listViewConfigurationFactory;ReturnEntry;cockpitgroup;returnentry_returnrequestlistdetail_cockpitgroup_ui_config
+
+#Cancellation Pop up
+;orderEntryModificationRecordEntryListDetail;listViewConfigurationFactory;OrderEntryCancelRecordEntry;cockpitgroup;orderentrycancelrecordentry_orderentrymodificationrecordentrylistdetail_cockpitgroup_ui_config;
+
+;orderDetailsBillingAddress;listViewConfigurationFactory;Address;cockpitgroup;address_orderdetailsbillingaddress_cockpitgroup_ui_config;
+;orderDetailsDeliveryAddress;listViewConfigurationFactory;Address;cockpitgroup;address_orderdetailsdeliveryaddress_cockpitgroup_ui_config;
+
+# Order Consignments
+;consignmentList;listViewConfigurationFactory;ConsignmentEntry;cockpitgroup;consignmententry_consignmentlist_cockpitgroup_ui_config;
+;consignmentList;listViewConfigurationFactory;Consignment;cockpitgroup;consignment_consignmentlist_cockpitgroup_ui_config;
+
+# Order Modification Records
+;orderModificationRecordListDetail;listViewConfigurationFactory;OrderCancelRecordEntry;cockpitgroup;ordercancelrecordentry_ordermodificationrecordlistdetail_cockpitgroup_ui_config;

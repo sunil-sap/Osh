@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<base>
+	<search>
+		<search-properties>
+			<property qualifier="StockLevel.available"/>
+			<property qualifier="StockLevel.productCode"/>
+		</search-properties>
+		<sort-properties>
+			<property qualifier="StockLevel.available"/>
+			<property qualifier="StockLevel.productCode"/>
+		</sort-properties>
+	</search>
+	<label>
+		<property qualifier="StockLevel.available"/>
+	</label>
+</base>

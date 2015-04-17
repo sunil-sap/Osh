@@ -1,0 +1,191 @@
+<html>
+	<head>
+	</head>
+	<body>
+	<div align="center" style="width:760px; margin-top:0; margin-left:auto; margin-right:auto">
+	<table width="100%" border="0" cellspacing="0" cellpadding="5">
+<tr>
+<td colspan="2" style="margin-left: -560px;">${ctx.cmsSlotContents.SiteLogo}</td></tr>
+<tr>
+  <td colspan="2"><p style="font-family:sans-serif; font-size:12px;">Hi <b style="font-family:sans-serif;">${ctx.title} ${ctx.paymentData.firstName}</b></p> 
+    <p style="font-family:sans-serif; font-size:12px;">We wanted you to know that item(s) from your order (<b style="font-family:sans-serif; font-size:12px;"> ${ctx.order.code}</b>)placed on ${ctx.order.creationTime} are on their way to you! If your order happens to contain more than one item, it may ship in multiple packages - check the details below.  We don't charge your credit card until they ship and we don't charge more shipping either! </p>
+	<p style="font-family:sans-serif; font-size:12px;">Remember that if you have any questions, our Customer Care Team is ready to assist you.  Call 1-888-SHOP-OSH (1-(888)746-7674 or email http://osh.com.
+</p>
+	<p style="font-family:sans-serif; font-size:12px;">We truly appreciate your business and look forward to your next visit at OSH.com or in one of your neighborhood stores!
+</p>
+    
+</tr>
+<tr>
+  <td colspan="2" style="width:50%"><table width="100%" border="0" cellspacing="0" cellpadding="5">
+      <tr>
+        <td style="background-color:#e8d3b4"><span style="color:#000000; font-weight:bold; font-size:12px; font-family:sans-serif">Summary for order number ${ctx.order.code}
+</span></td>
+      </tr>
+      <tr>
+        <td><p style="color:#000000; font-weight:normal; margin-top:0;margin-bottom:10px;margin-left:0;margin-right:0; font-size:12px; font-family:sans-serif">Order placed on ${ctx.order.creationTime}
+ <b> #: ${ctx.order.code}</b> </p>
+      </tr>
+	  
+	  <tr>
+        <td><p style="color:#000000; font-weight:normal; margin-top:0;margin-bottom:10px;margin-left:0;margin-right:0; font-size:12px; font-family:sans-serif"> Shipping method selected: ${ctx.order.deliveryMode.name}</p>
+      </tr>
+	  
+    </table></td>
+</tr>
+<tr>
+  <td><table width="50%" border="0" cellspacing="0" cellpadding="5">
+      <tr>
+        <td style="background-color:#e8d3b4"><span style="color:#000000; font-weight:bold; font-size:12px; font-family:sans-serif">BILLING ADDRESS</span></td>
+      </tr>
+      <tr>
+        <td><p style="color:#000000; font-weight:normal; margin-top:0;margin-bottom:10px;margin-left:0;margin-right:0; font-size:12px; font-family:sans-serif">${ctx.paymentData.firstName} ${ctx.paymentData.lastName}<br>
+            <span style="color:#000000; font-weight:normal; margin-top:0;margin-bottom:10px;margin-left:0;margin-right:0; font-size:12px; font-family:sans-serif">${ctx.paymentData.line1} 
+           	 ${ctx.paymentData.line2} 
+            </span><br>${ctx.paymentData.town}, ${ctx.paymentData.state.isocode} ${ctx.paymentData.postalCode}<br>${ctx.paymentData.country.isocode}<br>${ctx.paymentData.phone}<br>${ctx.paymentData.email}<br>
+          
+            <span style="color:#000000; font-weight:normal; margin-top:0;margin-bottom:10px;margin-left:0;margin-right:0; font-size:12px; font-family:sans-serif"></span></p></td>
+      </tr>
+    </table></td>
+	
+	<td><table width="50%" border="0" cellspacing="0" cellpadding="5">
+      <tr>
+        <td style="background-color:#e8d3b4"><span style="color:#000000; font-weight:bold; font-size:12px; font-family:sans-serif">SHIPPING ADDRESS</span></td>
+      </tr>
+      <tr>
+        <td><p style="color:#000000; font-weight:normal; margin-top:0;margin-bottom:10px;margin-left:0;margin-right:0; font-size:12px; font-family:sans-serif">${ctx.order.deliveryAddress.firstName} ${ctx.order.deliveryAddress.lastName}<br>
+            <span style="color:#000000; font-weight:normal; margin-top:0;margin-bottom:10px;margin-left:0;margin-right:0; font-size:12px; font-family:sans-serif">${ctx.order.deliveryAddress.line1} ${ctx.order.deliveryAddress.line2}
+            </span><br>${ctx.order.deliveryAddress.town}, ${ctx.order.deliveryAddress.state.isocode} ${ctx.order.deliveryAddress.postalCode}<br>
+			
+            ${ctx.order.deliveryAddress.country.isocode}<br>${ctx.order.deliveryAddress.phone}<br>${ctx.order.deliveryAddress.email}<br>
+            <span style="color:#000000; font-weight:normal; margin-top:0;margin-bottom:10px;margin-left:0;margin-right:0; font-size:12px; font-family:sans-serif"></span></p></td>
+      </tr>
+    </table></td>
+	
+  
+</tr>
+<tr>
+<td colspan="2">
+<table width="100%" border="0" cellspacing="0" cellpadding="5">
+<tr>
+  <td style="background-color:#e8d3b4"><span style="color:#000000; font-weight:bold; font-size:12px; font-family:sans-serif">ORDER DETAILS</span></td>
+</tr></table>
+<table width="100%" border="0" cellspacing="0" cellpadding="5">
+<tr>
+<thead>
+   <tr >
+	  <th class="firstcolume" scope="col" style="font-size:12px; background-color:#f3e8d6; font-family:sans-serif; text-align: left; width: 340px;">SKU NUMBER</th>
+      <th class="firstcolume" scope="col" style="font-size:12px; background-color:#f3e8d6; font-family:sans-serif; text-align: left; width: 340px;">PRODUCT</th>
+      <th class="shippingcolume" scope="col" style="font-size:12px; background-color:#f3e8d6; font-family:sans-serif; width:140px;">SIZE/COLOR</th>
+	  #if(!$ctx.order.gift)
+      <th class="quantitycolume" scope="col" style="font-size:12px; background-color:#f3e8d6; font-family:sans-serif; text-align: center; width: 74px;">PRICE</th>
+      #end
+	  <th class="unitcolume" scope="col" style="font-size:12px; background-color:#f3e8d6; font-family:sans-serif; text-align: center; ">QTY</th>
+	  <th class="shippingcolume" scope="col" style="font-size:12px; background-color:#f3e8d6; font-family:sans-serif; width:140px;">TRACKING ID</th>
+	  #if(!$ctx.order.gift)
+      <th class="lastcolume" scope="col" style="font-size:12px; background-color:#f3e8d6; padding-left:12px; font-family:sans-serif; text-align: right; width: 106px;">TOTAL.</th>
+	  #end
+    </tr>
+  </thead>
+  <tbody>
+   #foreach($orderEntry in $ctx.order.entries)
+    #foreach($variant in $orderEntry.product.baseOptions)
+    #if($orderEntry.product.status == "SHIPPED")
+    <tr>
+	  <td style="font-size: 12px; border-top: 1px solid; font-family:sans-serif;">$orderEntry.product.code</td>
+      <td style="font-size: 12px; border-top: 1px solid; font-family:sans-serif;">$orderEntry.product.name</td>
+      <td style="font-size: 12px; text-align: center; border-top: 1px solid; font-family:sans-serif;">NA</td>
+	   #if(!$ctx.order.gift)
+      <td style="font-size: 12px; text-align: center;border-top: 1px solid; font-family:sans-serif;">$orderEntry.basePrice.formattedValue</td>
+	  #end
+      <td style="font-size: 12px; text-align: center;border-top: 1px solid; font-family:sans-serif;">$orderEntry.quantity</td>
+	  <td style="font-size: 12px; text-align: center; border-top: 1px solid; font-family:sans-serif;">#if(${ctx.order.deliveryMode.name}=="HomeDirect")<a href="http://www.homedirectusa.com/hdusaoms/trackShipmentByIdOnly.htm?trackingId=$orderEntry.product.trackingId">$orderEntry.product.trackingId</a> 
+	   #else
+		<a href="http://wwwapps.ups.com/WebTracking/track?HTMLVersion=5.0&loc=en_US&Requester=UPSHome&WBPM_lid=homepage%2Fct1.html_pnl_trk&trackNums=$orderEntry.product.trackingId&track.x=Track">$orderEntry.product.trackingId</a>
+	   #end</td> 
+	  #if(!$ctx.order.gift)
+      <td style="text-align: right; font-size: 12px; border-top: 1px solid; font-family:sans-serif;">$orderEntry.totalPrice.formattedValue</td>
+	  #end
+    </tr>
+      #end
+    #end
+      #end
+  </tbody>
+</table>
+   
+  <table width="100%" border="0" style="background-color:#f3e8d6;">
+    <tbody>
+    #if($ctx.order.gift)
+      <tr>
+        <td><p style="color:#000000; font-weight:normal; margin-top:0;margin-bottom:10px;margin-left:0;margin-right:0; font-size:12px; font-family:sans-serif"><b>Gift Message:</b>${ctx.order.giftMessage}</p>
+      </tr>
+    #else
+       <tr>
+        <td style="text-align: right; font-family:sans-serif; font-size:12px;">Subtotal: </td>
+        <td style="text-align: right; width: 122px; font-size:12px;">$ctx.order.subTotal.formattedValue</td>
+      </tr>
+	  <tr>
+        <td style="text-align: right; font-family:sans-serif; font-size:12px;">Product Discounts: </td>
+        <td style="text-align: right; width: 122px; font-size:12px;">$ctx.order.productDiscounts.formattedValue</td>
+      </tr>
+	  <tr>
+        <td style="text-align: right; font-family:sans-serif; font-size:12px;">Promotional Discounts: </td>
+        <td style="text-align: right; width: 122px; font-size:12px;">#if(!$ctx.order.showDiscounts) $ctx.order.orderDiscounts.formattedValue #else $0.00 #end</td>
+      </tr>
+	  #if($ctx.order.showShipping)
+	  <tr>
+        <td style="text-align: right; font-family:sans-serif; font-size:12px;">Shipping:  </td>
+        <td style="text-align: right; width: 122px; font-size:12px;">$ctx.order.deliveryCost.formattedValue</td>
+      </tr>
+	  #end
+	  <tr>
+        <td style="text-align: right; font-family:sans-serif; font-size:12px;">Club Orchard Rewards: </td>
+        <td style="text-align: right; width: 122px; font-size:12px;">#if($ctx.order.showDiscounts) $ctx.order.orderDiscounts.formattedValue #else $0.00 #end</td>
+      </tr>
+      <tr>
+        <td style="text-align: right; font-family:sans-serif; font-size:12px;">Taxes:</td>
+        <td style="text-align: right; width: 122px; font-size:12px;">$ctx.order.totalTax.formattedValue</td>
+      </tr>
+      <tr>
+        <td style="text-align: right; font-weight: bold; font-family:sans-serif; font-size:12px;">TOTAL:</td>
+        <td style="text-align: right; font-weight: bold; width: 122px; font-size:12px;">$ctx.order.totalPrice.formattedValue</td>
+      </tr>
+     #end 
+    </tbody>
+  </table>
+  </td>
+  </tr>
+  <tr>
+		<td colspan="2"><p style="font-size: 12px; color:#736F6E; font-family:sans-serif; text-align: left;">Please note: For orders that contain multiple items, each item may be shipped from a different location. As such, you may receive each
+item separately, on different dates.
+Osh.com Return/Exchange Policy:
+We hope that you will be completely satisfied with your Orchard Supply Hardware purchase. If you are not, you can return or exchange
+your new and unused item within 90 days of purchase for a full refund or exchange. We will refund your purchase price based on your
+original method of payment. To initiate a return, contact Customer Care Department at 888-Shop-OSH(888-746-7674) to obtain a
+Return Merchandise Authorization(RMA).
+Be sure to keep your original packaging materials to repack the item for return. Return items via UPS or insured parcel post for proof of 
+delivery *
+Ship returns to:
+Orchard Supply Hardware Distribution Center
+Attention: osh.com Returns
+2650 N. Mac Arthur Drive
+Tracy, CA 95376
+You are responsible for all return freight charges. You will receive a credit for freight charges if the product is defective or the wrong item
+was shipped.
+* If an oversized item was delivered to you via a home delivery service, contact Customer Care Team(888-SHOP-OSH) for return instructions.
+If an item is returned after 90 days of purchase, we will issue a refund to your credit card with the price of the item when the return was
+initiated. This price may be lower than the purchase price.
+You may also return items to your local Orchard Supply Hardware Store(within California).Visit www.osh.com for information on our store 
+return policy
+
+</p></td>
+   </tr>
+   <tr>
+    <td colspan="2"><p style="font-size: 12px; font-family:sans-serif;">Please do not reply to this e-mail. If you have questions, please contact Customer Care Team at the number below:</p>
+      <p><b style="font-size: 12px; font-family:sans-serif;">Orchard Supply Hardware</b><br>
+        <span style="font-size: 12px; font-family:sans-serif;">Phone: 1-888-SHOP-OSH (1-888-746-7674)</span><br>
+        <span style="font-size: 12px; font-family:sans-serif;"><a href="http://www.osh.com">http://www.osh.com</a></span></p></td>
+  </tr>
+</table>
+</div>
+</body>
+</html>

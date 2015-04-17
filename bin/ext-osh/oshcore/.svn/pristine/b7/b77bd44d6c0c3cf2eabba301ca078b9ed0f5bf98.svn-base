@@ -1,0 +1,28 @@
+#
+$contentCatalog=oshContentCatalog
+$contentCV=catalogVersion(CatalogVersion.catalog(Catalog.id[default=$contentCatalog]),CatalogVersion.version[default=Staged])[default=$contentCatalog:Staged]
+$jarResourceCms=jar:com.hybris.osh.core.setup.CoreSystemSetup&/oshcore/import/cockpits/cmscockpit
+$siteResource=jar:com.hybris.osh.initialdata.setup.InitialDataSystemSetup&/oshinitialdata/import/contentCatalogs/$contentCatalog
+
+$lang=en
+# These define sets of components that can fit into similar slots
+$wideContent=CMSImageComponent,SimpleBannerComponent,BannerComponent,ImageMapComponent,RotatingImagesComponent,ProductCarouselComponent,CMSParagraphComponent
+$narrowContent=ProductFeatureComponent,CategoryFeatureComponent,CMSImageComponent,SimpleBannerComponent,BannerComponent,ImageMapComponent,RotatingImagesComponent,ProductCarouselComponent,CMSParagraphComponent
+
+# Create PageTemplates
+# These define the layout for pages
+# "FrontendTemplateName" is used to define the JSP that should be used to render the page for pages with multiple possible layouts.
+# "RestrictedPageTypes" is used to restrict templates to page types
+
+INSERT_UPDATE PageTemplate;$contentCV[unique=true];uid[unique=true];name;frontendTemplateName;restrictedPageTypes(code);active[default=true];velocityTemplate[translator=de.hybris.platform.commerceservices.impex.impl.FileLoaderValueTranslator]
+;;BlankPageTemplate;Blank Page Template;layout/blankLayoutPage;CategoryPage,ContentPage;;$jarResourceCms/structure-view/structure_blankPageTemplate.vm
+
+INSERT_UPDATE ContentSlotName;name[unique=true];template(uid,$contentCV)[unique=true][default='BlankPageTemplate'];validComponentTypes(code)
+;blank_cms_paragraph;;$narrowContent
+
+INSERT_UPDATE ContentSlotForPage;$contentCV[unique=true];uid[unique=true];position[unique=true];page(uid,$contentCV)[unique=true][default='blankpage'];contentSlot(uid,$contentCV)[unique=true]
+;;BlankPageSectionSlot-BlankPage;blank_cms_paragraph;;BlankPageSectionSlot
+
+# Site-wide Blankpage
+INSERT_UPDATE ContentPage;$contentCV[unique=true];uid[unique=true];name;masterTemplate(uid,$contentCV);label;defaultPage[default='true'];approvalStatus(code)[default='approved']
+;;blankpage;blankpage;BlankPageTemplate;/blankpage

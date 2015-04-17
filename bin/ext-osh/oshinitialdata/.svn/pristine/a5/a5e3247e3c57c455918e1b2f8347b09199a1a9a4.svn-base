@@ -1,0 +1,46 @@
+# ImpEx for Importing Products Stock Levels and Warehouses
+
+# Macros / Replacement Parameter definitions
+$productCatalog=oshProductCatalog
+
+$catalogVersion=catalogversion(catalog(id[default=$productCatalog]),version[default='Staged'])[unique=true,default=$productCatalog:Staged]
+
+INSERT_UPDATE Vendor;code[unique=true];name[lang=en];name[lang=de]
+;electro;Electro;Electro
+
+INSERT_UPDATE Warehouse;code[unique=true];name[lang=en];name[lang=de];vendor(code);default
+;warehouse_s;Warehouse South;Warehouse South;electro;true
+
+INSERT_UPDATE StockLevel;warehouse(code)[unique=true];productCode[unique=true];inStockStatus(code);available;maxPreOrder;maxStockLevelHistoryCount;overSelling;preOrder;reserved
+;warehouse_s;P-OEF10001;forceInStock;30;1;1;0;0;0
+;warehouse_s;P-OEF20002;forceInStock;300;1;1;0;1;2
+;warehouse_s;P-OEF30003;forceInStock;4;1;1;0;0;0
+;warehouse_s;P-OEF40004;forceInStock;14;1;1;0;0;0
+;warehouse_s;P-OEF50005;forceInStock;0;1;1;0;0;0
+;warehouse_s;P-OEF60006;forceInStock;30;1;1;0;0;0
+;warehouse_s;P-OEF70007;forceInStock;300;1;1;0;1;2
+;warehouse_s;P-OEF80008;forceInStock;4;1;1;0;0;0
+;warehouse_s;P-OEF90009;forceInStock;14;1;1;0;0;0
+;warehouse_s;P-OEF1000010;forceInStock;0;1;1;0;0;0
+;warehouse_s;P-OEF1100011;forceInStock;30;1;1;0;0;0
+;warehouse_s;P-OEF1200012;forceInStock;300;1;1;0;1;2
+;warehouse_s;P-OEF1300013;forceInStock;4;1;1;0;0;0
+;warehouse_s;P-OEF1400014;forceInStock;14;1;1;0;0;0
+;warehouse_s;P-OEF1500015;forceInStock;0;1;1;0;0;0
+
+UPDATE OshProduct;code[unique=true];stockLevels(productCode,warehouse(code));vendors(code);$catalogVersion
+;P-OEF10001;P-OEF10001:warehouse_s;electro;
+;P-OEF20002;P-OEF20002:warehouse_s;electro;
+;P-OEF30003;P-OEF30003:warehouse_s;electro;
+;P-OEF40004;P-OEF40004:warehouse_s;electro;
+;P-OEF50005;P-OEF50005:warehouse_s;electro;
+;P-OEF60006;P-OEF60006:warehouse_s;electro;
+;P-OEF70007;P-OEF70007:warehouse_s;electro;
+;P-OEF80008;P-OEF80008:warehouse_s;electro;
+;P-OEF90009;P-OEF90009:warehouse_s;electro;
+;P-OEF1000010;P-OEF1000010:warehouse_s;electro;
+;P-OEF1100011;P-OEF1100011:warehouse_s;electro;
+;P-OEF1200012;P-OEF1200012:warehouse_s;electro;
+;P-OEF1300013;P-OEF1300013:warehouse_s;electro;
+;P-OEF1400014;P-OEF1400014:warehouse_s;electro;
+;P-OEF1500015;P-OEF1500015:warehouse_s;electro;

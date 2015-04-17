@@ -1,0 +1,109 @@
+#
+# Import CS Cockpit Users
+#
+
+$passwordEncoding=md5
+$defaultPassword=1234
+$setPassword=@password[translator=de.hybris.platform.impex.jalo.translators.ConvertPlaintextToEncodedUserPasswordTranslator][default='$passwordEncoding:$defaultPassword']
+
+UPDATE Usergroup;uid[unique=true];groups(uid)[mode=append];
+;admingroup;csagentgroup,oshcsagentgroup;
+
+
+INSERT_UPDATE Employee;UID[unique=true];password;description;name;groups(uid);sessionLanguage(isocode);mystore(PointOfService.name)
+;storeagent_Alum Rock;1234;CS User who deals with Orders consisting BOPIS items;Store Agent;oshcsagentgroup;en;Alum Rock  
+;storeagent_South Bay ;1234;CS User who deals with Orders consisting BOPIS items;Store Agent;oshcsagentgroup;en;South Bay  
+;storeagent_Antelope;1234;CS User who deals with Orders consisting BOPIS items;Store Agent;oshcsagentgroup;en;Antelope  
+;storeagent_Antioch;1234;CS User who deals with Orders consisting BOPIS items;Store Agent;oshcsagentgroup;en;Antioch  
+;storeagent_Arden Watt;1234;CS User who deals with Orders consisting BOPIS items;Store Agent;oshcsagentgroup;en;Arden Watt  
+;storeagent_Bakersfield;1234;CS User who deals with Orders consisting BOPIS items;Store Agent;oshcsagentgroup;en;Bakersfield  
+;storeagent_Berkeley;1234;CS User who deals with Orders consisting BOPIS items;Store Agent;oshcsagentgroup;en;Berkeley  
+;storeagent_Blackstone ;1234;CS User who deals with Orders consisting BOPIS items;Store Agent;oshcsagentgroup;en;Blackstone   
+;storeagent_Branham Lane ;1234;CS User who deals with Orders consisting BOPIS items;Store Agent;oshcsagentgroup;en;Branham Lane   
+;storeagent_Burbank;1234;CS User who deals with Orders consisting BOPIS items;Store Agent;oshcsagentgroup;en;Burbank  
+;storeagent_Canoga Park;1234;CS User who deals with Orders consisting BOPIS items;Store Agent;oshcsagentgroup;en;Canoga Park 
+;storeagent_Capitola;1234;CS User who deals with Orders consisting BOPIS items;Store Agent;oshcsagentgroup;en;Capitola 
+;storeagent_Chico;1234;CS User who deals with Orders consisting BOPIS items;Store Agent;oshcsagentgroup;en;Chico 
+;storeagent_Citrus Heights;1234;CS User who deals with Orders consisting BOPIS items;Store Agent;oshcsagentgroup;en;Citrus Heights 
+;storeagent_Clayton ;1234;CS User who deals with Orders consisting BOPIS items;Store Agent;oshcsagentgroup;en;Clayton  
+;storeagent_Clovis;1234;CS User who deals with Orders consisting BOPIS items;Store Agent;oshcsagentgroup;en;Clovis 
+;storeagent_Concord;1234;CS User who deals with Orders consisting BOPIS items;Store Agent;oshcsagentgroup;en;Concord 
+;storeagent_Cottle Road ;1234;CS User who deals with Orders consisting BOPIS items;Store Agent;oshcsagentgroup;en;Cottle Road  
+;storeagent_Dublin;1234;CS User who deals with Orders consisting BOPIS items;Store Agent;oshcsagentgroup;en;Dublin 
+;storeagent_East Modesto;1234;CS User who deals with Orders consisting BOPIS items;Store Agent;oshcsagentgroup;en;East Modesto 
+;storeagent_El Camino ;1234;CS User who deals with Orders consisting BOPIS items;Store Agent;oshcsagentgroup;en;El Camino  
+;storeagent_El Cerrito;1234;CS User who deals with Orders consisting BOPIS items;Store Agent;oshcsagentgroup;en;El Cerrito 
+;storeagent_Elk Grove;1234;CS User who deals with Orders consisting BOPIS items;Store Agent;oshcsagentgroup;en;Elk Grove 
+;storeagent_Fairfield;1234;CS User who deals with Orders consisting BOPIS items;Store Agent;oshcsagentgroup;en;Fairfield 
+;storeagent_Folsom;1234;CS User who deals with Orders consisting BOPIS items;Store Agent;oshcsagentgroup;en;Folsom 
+;storeagent_Foster City;1234;CS User who deals with Orders consisting BOPIS items;Store Agent;oshcsagentgroup;en;Foster City 
+;storeagent_Fountain Valley;1234;CS User who deals with Orders consisting BOPIS items;Store Agent;oshcsagentgroup;en;Fountain Valley 
+;storeagent_Fremont;1234;CS User who deals with Orders consisting BOPIS items;Store Agent;oshcsagentgroup;en;Fremont 
+;storeagent_Gilroy;1234;CS User who deals with Orders consisting BOPIS items;Store Agent;oshcsagentgroup;en;Gilroy 
+;storeagent_Goleta ;1234;CS User who deals with Orders consisting BOPIS items;Store Agent;oshcsagentgroup;en;Goleta  
+;storeagent_Granada Hills;1234;CS User who deals with Orders consisting BOPIS items;Store Agent;oshcsagentgroup;en;Granada Hills 
+;storeagent_Hanford;1234;CS User who deals with Orders consisting BOPIS items;Store Agent;oshcsagentgroup;en;Hanford 
+;storeagent_Hesperia;1234;CS User who deals with Orders consisting BOPIS items;Store Agent;oshcsagentgroup;en;Hesperia 
+;storeagent_Hollywood;1234;CS User who deals with Orders consisting BOPIS items;Store Agent;oshcsagentgroup;en;Hollywood 
+;storeagent_Huntington Beach;1234;CS User who deals with Orders consisting BOPIS items;Store Agent;oshcsagentgroup;en;Huntington Beach 
+;storeagent_Kings Canyon ;1234;CS User who deals with Orders consisting BOPIS items;Store Agent;oshcsagentgroup;en;Kings Canyon  
+;storeagent_La Crescenta;1234;CS User who deals with Orders consisting BOPIS items;Store Agent;oshcsagentgroup;en;La Crescenta 
+;storeagent_La Verne;1234;CS User who deals with Orders consisting BOPIS items;Store Agent;oshcsagentgroup;en;La Verne 
+;storeagent_Livermore;1234;CS User who deals with Orders consisting BOPIS items;Store Agent;oshcsagentgroup;en;Livermore 
+;storeagent_Lodi;1234;CS User who deals with Orders consisting BOPIS items;Store Agent;oshcsagentgroup;en;Lodi 
+;storeagent_Lone Tree ;1234;CS User who deals with Orders consisting BOPIS items;Store Agent;oshcsagentgroup;en;Lone Tree  
+;storeagent_Long Beach;1234;CS User who deals with Orders consisting BOPIS items;Store Agent;oshcsagentgroup;en;Long Beach 
+;storeagent_Manteca;1234;CS User who deals with Orders consisting BOPIS items;Store Agent;oshcsagentgroup;en;Manteca 
+;storeagent_Merced;1234;CS User who deals with Orders consisting BOPIS items;Store Agent;oshcsagentgroup;en;Merced 
+;storeagent_Midtown;1234;CS User who deals with Orders consisting BOPIS items;Store Agent;oshcsagentgroup;en;Midtown 
+;storeagent_Millbrae;1234;CS User who deals with Orders consisting BOPIS items;Store Agent;oshcsagentgroup;en;Millbrae 
+;storeagent_Milpitas;1234;CS User who deals with Orders consisting BOPIS items;Store Agent;oshcsagentgroup;en;Milpitas 
+;storeagent_Modesto;1234;CS User who deals with Orders consisting BOPIS items;Store Agent;oshcsagentgroup;en;Modesto 
+;storeagent_Moraga;1234;CS User who deals with Orders consisting BOPIS items;Store Agent;oshcsagentgroup;en;Moraga 
+;storeagent_Mountain View;1234;CS User who deals with Orders consisting BOPIS items;Store Agent;oshcsagentgroup;en;Mountain View 
+;storeagent_N.E. Fresno;1234;CS User who deals with Orders consisting BOPIS items;Store Agent;oshcsagentgroup;en;N.E. Fresno 
+;storeagent_Napa;1234;CS User who deals with Orders consisting BOPIS items;Store Agent;oshcsagentgroup;en;Napa 
+;storeagent_Newark;1234;CS User who deals with Orders consisting BOPIS items;Store Agent;oshcsagentgroup;en;Newark 
+;storeagent_Pasadena;1234;CS User who deals with Orders consisting BOPIS items;Store Agent;oshcsagentgroup;en;Pasadena 
+;storeagent_Paso Robles;1234;CS User who deals with Orders consisting BOPIS items;Store Agent;oshcsagentgroup;en;Paso Robles 
+;storeagent_Petaluma;1234;CS User who deals with Orders consisting BOPIS items;Store Agent;oshcsagentgroup;en;Petaluma 
+;storeagent_Pinole;1234;CS User who deals with Orders consisting BOPIS items;Store Agent;oshcsagentgroup;en;Pinole 
+;storeagent_Pismo Beach;1234;CS User who deals with Orders consisting BOPIS items;Store Agent;oshcsagentgroup;en;Pismo Beach 
+;storeagent_Princeton Plaza;1234;CS User who deals with Orders consisting BOPIS items;Store Agent;oshcsagentgroup;en;Princeton Plaza 
+;storeagent_Prospect Road;1234;CS User who deals with Orders consisting BOPIS items;Store Agent;oshcsagentgroup;en;Prospect Road 
+;storeagent_Rancho Cucamonga;1234;CS User who deals with Orders consisting BOPIS items;Store Agent;oshcsagentgroup;en;Rancho Cucamonga 
+;storeagent_Redding;1234;CS User who deals with Orders consisting BOPIS items;Store Agent;oshcsagentgroup;en;Redding 
+;storeagent_Redwood City;1234;CS User who deals with Orders consisting BOPIS items;Store Agent;oshcsagentgroup;en;Redwood City 
+;storeagent_Salinas;1234;CS User who deals with Orders consisting BOPIS items;Store Agent;oshcsagentgroup;en;Salinas 
+;storeagent_San Carlos;1234;CS User who deals with Orders consisting BOPIS items;Store Agent;oshcsagentgroup;en;San Carlos 
+;storeagent_San Leandro;1234;CS User who deals with Orders consisting BOPIS items;Store Agent;oshcsagentgroup;en;San Leandro 
+;storeagent_San Lorenzo;1234;CS User who deals with Orders consisting BOPIS items;Store Agent;oshcsagentgroup;en;San Lorenzo 
+;storeagent_San Rafael;1234;CS User who deals with Orders consisting BOPIS items;Store Agent;oshcsagentgroup;en;San Rafael 
+;storeagent_San Ramon;1234;CS User who deals with Orders consisting BOPIS items;Store Agent;oshcsagentgroup;en;San Ramon 
+;storeagent_Sand City;1234;CS User who deals with Orders consisting BOPIS items;Store Agent;oshcsagentgroup;en;Sand City 
+;storeagent_Santa Ana;1234;CS User who deals with Orders consisting BOPIS items;Store Agent;oshcsagentgroup;en;Santa Ana 
+;storeagent_Santa Clarita;1234;CS User who deals with Orders consisting BOPIS items;Store Agent;oshcsagentgroup;en;Santa Clarita 
+;storeagent_Santa Maria;1234;CS User who deals with Orders consisting BOPIS items;Store Agent;oshcsagentgroup;en;Santa Maria 
+;storeagent_Santa Rosa;1234;CS User who deals with Orders consisting BOPIS items;Store Agent;oshcsagentgroup;en;Santa Rosa 
+;storeagent_Silver Creek;1234;CS User who deals with Orders consisting BOPIS items;Store Agent;oshcsagentgroup;en;Silver Creek 
+;storeagent_Sonora;1234;CS User who deals with Orders consisting BOPIS items;Store Agent;oshcsagentgroup;en;Sonora 
+;storeagent_South Pasadena;1234;CS User who deals with Orders consisting BOPIS items;Store Agent;oshcsagentgroup;en;South Pasadena 
+;storeagent_South San Francisco;1234;CS User who deals with Orders consisting BOPIS items;Store Agent;oshcsagentgroup;en;South San Francisco 
+;storeagent_Stockton;1234;CS User who deals with Orders consisting BOPIS items;Store Agent;oshcsagentgroup;en;Stockton 
+;storeagent_Sunnyvale;1234;CS User who deals with Orders consisting BOPIS items;Store Agent;oshcsagentgroup;en;Sunnyvale 
+;storeagent_Thousand Oaks;1234;CS User who deals with Orders consisting BOPIS items;Store Agent;oshcsagentgroup;en;Thousand Oaks 
+;storeagent_Torrance;1234;CS User who deals with Orders consisting BOPIS items;Store Agent;oshcsagentgroup;en;Torrance 
+;storeagent_Tracy;1234;CS User who deals with Orders consisting BOPIS items;Store Agent;oshcsagentgroup;en;Tracy 
+;storeagent_Turlock;1234;CS User who deals with Orders consisting BOPIS items;Store Agent;oshcsagentgroup;en;Turlock 
+;storeagent_Vacaville;1234;CS User who deals with Orders consisting BOPIS items;Store Agent;oshcsagentgroup;en;Vacaville 
+;storeagent_Van Nuys;1234;CS User who deals with Orders consisting BOPIS items;Store Agent;oshcsagentgroup;en;Van Nuys 
+;storeagent_Visalia;1234;CS User who deals with Orders consisting BOPIS items;Store Agent;oshcsagentgroup;en;Visalia 
+;storeagent_Watsonville;1234;CS User who deals with Orders consisting BOPIS items;Store Agent;oshcsagentgroup;en;Watsonville 
+;storeagent_West Los Angeles;1234;CS User who deals with Orders consisting BOPIS items;Store Agent;oshcsagentgroup;en;West Los Angeles 
+;storeagent_Woodland;1234;CS User who deals with Orders consisting BOPIS items;Store Agent;oshcsagentgroup;en;Woodland 
+;storeagent_Yuba City;1234;CS User who deals with Orders consisting BOPIS items;Store Agent;oshcsagentgroup;en;Yuba City 
+;storeagent_Figarden;1234;CS User who deals with Orders consisting BOPIS items;Store Agent;oshcsagentgroup;en;Figarden 
+;storeagent_South Bay ;1234;CS User who deals with Orders consisting BOPIS items;Store Agent;oshcsagentgroup;en;South Bay  
+
+
+;onlineagent;1234;CS User who deals with Orders consisting Online Shipping items;Warehouse Agent;oshcsagentgroup;en;online

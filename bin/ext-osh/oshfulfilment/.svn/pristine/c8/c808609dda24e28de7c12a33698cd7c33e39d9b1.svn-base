@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ [y] hybris Platform
+
+ Copyright (c) 2000-2012 hybris AG
+ All rights reserved.
+
+ This software is the confidential and proprietary information of hybris
+ ("Confidential Information"). You shall not disclose such Confidential
+ Information and shall use it only in accordance with the terms of the
+ license agreement you entered into with hybris.
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+           http://www.springframework.org/schema/aop
+           http://www.springframework.org/schema/aop/spring-aop-3.1.xsd">
+
+	<alias name="taskServiceStub" alias="taskService"/>
+	<bean id="taskServiceStub" class="com.hybris.osh.test.TaskServiceStub"/>
+
+	<!-- Registers sample service. Uses abstractBusinessService as template for getting model and sessionService. -->
+
+
+	<bean id="test.cancelWholeOrderAuthorization" class="com.hybris.osh.test.actions.CancelWholeOrderAuthorization" scope="tenant">
+
+	</bean>
+
+	<bean id="test.sendOrderPlacedNotification" class="com.hybris.osh.test.actions.SendOrderPlacedNotification" scope="tenant">
+
+	</bean>
+
+	<bean id="test.sendPaymentFailedNotification" class="com.hybris.osh.test.actions.SendPaymentFailedNotification" scope="tenant">
+
+	</bean>
+
+
+	<bean id="test.queueOrder" class="com.hybris.osh.test.actions.QueueOrder" scope="tenant" parent="abstractAction">
+
+	</bean>
+
+	<bean id="test.fraudCheckOrder" class="com.hybris.osh.test.actions.FraudCheckOrder" scope="tenant" parent="abstractAction">
+
+	</bean>
+
+	<bean id="test.sendFraudErrorNotification" class="com.hybris.osh.test.actions.SendFraudErrorNotification" scope="tenant" parent="abstractAction">
+
+	</bean>
+
+	<bean id="test.checkOrder" class="com.hybris.osh.test.actions.CheckOrder" scope="tenant" parent="abstractAction">
+
+	</bean>
+
+	<bean id="test.checkAuthorizeOrderPayment" class="com.hybris.osh.test.actions.CheckAuthorizeOrderPayment" scope="tenant" parent="abstractAction">
+
+	</bean>
+
+	<bean id="test.sendAuthorizationFailedNotification" class="com.hybris.osh.test.actions.SendAuthorizationFailedNotification" scope="tenant" parent="abstractAction">
+
+	</bean>
+
+	<bean id="test.reserveOrderAmount" class="com.hybris.osh.test.actions.ReserveOrderAmount" scope="tenant" parent="abstractAction">
+
+	</bean>
+
+	<bean id="test.fraudCheckOrderInternal" class="com.hybris.osh.test.actions.FraudCheckOrderInternal" scope="tenant" parent="abstractAction">
+
+	</bean>
+
+	<bean id="test.splitOrder" class="com.hybris.osh.test.actions.SplitOrder" scope="tenant" parent="abstractAction">
+
+	</bean>
+
+
+	<bean id="test.subprocessesCompleted" class="com.hybris.osh.test.actions.SubprocessesCompleted" scope="tenant" parent="abstractAction">
+
+	</bean>
+
+	<bean id="test.sendOrderCompletedNotification" class="com.hybris.osh.test.actions.SendOrderCompletedNotification" scope="tenant" parent="abstractAction">
+
+	</bean>
+
+
+	<!-- consignmentfulfilment process -->
+	<bean id="test.waitBeforeTransmission" class="com.hybris.osh.test.actions.consignmentfulfilment.WaitBeforeTransmission" scope="tenant" parent="abstractAction">
+
+	</bean>
+
+	<bean id="test.sendConsignmentToWarehouse" class="com.hybris.osh.test.actions.consignmentfulfilment.SendConsignmentToWarehouse" scope="tenant" parent="abstractAction">
+
+	</bean>
+
+	<bean id="test.receiveConsignmentStatus" class="com.hybris.osh.test.actions.consignmentfulfilment.ReceiveConsignmentStatus" scope="tenant" parent="abstractAction">
+
+	</bean>
+
+	<bean id="test.calculatePayment" class="com.hybris.osh.test.actions.consignmentfulfilment.CalculatePayment" scope="tenant" parent="abstractAction">
+
+	</bean>
+
+	<bean id="test.takePayment" class="com.hybris.osh.test.actions.consignmentfulfilment.TakePayment" scope="tenant" parent="abstractAction">
+
+	</bean>
+
+	<bean id="test.sendDeliveryMessage" class="com.hybris.osh.test.actions.consignmentfulfilment.SendDeliveryMessage" scope="tenant" parent="abstractAction">
+
+	</bean>
+
+	<bean id="test.sendPaymentFailedMessage" class="com.hybris.osh.test.actions.consignmentfulfilment.SendPaymentFailedMessage" scope="tenant" parent="abstractAction">
+
+	</bean>
+
+	<bean id="test.cancelConsignment" class="com.hybris.osh.test.actions.consignmentfulfilment.CancelConsignment" scope="tenant" parent="abstractAction">
+
+	</bean>
+
+	<bean id="test.sendCancelMessage" class="com.hybris.osh.test.actions.consignmentfulfilment.SendCancelMessage" scope="tenant" parent="abstractAction">
+
+	</bean>
+
+	<bean id="test.subprocessEnd" class="com.hybris.osh.test.actions.consignmentfulfilment.SubprocessEnd" scope="tenant" parent="abstractAction">
+
+	</bean>
+
+	<!-- Payment mockup implementation -->
+	<bean name="mockupCommandFactory" class="de.hybris.platform.payment.commands.factory.impl.DefaultCommandFactoryImpl" scope="tenant">
+		<property name="paymentProvider" value="Mockup"/>
+		<property name="commands">
+			<map>
+				<entry>
+					<key>
+						<value type="java.lang.Class">de.hybris.platform.payment.commands.IsApplicableCommand</value>
+					</key>
+					<bean class="de.hybris.platform.payment.commands.impl.IsApplicableMockCommand" />
+				</entry>
+				<entry>
+					<key>
+						<value type="java.lang.Class">de.hybris.platform.payment.commands.AuthorizationCommand</value>
+					</key>
+					<bean class="de.hybris.platform.payment.commands.impl.AuthorizationMockCommand" />
+				</entry>
+				<entry>
+					<key>
+						<value type="java.lang.Class">de.hybris.platform.payment.commands.SubscriptionAuthorizationCommand</value>
+					</key>
+					<bean class="de.hybris.platform.payment.commands.impl.SubscriptionAuthorizationMockCommand" />
+				</entry>
+				<entry>
+					<key>
+						<value type="java.lang.Class">de.hybris.platform.payment.commands.CaptureCommand</value>
+					</key>
+					<bean class="de.hybris.platform.payment.commands.impl.CaptureMockCommand" />
+				</entry>
+				<entry>
+					<key>
+						<value type="java.lang.Class">de.hybris.platform.payment.commands.PartialCaptureCommand</value>
+					</key>
+					<bean class="de.hybris.platform.payment.commands.impl.PartialCaptureMockCommand" />
+				</entry>
+				<entry>
+					<key>
+						<value type="java.lang.Class">de.hybris.platform.payment.commands.EnrollmentCheckCommand</value>
+					</key>
+					<bean class="de.hybris.platform.payment.commands.impl.EnrollmentCheckMockCommand" />
+				</entry>
+				<entry>
+					<key>
+						<value type="java.lang.Class">de.hybris.platform.payment.commands.VoidCommand</value>
+					</key>
+					<bean class="de.hybris.platform.payment.commands.impl.VoidMockCommand" />
+				</entry>
+				<entry>
+					<key>
+						<value type="java.lang.Class">de.hybris.platform.payment.commands.FollowOnRefundCommand</value>
+					</key>
+					<bean class="de.hybris.platform.payment.commands.impl.FollowOnRefundMockCommand" />
+				</entry>
+                <entry>
+					<key>
+                        <value type="java.lang.Class">de.hybris.platform.payment.commands.StandaloneRefundCommand</value>
+					</key>
+					<bean class="de.hybris.platform.payment.commands.impl.StandaloneRefundMockCommand" />
+				</entry>
+			</map>
+		</property>
+	</bean>
+
+	<alias name="allowShipment" alias="test.allowShipment"/>
+</beans>

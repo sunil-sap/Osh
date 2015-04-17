@@ -1,0 +1,13 @@
+;RightHeaderNavTop;;OshLinkComponent,CMSParagraphComponent
+;MiddleHeaderNavTop;;OshLinkComponent,CMSParagraphComponent
+;LeftHeaderNavTop;;OshLinkComponent,CMSParagraphComponent
+;RightHeaderNavBottom;;OshLinkComponent,CMSParagraphComponent
+;RightHeaderNavMiddleBottom;;OshLinkComponent,CMSParagraphComponent
+;MiddleHeaderNavBottom;;OshLinkComponent,CMSParagraphComponent
+;LeftHeaderNavBottom;;OshLinkComponent,CMSParagraphComponent
+;SiteLogo;;CMSImageComponent,BannerComponent
+;HomepageNavLink;;CMSLinkComponent,CMSParagraphComponent
+;MiniCart;;MiniCartComponent
+;NavigationBar;;NavigationBarComponent
+;GlobalSection;;$wideContent
+;FooterSection;;FooterComponent

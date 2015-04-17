@@ -1,0 +1,144 @@
+package com.hybris.osh.core.valueproviders;
+
+import de.hybris.platform.core.model.c2l.CurrencyModel;
+import de.hybris.platform.core.model.product.ProductModel;
+import de.hybris.platform.europe1.constants.Europe1Tools;
+import de.hybris.platform.europe1.jalo.Europe1PriceFactory;
+import de.hybris.platform.europe1.jalo.PriceRow;
+import de.hybris.platform.jalo.SessionContext;
+import de.hybris.platform.jalo.order.OrderManager;
+import de.hybris.platform.jalo.order.price.PriceInformation;
+import de.hybris.platform.jalo.product.Product;
+import de.hybris.platform.servicelayer.model.ModelService;
+import de.hybris.platform.solrfacetsearch.config.IndexConfig;
+import de.hybris.platform.solrfacetsearch.config.IndexedProperty;
+import de.hybris.platform.solrfacetsearch.config.exceptions.FieldValueProviderException;
+import de.hybris.platform.solrfacetsearch.provider.FieldNameProvider;
+import de.hybris.platform.solrfacetsearch.provider.FieldValue;
+import de.hybris.platform.solrfacetsearch.provider.FieldValueProvider;
+import de.hybris.platform.solrfacetsearch.provider.impl.AbstractPropertyFieldValueProvider;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
+import com.hybris.osh.core.constants.OshCoreConstants;
+
+
+
+public class OshProductRegularPriceValueProvider extends AbstractPropertyFieldValueProvider implements FieldValueProvider,
+		Serializable
+{
+
+	private FieldNameProvider fieldNameProvider;
+	private ModelService modelService;
+
+
+
+	@Override
+	public Collection getFieldValues(final IndexConfig indexConfig, final IndexedProperty indexedProperty, final Object model)
+			throws FieldValueProviderException
+	{
+		final Collection fieldValues = new ArrayList();
+		ProductModel product = null;
+
+		if (model instanceof ProductModel)
+		{
+			product = (ProductModel) model;
+		}
+
+
+		if (indexedProperty.isCurrency())
+		{
+			final Collection<CurrencyModel> currencies = indexConfig.getCurrencies();
+			for (final CurrencyModel currency : currencies)
+			{
+				fieldValues.addAll(createFieldValue(product, currency, indexedProperty));
+			}
+		}
+		else
+		{
+			fieldValues.addAll(createFieldValue(product, null, indexedProperty));
+		}
+		return fieldValues;
+	}
+
+	protected void addFieldValues(final List<FieldValue> fieldValues, final IndexedProperty indexedProperty,
+			final CurrencyModel currency, final Object value)
+	{
+		final Collection<String> fieldNames = getFieldNameProvider().getFieldNames(indexedProperty,
+				currency == null ? null : currency.getIsocode());
+		for (final String fieldName : fieldNames)
+		{
+			fieldValues.add(new FieldValue(fieldName, value));
+		}
+	}
+
+
+	protected List<FieldValue> createFieldValue(final ProductModel productModel, final CurrencyModel currency,
+			final IndexedProperty indexedProperty)
+	{
+		final List<FieldValue> fieldValues = new ArrayList<FieldValue>();
+		//final Collection<VariantProductModel> vpm = productModel.getVariants();
+		//final VariantProduct product = getModelService().getSource(vpm.toArray()[0]);
+		final Product product = modelService.getSource(productModel);
+		final SessionContext sessionContext = OrderManager.getInstance().getSession().getSessionContext();
+		final Europe1PriceFactory priceFactory = (Europe1PriceFactory) OrderManager.getInstance().getPriceFactory();
+		final List<PriceRow> priceRows = (List<PriceRow>) priceFactory.getProductPriceRowsFast(sessionContext, product, null);
+		PriceInformation price = null;
+
+		for (final PriceRow priceRow : priceRows)
+		{
+
+			final String customerPriceGroup = priceRow.getUg().getCode();
+			if (customerPriceGroup != null)
+			{
+				if (customerPriceGroup.equalsIgnoreCase(OshCoreConstants.REGULAR_PRICE))
+				{
+					price = Europe1Tools.createPriceInformation(priceRow, priceRow.getCurrency());
+					final Double value = Double.valueOf(price.getPriceValue().getValue());
+					addFieldValues(fieldValues, indexedProperty, currency, value);
+				}
+			}
+		}
+
+		return fieldValues;
+	}
+
+	/**
+	 * @return the modelService
+	 */
+	public ModelService getModelService()
+	{
+		return modelService;
+	}
+
+	/**
+	 * @param modelService
+	 *           the modelService to set
+	 */
+	@Override
+	public void setModelService(final ModelService modelService)
+	{
+		this.modelService = modelService;
+	}
+
+	/**
+	 * @return the fieldNameProvider
+	 */
+	public FieldNameProvider getFieldNameProvider()
+	{
+		return fieldNameProvider;
+	}
+
+	/**
+	 * @param fieldNameProvider
+	 *           the fieldNameProvider to set
+	 */
+	public void setFieldNameProvider(final FieldNameProvider fieldNameProvider)
+	{
+		this.fieldNameProvider = fieldNameProvider;
+	}
+
+}

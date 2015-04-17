@@ -1,0 +1,41 @@
+#
+# Import the CMS content for the Osh site
+#
+$contentCatalog=oshContentCatalog
+$contentCV=catalogVersion(CatalogVersion.catalog(Catalog.id[default=$contentCatalog]),CatalogVersion.version[default=Staged])[default=$contentCatalog:Staged]
+$jarResourceCms=jar:com.hybris.osh.core.setup.CoreSystemSetup&/oshcore/import/cockpits/cmscockpit
+$siteResource=jar:com.hybris.osh.initialdata.setup.InitialDataSystemSetup&/oshinitialdata/import/contentCatalogs/$contentCatalog
+$picture=media(code, $contentCV);
+$lang=en
+# These define sets of components that can fit into similar slots
+$wideContent=CMSImageComponent,SimpleBannerComponent,BannerComponent,ImageMapComponent,RotatingImagesComponent,ProductCarouselComponent,CMSParagraphComponent
+$narrowContent=ProductFeatureComponent,CategoryFeatureComponent,CMSImageComponent,SimpleBannerComponent,BannerComponent,ImageMapComponent,RotatingImagesComponent,ProductCarouselComponent,CMSParagraphComponent
+$productCV=catalogVersion(catalog(id[default=$productCatalog]),version[default='Staged'])[unique=true,default=$productCatalog:Staged]
+# Create PageTemplates
+# These define the layout for pages
+# "FrontendTemplateName" is used to define the JSP that should be used to render the page for pages with multiple possible layouts.
+# "RestrictedPageTypes" is used to restrict templates to page types
+
+INSERT_UPDATE PageTemplate;$contentCV[unique=true];uid[unique=true];name;frontendTemplateName;restrictedPageTypes(code);active[default=true];velocityTemplate[translator=de.hybris.platform.commerceservices.impex.impl.FileLoaderValueTranslator]
+;;CheetahMailPageTemplate;Subscribe Cheetah Mail Page;cheetah/subscribeCheetahMailPage;ContentPage;;$jarResourceCms/structure-view/structure_SubscribeCheetahMailPageTemplate.vm
+
+INSERT_UPDATE ContentSlotName;name[unique=true];template(uid,$contentCV)[unique=true][default='CheetahMailPageTemplate'];validComponentTypes(code)
+;"#% impex.includeExternalData(new CSVReader(de.hybris.platform.util.Config.getParameter(""HYBRIS_BIN_DIR"") + ""/ext-osh/oshcore/resources/oshcore/import/contentCatalogs/oshContentCatalog/default_cnt_slot_names.csv"",""utf-8""));"
+
+INSERT_UPDATE ContentSlotForTemplate;$contentCV[unique=true];uid[unique=true];position[unique=true];pageTemplate(uid,$contentCV)[unique=true][default='CheetahMailPageTemplate'];contentSlot(uid,$contentCV)[unique=true];allowOverwrite
+;;RightHomepageNavTop-SubscribeCheetah;RightHeaderNavTop;;RightHomepageNavTopSlot;true
+;;MiddleHomepageNavTop-SubscribeCheetah;MiddleHeaderNavTop;;MiddleHomepageNavTopSlot;true
+;;LeftHomepageNavTop-SubscribeCheetah;LeftHeaderNavTop;;LeftHomepageNavTopSlot;true
+;;RightHomepageNav-SubscribeCheetah;RightHeaderNavBottom;;RightHomepageNavBottomSlot;true
+;;RightHeaderNavMiddleBottomNav-SubscribeCheetah;RightHeaderNavMiddleBottom;;RightHeaderNavMiddleBottomSlot;true
+;;MiddleHomepageNav-SubscribeCheetah;MiddleHeaderNavBotom;;MiddleHomepageNavBottomSlot;true
+;;LeftHomepageNav-SubscribeCheetah;LeftHeaderNavBottom;;LeftHomepageNavBottomSlot;true
+;;SiteLogo-SubscribeCheetah;SiteLogo;;SiteLogoSlot;true
+;;HomepageLink-SubscribeCheetah;HomepageNavLink;;HomepageNavLinkSlot;true
+;;NavigationBar-SubscribeCheetah;NavigationBar;;NavigationBarSlot;true
+;;MiniCart-SubscribeCheetah;MiniCart;;MiniCartSlot;true
+;;GlobalSection-SubscribeCheetah;GlobalSection;;GlobalSectionSlot;true
+;;FooterSectionSlot-SubscribeCheetah;FooterSection;;FooterSectionSlot;true
+
+INSERT_UPDATE ContentPage;$contentCV[unique=true];uid[unique=true];name;masterTemplate(uid,$contentCV);label;defaultPage;approvalStatus(code)[default='approved'];title
+;;CheetahMailPage;Subscribe Cheetah Mail Page;CheetahMailPageTemplate;/subscribe;true;;cheetah mail

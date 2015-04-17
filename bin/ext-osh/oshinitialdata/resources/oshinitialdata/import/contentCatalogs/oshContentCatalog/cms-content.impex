@@ -1,0 +1,20 @@
+# ImpEx for Importing CMS Content
+
+#
+# Import the CMS content for the Osh site
+#
+$contentCatalog=oshContentCatalog
+$contentCV=catalogVersion(CatalogVersion.catalog(Catalog.id[default=$contentCatalog]),CatalogVersion.version[default=Staged])[default=$contentCatalog:Staged]
+
+$productCatalog=oshProductCatalog
+$lang=en
+
+$productCV=catalogVersion(catalog(id[default=$productCatalog]),version[default='Staged'])[unique=true,default=$productCatalog:Staged]
+
+$siteResource=jar:com.hybris.osh.initialdata.setup.InitialDataSystemSetup&/oshinitialdata/import/contentCatalogs/$contentCatalog
+
+
+# CMS Site Settings
+UPDATE CMSSite;uid[unique=true];defaultPreviewCategory(code, $productCV);defaultPreviewProduct(code, $productCV)
+
+

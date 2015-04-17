@@ -1,0 +1,23 @@
+# ImpEx for Importing Product Classifications
+
+#% impex.setLocale(Locale.ENGLISH);
+
+# Macros / Replacement Parameter definitions
+$productCatalog=oshProductCatalog
+$classificationCatalog=OSHClassification
+
+$catalogVersion=catalogversion(catalog(id[default=$productCatalog]),version[default='Staged'])[unique=true,default=$productCatalog:Staged]
+
+$clAttrModifiers=system='OSHClassification',version='1.0',translator=de.hybris.platform.catalog.jalo.classification.impex.ClassificationAttributeTranslator,lang=en
+$classCatalogVersion=catalogversion(catalog(id[default='OSHClassification']),version[default='1.0'])[unique=true,default='OSHClassification:1.0']
+$classificationCategories=supercategories(code, $classCatalogVersion)
+
+$feature1=@ Non-operating relative hu, 1001[$clAttrModifiers];  # weight millimeter (mm)
+$feature2=@ Height,1004[$clAttrModifiers];
+$feature3=@ Hazardous,1005[$clAttrModifiers];
+INSERT_UPDATE OshProduct;code[unique=true];$feature1;$feature2;$feature3;$catalogVersion;$classificationCategories
+;P-OEF10001;56;33;yes;;1000,1001,1002
+;P-OEF20002;90;55;yes;;1000,1001,1002
+;P-OEF30003;78;44;No;;1000,1001
+;P-OEF40004;45;45;yes;;1000,1002
+;P-OEF50005;48;38;No;;1000,1001

@@ -1,0 +1,10 @@
+#
+# Create the Merchandise Product Catalog
+#
+# ENGLISH LOCALIZATION
+#
+$lang=en
+$productCatalog=oshProductCatalog
+ 
+UPDATE Catalog;id[unique=true];name[lang=$lang]
+;$productCatalog;"osh Product Catalog"

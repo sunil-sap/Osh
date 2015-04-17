@@ -1,0 +1,1 @@
+Auto-Settlement failed order ${ctx.order.code}

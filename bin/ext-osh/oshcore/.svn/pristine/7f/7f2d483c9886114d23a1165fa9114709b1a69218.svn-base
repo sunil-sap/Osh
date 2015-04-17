@@ -1,0 +1,14 @@
+﻿<div>
+	<div>
+		<h2><a href="${ctx.parentContext.baseUrl}${ctx.urlLink}">${ctx.headline}</a></h2>
+	</div>
+	<div>
+		<a href="${ctx.parentContext.baseUrl}${ctx.urlLink}"><img title="${ctx.headline}" alt="#if(${ctx.media.altText})${ctx.media.altText}#end" src="${ctx.parentContext.mediaBaseUrl}${ctx.media.url}"></a>
+	</div>
+	<div>
+		<a href="${ctx.parentContext.baseUrl}${ctx.urlLink}">${ctx.content}</a>
+	</div>
+	<div>
+		<img alt="#if(${ctx.media.altText})${ctx.media.altText}#end" src="${ctx.themeResourceUrl}/images/icon-arrow-category-tile.png">
+	</div>
+</div>

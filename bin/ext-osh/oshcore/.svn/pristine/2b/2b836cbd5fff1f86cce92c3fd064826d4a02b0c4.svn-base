@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<editor>	
+	<group qualifier="editorial" visible="true" initially-opened="false">
+		<label key="config.general.editorial" />
+		<property qualifier="OshFooterComponent.navigationNodes"/>
+		<property qualifier="OshFooterComponent.notice"/>
+		<property qualifier="OshFooterComponent.oshFooterLogoText" />
+	</group>
+</editor>

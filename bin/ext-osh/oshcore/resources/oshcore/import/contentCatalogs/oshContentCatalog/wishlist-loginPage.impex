@@ -1,0 +1,66 @@
+#
+# Import the CMS content for the Osh site
+#
+$contentCatalog=oshContentCatalog
+$contentCV=catalogVersion(CatalogVersion.catalog(Catalog.id[default=$contentCatalog]),CatalogVersion.version[default=Staged])[default=$contentCatalog:Staged]
+$jarResourceCms=jar:com.hybris.osh.core.setup.CoreSystemSetup&/oshcore/import/cockpits/cmscockpit
+$siteResource=jar:com.hybris.osh.initialdata.setup.InitialDataSystemSetup&/oshinitialdata/import/contentCatalogs/$contentCatalog
+$picture=media(code, $contentCV);
+$lang=en
+# These define sets of components that can fit into similar slots
+$wideContent=CMSImageComponent,SimpleBannerComponent,BannerComponent,ImageMapComponent,RotatingImagesComponent,ProductCarouselComponent,CMSParagraphComponent
+$narrowContent=ProductFeatureComponent,CategoryFeatureComponent,CMSImageComponent,SimpleBannerComponent,BannerComponent,ImageMapComponent,RotatingImagesComponent,ProductCarouselComponent,CMSParagraphComponent
+$productCV=catalogVersion(catalog(id[default=$productCatalog]),version[default='Staged'])[unique=true,default=$productCatalog:Staged]
+# Create PageTemplates
+# These define the layout for pages
+# "FrontendTemplateName" is used to define the JSP that should be used to render the page for pages with multiple possible layouts.
+# "RestrictedPageTypes" is used to restrict templates to page types
+
+
+INSERT_UPDATE PageTemplate;$contentCV[unique=true];uid[unique=true];name;frontendTemplateName;restrictedPageTypes(code);active[default=true]
+;;WishListLoginPageTemplate;WishList Page Template;wishList/wishListLoginPage;ContentPage;true
+
+# Add Velocity templates that are in the CMS Cockpit. These give a better layout for editing pages
+# The FileLoaderValueTranslator loads a File into a String property. The templates could also be inserted in-line in this file.
+UPDATE PageTemplate;$contentCV[unique=true];uid[unique=true];velocityTemplate[translator=de.hybris.platform.commerceservices.impex.impl.FileLoaderValueTranslator]
+;;WishListLoginPageTemplate;$jarResourceCms/structure-view/structure_WishListLoginPageTemplate.vm
+
+#############################################Started wishList Page Template##############################################3
+# Template used for all of the WishList pages
+INSERT_UPDATE ContentSlotName;name[unique=true];template(uid,$contentCV)[unique=true][default='WishListLoginPageTemplate'];validComponentTypes(code)
+;RightHeaderNavTop;;OshLinkComponent,CMSParagraphComponent
+;MiddleHeaderNavTop;;OshLinkComponent,CMSParagraphComponent
+;LeftHeaderNavTop;;OshLinkComponent,CMSParagraphComponent
+;RightHeaderNavBottom;;OshLinkComponent,CMSParagraphComponent
+;RightHeaderNavMiddleBottom;;OshLinkComponent,CMSParagraphComponent
+;MiddleHeaderNavBottom;;OshLinkComponent,CMSParagraphComponent
+;LeftHeaderNavBottom;;OshLinkComponent,CMSParagraphComponent
+;SiteLogo;;CMSImageComponent,BannerComponent
+;HeaderLinks;;CMSLinkComponent,CMSParagraphComponent
+;MiniCart;;MiniCartComponent
+;NavigationBar;;NavigationBarComponent
+;WishListTopSection;;$narrowContent
+#;WishListBottomSection;;$narrowContent
+#;SideContent;;$narrowContent
+;FooterSection;;FooterComponent
+
+INSERT_UPDATE ContentSlotForTemplate;$contentCV[unique=true];uid[unique=true];position[unique=true];pageTemplate(uid,$contentCV)[unique=true][default='WishListLoginPageTemplate'];contentSlot(uid,$contentCV)[unique=true];allowOverwrite
+;;RightStoreListPageNavTop-WishListLoginPage;RightHeaderNavTop;;RightHomepageNavTopSlot;true
+;;MiddleStoreListPageNavTop-WishListLoginPage;MiddleHeaderNavTop;;MiddleHomepageNavTopSlot;true
+;;LeftStoreListPageNavTop-WishListLoginPage;LeftHeaderNavTop;;LeftHomepageNavTopSlot;true
+;;RightStoreListPageNav-WishListLoginPage;RightHeaderNavBottom;;RightHomepageNavBottomSlot;true
+;;RightHeaderNavMiddleBottomNav-WishListLoginPage;RightHeaderNavMiddleBottom;;RightHeaderNavMiddleBottomSlot;true
+;;MiddleStoreListPageNav-WishListLoginPage;MiddleHeaderNavBottom;;MiddleHomepageNavBottomSlot;true
+;;LeftStoreListPageNav-WishListLoginPage;LeftHeaderNavBottom;;LeftHomepageNavBottomSlot;true
+;;SiteLogo-WishListLoginPage;SiteLogo;;SiteLogoSlot;true
+;;StoreListPageLink-WishListLoginPage;HomepageNavLink;;HomepageNavLinkSlot;true
+;;NavigationBar-WishListLoginPage;NavigationBar;;NavigationBarSlot;true
+;;MiniCart-WishListLoginPage;MiniCart;;MiniCartSlot;true
+;;GlobalSection-WishListLoginPage;GlobalSection;;GlobalSectionSlot;true
+;;WishListTopSection-WishListLoginPage;WishListTopSection;;WishList_TopSlot;true
+#;;WishListBottomSection-WishListLoginPage;WishListBottomSection;;WishListBottomSlot;true
+#;;SideContent-WishListLoginPage;SideContent;;SideContentSlot;true
+;;FooterSectionSlot-WishListLoginPage;FooterSection;;FooterSectionSlot;true
+
+INSERT_UPDATE ContentPage;$contentCV[unique=true];uid[unique=true];name;title[lang=$lang];masterTemplate(uid,$contentCV);label;defaultPage[default='true'];approvalStatus(code)[default='approved']
+;;wishList;Wishlist Page;WishListLoginPage;WishListLoginPageTemplate;wishlist;true

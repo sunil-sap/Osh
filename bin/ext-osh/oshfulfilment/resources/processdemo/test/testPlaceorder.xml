@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<process xmlns="http://www.hybris.de/xsd/processdefinition" start="checkOrder" name="testPlaceorder" processClass="de.hybris.platform.orderprocessing.model.OrderProcessModel">
+
+	<action id="checkOrder" bean="test.checkOrder">
+		<transition name="OK" to="checkAuthorizeOrderPayment"/>
+		<transition name="NOK" to="error"/>
+	</action>
+
+	<action id="checkAuthorizeOrderPayment" bean="test.checkAuthorizeOrderPayment">
+		<transition name="OK" to="reserveAmount"/>
+		<transition name="NOK" to="authorizationFailedNotification"/>
+	</action>
+
+
+	<action id="reserveAmount" bean="test.reserveOrderAmount">
+		<transition name="OK" to="fraudCheck"/>
+		<transition name="NOK" to="sendPaymentFailedNotification"/>
+	</action>
+
+	<action id="fraudCheck" bean="test.fraudCheckOrderInternal">
+		<transition name="OK" to="sendOrderPlacedNotification"/>
+		<transition name="NOK" to="notifyCustomer"/>
+	</action>
+
+	<action id="notifyCustomer" bean="test.sendFraudErrorNotification">
+		<transition name="OK" to="manualOrderCheckCSA"/>
+	</action>
+
+
+	<action id="manualOrderCheckCSA" bean="test.fraudCheckOrder">
+		<transition name="OK" to="sendOrderPlacedNotification"/>
+		<transition name="NOK" to="cancelOrder"/>
+	</action>
+
+
+	<action id="sendOrderPlacedNotification" bean="test.sendOrderPlacedNotification">
+		<transition name="OK" to="splitOrder"/>
+	</action>
+
+
+	<action id="cancelOrder" bean="test.cancelWholeOrderAuthorization">
+		<transition name="OK" to="failed"/>
+	</action>
+
+	<action id="authorizationFailedNotification" bean="test.sendAuthorizationFailedNotification">
+		<transition name="OK" to="failed"/>
+	</action>
+
+	<action id="sendPaymentFailedNotification" bean="test.sendPaymentFailedNotification">
+		<transition name="OK" to="failed"/>
+	</action>
+
+	<action id="splitOrder" bean="test.splitOrder">
+		<transition name="OK" to="waitForWarehouseSubprocessEnd"/>
+	</action>
+
+	<wait id="waitForWarehouseSubprocessEnd" then="isProcessCompleted" prependProcessCode="false">
+		<event>${process.code}_ConsignmentSubprocessEnd</event>
+	</wait>
+
+	<action id="isProcessCompleted" bean="test.subprocessesCompleted">
+		<transition name="OK" to="sendOrderCompletedNotification"/>
+		<transition name="NOK" to="waitForWarehouseSubprocessEnd"/>
+	</action>
+
+
+	<action id="sendOrderCompletedNotification" bean="test.sendOrderCompletedNotification">
+		<transition name="OK" to="success"/>
+	</action>
+
+
+	<end id="error" state="ERROR">All went wrong.</end>
+	<end id="failed" state="FAILED">Order not placed.</end>
+	<end id="success" state="SUCCEEDED">Order placed.</end>
+
+</process>

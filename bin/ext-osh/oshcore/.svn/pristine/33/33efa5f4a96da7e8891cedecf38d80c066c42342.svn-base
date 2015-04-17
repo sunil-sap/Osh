@@ -1,0 +1,1174 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!-- [y] hybris Platform Copyright (c) 2000-2012 hybris AG All rights reserved. 
+	This software is the confidential and proprietary information of hybris ("Confidential 
+	Information"). You shall not disclose such Confidential Information and shall 
+	use it only in accordance with the terms of the license agreement you entered 
+	into with hybris. -->
+
+<items xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="items.xsd">
+
+	<collectiontypes>
+		<collectiontype code="GenderList" elementtype="Gender"
+			autocreate="true" generate="true" type="list" />
+		<collectiontype code="OshFooterLogoText" elementtype="OshImageTextComponent"
+			autocreate="true" generate="true" />
+	</collectiontypes>
+
+
+	<enumtypes>
+		
+		<enumtype code="OshShippingTypes" autocreate="true" generate="true" dynamic="true">
+			<value code="SHIPPING" />
+			<value code="OTHER" />
+		</enumtype>
+		
+		<enumtype generate="true" code="CheckoutFlowEnum" autocreate="true"
+			dynamic="true">
+			<value code="SINGLE" />
+			<value code="MULTISTEP" />
+		</enumtype>
+		<enumtype generate="true" code="CheckoutPciOptionEnum"
+			autocreate="true" dynamic="true">
+			<value code="Default" />
+			<value code="HOP" />
+		</enumtype>
+		<enumtype code="AvailInd" generate="true" autocreate="true"
+			dynamic="true">
+			<description>This enumeration defines the Availability Indicator</description>
+			<value code="ALL" />
+			<value code="STORE" />
+			<value code="WEB" />
+			<value code="ALSO_AVAIL_SLCTD_STORE" />
+		</enumtype>
+
+
+		<enumtype code="OrderStatus" autocreate="false" generate="false"
+			dynamic="true">
+			<value code="PARTIAL_FULFILLED" />
+			<value code="PARTIAL_RETURNED" />
+			<value code="PENDING" />
+			<value code="RETURNED" />
+			<value code="REJECTED_CS" />
+			<value code="READY_FOR_PICKUP" />
+			<value code="PAYMENT_DECLINED" />
+			<value code="READY_FOR_PICKUP_PARTIAL" />
+		</enumtype>
+
+		<enumtype code="ConsignmentEntryStatus" autocreate="true"
+			generate="true" dynamic="true">
+			<value code="PICKPACK" />
+			<value code="PENDING" />
+			<value code="COMPLETE" />
+			<value code="READY_FOR_PICKUP" />
+			<value code="SHIPPED" />
+			<value code="CANCELLED" />
+			<value code="PICKEDUP_AT_STORE" />
+			<value code="PAYMENT_DECLINED" />
+		</enumtype>
+
+		<enumtype code="ConsignmentStatus" autocreate="false"
+			generate="false" dynamic="true">
+			<value code="PARTIAL_FULFILLED" />
+			<value code="PARTIAL_RETURNED" />
+			<value code="PENDING" />
+			<value code="RETURNED" />
+			<value code="COMPLETE" />
+			<value code="READY_FOR_PICKUP" />
+			<value code="READY_FOR_PICKUP_PARTIAL" />
+			<value code="PICKEDUP_AT_STORE" />
+		</enumtype>
+
+		<enumtype code="CreditCardType" autocreate="false" generate="false">
+			<value code="mastercard" />
+			<value code="discover" />
+		</enumtype>
+		<enumtype code="ShippingMethod" autocreate="true" generate="true">
+			<value code="nextDay" />
+			<value code="secondDay" />
+			<value code="ground" />
+			<value code="homeDirect" />
+			<value code="upsOnly" />
+		</enumtype>
+	</enumtypes>
+	<relations>
+		
+		<relation code="FooterToBannerRelationShip" generate="true"
+			autocreate="true" localized="false">
+			<sourceElement type="OshFooterComponent" qualifier="oshFooterComponent"
+				cardinality="one">
+				<modifiers read="true" write="true" search="true"
+					optional="true" />
+			</sourceElement>
+			<targetElement type="BannerComponent" qualifier="banners"
+				cardinality="many">
+				<modifiers read="true" write="true" search="true"
+					optional="true" />
+			</targetElement>
+		</relation>
+		
+		 <relation code="OrderAndCreditPaymentRelation" localized="false" generate="true" autocreate="true">
+       <sourceElement type="AbstractOrder" qualifier="AbstractOrder" cardinality="one" />
+       <targetElement type="CreditPaymentTransaction" qualifier="CreditPaymentTransaction" cardinality="many"/> 
+    </relation>
+	</relations>
+	
+<itemtypes>
+
+		<!-- Add your item definitions here -->
+
+
+		<!-- TypeGroups are for structure of this file only -->
+
+		<typegroup name="Osh">
+
+			<itemtype code="OshLinkComponent" extends="CMSLinkComponent"
+				autocreate="true" generate="true"
+				jaloclass="com.hybris.osh.core.jalo.OshLinkComponent">
+				<attributes>
+					<attribute qualifier="content" type="java.lang.String">
+						<modifiers optional="true" />
+						<persistence type="property" />
+					</attribute>
+					<attribute qualifier="style" type="boolean">
+						<persistence type="property" />
+						<modifiers optional="true" />
+					</attribute>
+				</attributes>
+			</itemtype>
+
+			<itemtype code="OshRotatingImagesComponent" extends="RotatingImagesComponent"
+				autocreate="true" generate="true"
+				jaloclass="com.hybris.osh.core.jalo.OshRotatingImagesComponent">
+			</itemtype>
+
+
+			<itemtype code="OshImageTextComponent" extends="CMSImageComponent"
+				autocreate="true" generate="true"
+				jaloclass="com.hybris.osh.core.jalo.OshImageTextComponent">
+				<attributes>
+					<attribute qualifier="content" type="localized:java.lang.String">
+						<persistence type="property" />
+						<modifiers optional="true" />
+					</attribute>
+				</attributes>
+			</itemtype>
+
+			<itemtype code="OshFooterComponent" extends="FooterComponent"
+				autocreate="true" generate="true"
+				jaloclass="com.hybris.osh.core.jalo.OshFooterComponent">
+				<attributes>
+					<attribute qualifier="oshFooterLogoText" type="OshFooterLogoText">
+						<persistence type="property" />
+						<modifiers optional="true" />
+					</attribute>
+				</attributes>
+			</itemtype>
+
+			<itemtype code="CreditPaymentTransaction" generate="true" autocreate="true">
+           	 <attributes>
+               <attribute qualifier="OshShippingType" type="OshShippingTypes">
+						<persistence type="property" />
+						<modifiers optional="true" />
+					</attribute>
+					
+					<attribute type="java.lang.Double" qualifier="creditAmount">
+						<modifiers optional="true" />
+						<persistence type="property" />
+					</attribute>
+					
+					<attribute type="java.lang.String" qualifier="creditNotes">
+						<modifiers optional="true" />
+						<persistence type="property" />
+					</attribute>
+					<attribute type="java.lang.String" qualifier="transactionStatus">
+						<modifiers optional="true" />
+						<persistence type="property" />
+					</attribute>
+					<attribute qualifier="tlogPerformed" type="boolean">
+						<description>New TLOG Performer Flag </description>
+						<defaultvalue>false</defaultvalue>
+						<persistence type="property" />
+						<modifiers optional="true" />
+					</attribute>
+			    </attributes>
+       		 </itemtype>
+        
+        	<itemtype code="OshNavBarComponent" extends="NavigationBarComponent"
+				autocreate="true" generate="true"
+				jaloclass="com.hybris.osh.core.jalo.OshNavBarComponent">
+				<attributes>
+					<attribute qualifier="media" type="localized:Media">
+						<persistence type="property" />
+					</attribute>
+				</attributes>
+			</itemtype>
+
+			<itemtype code="Product" autocreate="false" generate="false">
+				<attributes>
+					<attribute qualifier="ediStock" type="java.lang.String">
+						<description>ediStock# Coming From Vertis Feed</description>
+						<persistence type="property" />
+						<modifiers optional="true" />
+					</attribute>
+					<attribute qualifier="availabilityInd" type="AvailInd">
+						<description>Availability Indicator Type Coming From Vertis Feed</description>
+						<persistence type="property" />
+						<modifiers optional="true" />
+					</attribute>
+					<attribute qualifier="taxable" type="java.lang.Boolean">
+						<description>taxable Coming From Vertis Feed</description>
+						<persistence type="property" />
+						<modifiers optional="true" />
+					</attribute>
+					<attribute qualifier="newSKU" type="boolean">
+						<description>New SKU Coming From Vertis Feed</description>
+						<defaultvalue>false</defaultvalue>
+						<persistence type="property" />
+						<modifiers optional="true" />
+					</attribute>
+					<attribute qualifier="brandName" type="java.lang.String">
+						<description>Brand Name Coming From Vertis Feed</description>
+						<persistence type="property" />
+						<modifiers optional="true" />
+					</attribute>
+					<attribute qualifier="restriction" type="java.lang.String">
+						<description>Restriction</description>
+						<modifiers optional="true" />
+						<persistence type="property" />
+					</attribute>
+					<attribute qualifier="msds" type="java.lang.String">
+						<description>Material safety data sheet</description>
+						<modifiers optional="true" />
+						<persistence type="property" />
+					</attribute>
+					<attribute qualifier="ownersManual" type="java.lang.String">
+						<description>Owner's Manual safety data sheet</description>
+						<modifiers optional="true" />
+						<persistence type="property" />
+					</attribute>
+					<attribute qualifier="rebateInformation" type="java.lang.String">
+						<description>Rebate Information</description>
+						<modifiers optional="true" />
+						<persistence type="property" />
+					</attribute>
+					<attribute qualifier="helpfulAdvice" type="java.lang.String">
+						<description>Helpful Advice</description>
+						<modifiers optional="true" />
+						<persistence type="property">
+							<columntype database="oracle">
+								<value>CLOB</value>
+							</columntype>
+							<columntype database="sqlserver">
+								<value>nvarchar(max)</value>
+							</columntype>
+						</persistence>
+					</attribute>
+					<attribute qualifier="shippingRestriction" type="java.lang.String">
+						<description>Shipping Restriction</description>
+						<modifiers optional="true" />
+						<persistence type="property">
+							<columntype database="oracle">
+								<value>CLOB</value>
+							</columntype>
+							<columntype>
+								<value>HYBRIS.LONG_STRING</value>
+							</columntype>
+							<columntype database="sqlserver">
+								<value>nvarchar(max)</value>
+							</columntype>
+						</persistence>
+					</attribute>
+					<attribute qualifier="freeShipping" type="boolean">
+						<description>Free Shipping Indicator</description>
+						<defaultvalue>false</defaultvalue>
+						<modifiers optional="true" />
+						<persistence type="property" />
+					</attribute>
+					<attribute qualifier="recall" type="boolean">
+						<description>Recall Indicator</description>
+						<defaultvalue>false</defaultvalue>
+						<modifiers optional="true" />
+						<persistence type="property" />
+					</attribute>
+					<attribute qualifier="whiteGlove" type="boolean">
+						<description>WhiteGlove Indicator</description>
+						<modifiers optional="true" />
+						<defaultvalue>false</defaultvalue>
+						<persistence type="property" />
+					</attribute>
+					<attribute qualifier="video" type="java.lang.String">
+						<description>Video</description>
+						<modifiers optional="true" />
+						<persistence type="property" />
+					</attribute>
+					<attribute qualifier="productAttachment" type="java.lang.String">
+						<description>productAttachment</description>
+						<modifiers optional="true" />
+						<persistence type="property" />
+					</attribute>
+					<attribute qualifier="warrantyInformation" type="java.lang.String">
+						<description>warrantyInformation</description>
+						<modifiers optional="true" />
+						<persistence type="property" />
+					</attribute>
+					<!-- <attribute qualifier="colour" type="java.lang.String"> <description>colour</description> 
+						<modifiers optional="true" /> <persistence type="property" /> </attribute> -->
+					<attribute qualifier="sizeChart" type="boolean">
+						<description>size chart</description>
+						<defaultvalue>false</defaultvalue>
+						<modifiers optional="true" />
+						<persistence type="property" />
+					</attribute>
+					<attribute qualifier="mapPriceType" type="java.lang.String">
+						<description>It will give the information whether there is a map price associated to product or not</description>
+						<modifiers optional="true" />
+						<persistence type="property" />
+					</attribute>
+					<attribute qualifier="mapPriceFlag" type="boolean">
+						<modifiers optional="true" />
+						<defaultvalue>false</defaultvalue>
+						<persistence type="property" />
+					</attribute>
+					<attribute type="java.lang.String" qualifier="Sale">
+					<description>Sale Items</description>
+					<modifiers optional="true"/>
+					<persistence type="property"/>
+					</attribute>
+					
+					<attribute type="java.lang.Double" qualifier="shippingSurcharge">
+						<description>Surcharge on products which are heavy or large in size</description>
+						<modifiers optional="true"/>
+						<persistence type="property"/>
+					</attribute>
+				</attributes>
+			</itemtype>
+
+			<itemtype code="OshVariantProduct" extends="VariantProduct"
+				autocreate="true" generate="true"
+				jaloclass="com.hybris.osh.core.jalo.OshVariantProduct">
+				<attributes>
+					<attribute type="Java.lang.String" qualifier="warehouseBinLoc">
+						<persistence type="property" />
+						<modifiers optional="true" />
+					</attribute>
+					<attribute type="ShippingMethod" qualifier="shippingMethod">
+						<persistence type="property" />
+						<modifiers read="true" write="true" search="true"
+							optional="true" />
+						<description>It describe delivery method</description>
+					</attribute>
+					<attribute qualifier="weight" type="java.lang.Double">
+						<description>weight Coming From Vertis Feed</description>
+						<persistence type="property" />
+						<modifiers optional="true" />
+					</attribute>
+					<attribute qualifier="colour" type="Java.lang.String">
+						<persistence type="property" />
+						<modifiers optional="true" />
+					</attribute>
+					<attribute qualifier="size" type="Java.lang.String">
+						<persistence type="property" />
+						<modifiers optional="true" />
+					</attribute>
+				</attributes>
+			</itemtype>
+			<itemtype code="CMSNavigationNode" autocreate="false"
+				generate="false">
+				<attributes>
+					<attribute qualifier="url" type="localized:java.lang.String">
+						<persistence type="property" />
+					</attribute>
+				</attributes>
+			</itemtype>
+
+			<itemtype code="BannerComponent" autocreate="false"
+				generate="false">
+				<attributes>
+					<attribute qualifier="styleClass" type="localized:java.lang.String">
+						<persistence type="property" />
+					</attribute>
+				</attributes>
+			</itemtype>
+			<itemtype code="SimpleBannerComponent" autocreate="false"
+				generate="false">
+				<attributes>
+					<attribute qualifier="styleClass" type="localized:java.lang.String">
+						<persistence type="property" />
+					</attribute>
+				</attributes>
+			</itemtype>
+
+			<itemtype code="ProductReference" autocreate="false"
+				generate="false">
+				<description>OSH Product Reference extending to create Priority field.
+				</description>
+				<attributes>
+					<attribute qualifier="priority" type="java.lang.String">
+						<description>Defines priority of display for Cross/Up sell..</description>
+						<modifiers search="true" />
+						<persistence type="property" />
+					</attribute>
+				</attributes>
+			</itemtype>
+
+			<itemtype code="User" autocreate="false" generate="false">
+				<description>Extending User type with additional attributes.</description>
+				<attributes>
+					<attribute type="PointOfService" qualifier="myStore">
+						<modifiers optional="true" />
+						<persistence type="property" />
+						<description>Attribute is used to add the store with the user.</description>
+					</attribute>
+				</attributes>
+			</itemtype>
+
+			<itemtype code="Customer" autocreate="false" generate="false">
+				<description>Extending Customer type with additional attributes.</description>
+				<attributes>
+					<attribute type="java.lang.Boolean" qualifier="guest">
+						<modifiers optional="true" />
+						<defaultvalue>false</defaultvalue>
+						<persistence type="property" />
+						<description>Attribute is used to indicate if customer is stored as guest.</description>
+					</attribute>
+					<attribute type="java.lang.String" qualifier="emailId">
+						<modifiers optional="true" />
+						<persistence type="property" />
+						<description>Attribute is used to save email id for guest.</description>
+					</attribute>
+					<attribute type="boolean" qualifier="storeNewsLetter">
+						<modifiers optional="true" />
+						<persistence type="property" />
+						<description>Attribute is used to save store news letter.</description>
+					</attribute>
+
+					<attribute type="boolean" qualifier="specialOffers">
+						<modifiers optional="true" />
+						<persistence type="property" />
+						<description>Attribute is used to save promotions and special offers.</description>
+					</attribute>
+
+					<attribute type="boolean" qualifier="clubOrchardInfo">
+						<modifiers optional="true" />
+						<persistence type="property" />
+						<description>Attribute is used to save club orchard information.</description>
+					</attribute>
+
+					<attribute type="java.lang.String" qualifier="birthDay">
+						<modifiers optional="true" />
+						<persistence type="property" />
+						<description>Attribute is used to save the birth date.</description>
+					</attribute>
+
+					<attribute type="java.lang.Long" qualifier="phone">
+						<modifiers optional="true" />
+						<persistence type="property" />
+						<description>Attribute is used to save the phone number.</description>
+					</attribute>
+
+					<attribute type="java.lang.String" qualifier="loyaltyNumber">
+						<modifiers optional="true" />
+						<persistence type="property" />
+						<description>Attribute to save loyalty number of the customer</description>
+					</attribute>
+						<attribute type="java.lang.String" qualifier="customerAccNO">	
+						<modifiers optional="true" />
+						<persistence type="property" />
+						<description>Attribute to save Customer Unique No</description>
+					</attribute>					
+				</attributes>
+			</itemtype>
+
+			<itemtype code="PointOfService" autocreate="false" generate="false">
+				<attributes>
+					<attribute qualifier="active" type="boolean">
+						<persistence type="property" />
+					</attribute>
+					<attribute qualifier="storeID" type="java.lang.String">
+						<persistence type="property" />
+						<modifiers optional="false" />
+					</attribute>
+				</attributes>
+			</itemtype>
+
+			<itemtype code="ConsignmentEntry" autocreate="false"
+				generate="false">
+				<attributes>
+					<attribute type="ConsignmentEntryStatus" qualifier="entryLevelStatus">
+						<persistence type="property" />
+						<modifiers optional="true" />
+					</attribute>
+					<attribute type="java.lang.String" qualifier="trackingId">
+						<persistence type="property" />
+						<modifiers optional="true" />
+					</attribute>
+					<attribute type="java.lang.Integer" qualifier="quantityToShip">
+						<persistence type="property" />
+						<modifiers optional="true" />
+					</attribute>
+					<attribute type="boolean" qualifier="transactionDone">
+						<persistence type="property" />
+						<modifiers optional="true" />
+					</attribute>
+					<attribute type="boolean" qualifier="cancellationPerformed">
+						<persistence type="property" />
+						<modifiers optional="true" />
+					</attribute>
+					<attribute qualifier="notificationSend" type="java.lang.Integer">
+						<persistence type="property" />
+						<modifiers optional="true" />
+					</attribute>
+					<attribute qualifier="shippingAmt" type="java.lang.Double">
+						<persistence type="property" />
+						<defaultvalue>0.0D</defaultvalue>
+						<modifiers optional="true" />
+					</attribute>
+					<attribute qualifier="readyForPickupTimeStamp" type="java.util.Date">
+						<persistence type="property" />
+						<modifiers optional="true" />
+					</attribute>
+					<attribute type="PaymentTransactionEntry" qualifier="transactionModel">
+						<persistence type="property" />
+						<modifiers optional="true" />
+					</attribute>
+					<attribute type="java.lang.Integer" qualifier="cancelQty">
+						<persistence type="property" />
+						<modifiers optional="true" />
+					</attribute>
+					<attribute type="boolean" qualifier="tlogPerformed">
+						<persistence type="property" />
+						<modifiers optional="true" />
+					</attribute>
+					<attribute type="boolean" qualifier="poPerformed">
+						<persistence type="property" />
+						<modifiers optional="true" />
+					</attribute>
+					<attribute qualifier="poConfirmPerformed" type="boolean">
+						<persistence type="property" />
+						<modifiers optional="true" />
+					</attribute>
+				</attributes>
+			</itemtype>
+
+
+			<itemtype code="Consignment" autocreate="false" generate="false">
+				<attributes>
+					<attribute type="boolean" qualifier="sentToDropship">
+						<persistence type="property" />
+						<modifiers optional="true" />
+					</attribute>
+					<attribute type="java.lang.Integer" qualifier="shippedQty">
+						<persistence type="property" />
+						<modifiers optional="true" />
+					</attribute>
+					<attribute type="boolean" qualifier="shipedEmailSent">
+						<persistence type="property" />
+						<modifiers optional="true" />
+					</attribute>
+					<attribute type="java.lang.String" qualifier="notes">
+						<modifiers optional="true" />
+						<persistence type="property" />
+					</attribute>
+					<attribute type="boolean" qualifier="paymentCapture">
+						<persistence type="property" />
+						<modifiers optional="true" />
+					</attribute>
+					<attribute type="boolean" qualifier="updateTrackingID">
+						<persistence type="property" />
+						<modifiers optional="true" />
+					</attribute>
+				</attributes>
+			</itemtype>
+
+			<itemtype code="OrderEntryCancelRecordEntry" autocreate="false"
+				generate="false">
+				<attributes>
+					<attribute qualifier="shippingAmt" type="java.lang.Double">
+						<persistence type="property" />
+						<modifiers optional="true" />
+					</attribute>
+				</attributes>
+			</itemtype>
+			<itemtype code="AbstractOrderEntry" autocreate="false"
+				generate="false">
+				<attributes>
+					<attribute qualifier="orderType" type="java.lang.String">
+						<persistence type="property" />
+						<defaultvalue>"online"</defaultvalue>
+					</attribute>
+					<attribute qualifier="taxPerUnit" type="java.lang.Double">
+						<persistence type="property" />
+						<defaultvalue>0.0d</defaultvalue>
+					</attribute>
+					<attribute qualifier="taxAmount" type="java.lang.Double">
+						<persistence type="property" />
+						<defaultvalue>0.0d</defaultvalue>
+					</attribute>
+					<attribute qualifier="discountPrice" type="java.lang.Double">
+     					 <persistence type="property" />
+     						 <modifiers optional="true" />
+     				</attribute>
+     				<attribute type="java.lang.Double" qualifier="productDiscountPrice">
+     					<persistence type="property" />
+     					<modifiers optional="true"/>
+     				</attribute>
+				</attributes>
+			</itemtype>
+
+			<itemtype code="AbstractOrder" autocreate="false" generate="false">
+				<attributes>
+				
+					<attribute qualifier="orderType" type="java.lang.String">
+						<persistence type="property" />
+					</attribute>
+					<attribute qualifier="taxOnEntry" type="java.lang.Double">
+						<persistence type="property" />
+					</attribute>
+					<attribute qualifier="storeID" type="java.lang.String">
+     					 <persistence type="property" />
+     						 <modifiers optional="true" />
+     				</attribute>
+					<attribute qualifier="taxAmount" type="java.lang.Double">
+						<persistence type="property" />
+					</attribute>
+					<attribute qualifier="gift" type="boolean">
+						<persistence type="property" />
+						<modifiers optional="true" />
+						<description>Is Gift Order</description>
+					</attribute>
+					<attribute qualifier="giftMessage" type="java.lang.String">
+						<persistence type="property" />
+						<modifiers optional="true" />
+						<description>Gift Message</description>
+					</attribute>
+					<attribute qualifier="storeAddress" type="Address">
+						<persistence type="property" />
+						<modifiers optional="true" />
+						<description>Store Address that is associated to the customer</description>
+					</attribute>
+					<attribute qualifier="loyaltyVoucher" type="java.lang.String">
+						<persistence type="property" />
+						<modifiers optional="true" />
+						<description>Loyalty Voucher</description>
+					</attribute>
+					<attribute qualifier="newDeliveryCost" type="java.lang.Double">
+						<persistence type="property" />
+						<modifiers optional="true" />
+						<description>Delivery Cost need to check while partial shipping</description>
+					</attribute>
+					<attribute qualifier="cashRegisterNo" type="java.lang.String">
+						<persistence type="property" />
+						<modifiers optional="true" />
+						<description>Cash Register No Used for Tlog files</description>
+					</attribute>
+					<attribute qualifier="transNo" type="java.lang.String">
+						<persistence type="property" />
+						<modifiers optional="true" />
+						<description>Transaction No Used for Tlog files</description>
+					</attribute>
+					<attribute qualifier="merchantReferenceCode" type="java.lang.String">
+						<persistence type="property" />
+						<modifiers optional="true" />
+						<description>Save the Merchant Reference Code</description>
+					</attribute>
+					<attribute qualifier="cancelDate" type="java.util.Date">
+						<persistence type="property" />
+						<modifiers optional="true" />
+						<description>Canceldate used for PO files</description>
+					</attribute>
+					<attribute qualifier="tlogPerformed" type="boolean">
+						<persistence type="property" />
+						<modifiers optional="true" />
+						<description> </description>
+					</attribute>
+					<attribute qualifier="poPerformed" type="boolean">
+						<persistence type="property" />
+						<modifiers optional="true" />
+						<description> </description>
+					</attribute>
+					<attribute qualifier="poConfirmPerformed" type="boolean">
+						<persistence type="property" />
+						<modifiers optional="true" />
+						<description> </description>
+					</attribute>
+					<attribute qualifier="chargeCreditCard" type="boolean">
+						<persistence type="property" />
+						<modifiers optional="true" />
+						<description> </description>
+					</attribute>
+					<attribute qualifier="externalOrderId" type="java.lang.String">
+						<persistence type="property" />
+						<modifiers optional="true" />
+						<description> </description>
+					</attribute>
+					<attribute qualifier="transactionComplete" type="boolean">
+						<persistence type="property" />
+						<modifiers optional="true" />
+						<description> </description>
+					</attribute>
+					<attribute qualifier="returnTransactionDate" type="java.util.Date">
+						<persistence type="property" />
+						<modifiers optional="true" />
+						<description>Return Transaction date used for eod Tlog file</description>
+					</attribute>
+					<attribute qualifier="transactionDate" type="java.lang.String">
+						<persistence type="property" />
+						<modifiers optional="true" />
+						<description>Return Transaction date used for eod Tlog file</description>
+					</attribute>
+					<attribute type="boolean" qualifier="shippingSurchargeStatus">
+						<defaultvalue>false</defaultvalue>
+						<modifiers optional="true"/>
+						<persistence type="property"/>
+					</attribute>
+					<attribute type="boolean" qualifier="orderAuthorized">
+						<defaultvalue>false</defaultvalue>
+						<modifiers optional="true"/>
+						<persistence type="property"/>
+					</attribute>
+					<attribute type="boolean" qualifier="creditTlog">
+						<defaultvalue>false</defaultvalue>
+						<modifiers optional="true" />
+						<persistence type="property" />
+					</attribute>
+					
+				</attributes>
+			</itemtype>
+
+			<itemtype code="OshPromotionVoucher" extends="Voucher"
+				jaloclass="com.hybris.osh.core.promotion.jalo.OshPromotionVoucher"
+				autocreate="true" generate="true">
+				<attributes>
+					<attribute qualifier="voucherCode" type="java.lang.String">
+						<description>the voucher code.</description>
+						<persistence type="property" />
+						<custom-properties>
+							<property name="hmcIndexField">
+								<value>"thefield"</value>
+							</property>
+						</custom-properties>
+					</attribute>
+					<attribute qualifier="redemptionQuantityLimit" type="java.lang.Integer">
+						<defaultvalue>Integer.valueOf(1)</defaultvalue>
+						<description>the upper limit of uses possible for this voucher.</description>
+						<persistence type="property" />
+						<modifiers search="false" optional="false" />
+					</attribute>
+					<attribute qualifier="redemptionQuantityLimitPerUser"
+						type="java.lang.Integer">
+						<defaultvalue>Integer.valueOf(1)</defaultvalue>
+						<description>the upper limit of voucher uses possible per user. Default is one.</description>
+						<persistence type="property" />
+						<modifiers search="false" optional="false" />
+					</attribute>
+				</attributes>
+			</itemtype>
+			<itemtype code="OshProductPercentageDiscountPromotion"
+				extends="ProductPromotion"
+				jaloclass="com.hybris.osh.core.promotion.jalo.OshProductPercentageDiscountPromotion"
+				autocreate="true" generate="true">
+				<attributes>
+					<attribute qualifier="percentageDiscount" autocreate="true"
+						type="java.lang.Double">
+						<defaultvalue>Double.valueOf(10.0D)</defaultvalue>
+						<description>Percentage discount.</description>
+						<modifiers read="true" write="true" search="true"
+							optional="true" />
+						<persistence type="property" />
+					</attribute>
+					<attribute qualifier="messageFired" type="localized:java.lang.String">
+						<description>The message to show when the promotion has fired.</description>
+						<modifiers read="true" write="true" optional="true" />
+						<persistence type="property">
+							<columntype database="oracle">
+								<value>varchar2(4000)</value>
+							</columntype>
+							<columntype database="mysql">
+								<value>text</value>
+							</columntype>
+							<columntype database="sqlserver">
+								<value>nvarchar(max)</value>
+							</columntype>
+							<columntype database="hsqldb">
+								<value>LONGVARCHAR</value>
+							</columntype>
+							<columntype>
+								<value>varchar</value>
+							</columntype>
+						</persistence>
+					</attribute>
+				</attributes>
+			</itemtype>
+
+			<itemtype code="RefundEntry" autocreate="false" generate="false">
+				<attributes>
+					<attribute type="boolean" qualifier="refundDone">
+						<persistence type="property" />
+						<modifiers optional="true" />
+						<description>Is Order Refund</description>
+					</attribute>
+					<attribute type="boolean" qualifier="refundConfirm">
+						<persistence type="property" />
+						<defaultvalue>false</defaultvalue>
+						<modifiers optional="true" />
+						<description>Is Order Confirm Refund</description>
+					</attribute>
+				</attributes>
+			</itemtype>
+
+			<itemtype code="EmailSubscriber" extends="GenericItem"
+				jaloclass="com.hybris.osh.core.jalo.EmailSubscriber" autocreate="true"
+				generate="true">
+				<attributes>
+					<attribute qualifier="emailId" type="java.lang.String">
+						<persistence type="property" />
+						<modifiers unique="true" />
+						<description>Subscriber EmailId</description>
+					</attribute>
+					<attribute qualifier="postalCode" type="java.lang.String">
+						<persistence type="property" />
+						<description>Subscriber PostalCode</description>
+					</attribute>
+					<attribute qualifier="subscriber" type="boolean">
+						<persistence type="property" />
+						<modifiers optional="true" />
+						<description>Is Subscribe</description>
+					</attribute>
+					<attribute type="Customer" qualifier="SubscribedCustomer">
+						<modifiers optional="true" />
+						<persistence type="property" />
+						<description>Attribute to save loyalty number of the customer</description>
+					</attribute>
+				</attributes>
+			</itemtype>
+
+			<itemtype code="EmailToFriend"
+				jaloclass="com.hybris.osh.core.jalo.email.EmailToFriend" autocreate="true"
+				generate="true">
+				<description>Represent Send email to friend for suggest friend.</description>
+				<attributes>
+					<attribute qualifier="fromEmail" type="java.lang.String">
+						<persistence type="property" />
+						<description>Holds email From address information for the email page.</description>
+					</attribute>
+					<attribute qualifier="toEmail" type="java.lang.String">
+						<persistence type="property" />
+						<description>Holds email address of friend information for the email page.</description>
+					</attribute>
+					<attribute qualifier="subject" type="java.lang.String">
+						<persistence type="property" />
+						<description>Holds subject for the email page.</description>
+					</attribute>
+					<attribute qualifier="notes" type="java.lang.String">
+						<persistence type="property" />
+						<description>Holds text for the email.</description>
+					</attribute>
+					<attribute qualifier="product" type="Product">
+						<persistence type="property" />
+						<description>Holds product information for the suggest friend.</description>
+					</attribute>
+				</attributes>
+			</itemtype>
+			<itemtype code="OSHShipping" autocreate="true" generate="true"
+				jaloclass="com.hybris.osh.core.jalo.OSHShipping">
+				<deployment table="OSHShipping" typecode="21" />
+				<attributes>
+					<attribute qualifier="code" type="java.lang.Long">
+						<persistence type="property" />
+						<modifiers unique="true" />
+					</attribute>
+					<attribute qualifier="shipper" type="java.lang.String">
+						<persistence type="property" />
+						<!-- <modifiers unique="true"/> -->
+					</attribute>
+					<attribute type="ShippingMethod" qualifier="shippingMethod">
+						<persistence type="property" />
+						<modifiers read="true" write="true" search="true"
+							optional="false" />
+						<description>It describe delivery method</description>
+					</attribute>
+					<attribute type="java.lang.String" qualifier="state">
+						<persistence type="property" />
+						<!-- <modifiers unique="true"/> -->
+						<description>It describe state</description>
+					</attribute>
+					<attribute type="java.lang.String" qualifier="zipcodeFrom">
+						<persistence type="property" />
+						<!-- <modifiers unique="true"/> -->
+						<description>It describe zipcode</description>
+					</attribute>
+					<attribute type="java.lang.String" qualifier="zipcodeTo">
+						<persistence type="property" />
+						<!-- <modifiers unique="true"/> -->
+						<description>It describe zipcode</description>
+					</attribute>
+					<attribute type="java.lang.Double" qualifier="weightFrom">
+						<persistence type="property" />
+						<description>It describe min weight limit of product</description>
+					</attribute>
+					<attribute type="java.lang.Double" qualifier="weightTo">
+						<persistence type="property" />
+						<description>It describe max weight limit of product</description>
+					</attribute>
+					<attribute type="java.lang.Double" qualifier="shippingCost">
+						<persistence type="property" />
+						<description>It describe shipping cost of product</description>
+					</attribute>
+					<attribute type="java.lang.Double" qualifier="OSHMarkUp">
+						<persistence type="property" />
+						<description> </description>
+					</attribute>
+					<attribute type="java.lang.Double" qualifier="finalShippingAmount">
+						<persistence type="dynamic"  attributeHandler="calculateFinalShippingAmount" />
+						<modifiers read="true" write="false" />
+					</attribute>
+				</attributes>
+			</itemtype>
+
+			<itemtype code="OshTaxPromotion" extends="OrderPromotion"
+				jaloclass="com.hybris.osh.core.promotion.jalo.OshTaxHolidayPromotion"
+				autocreate="true" generate="true">
+				<attributes>
+
+					<attribute qualifier="thresholdTotals" autocreate="true"
+						type="PromotionPriceRowCollectionType">
+						<description>The cart total value threshold in specific currencies.</description>
+						<persistence type="property" />
+						<modifiers read="true" write="true" search="false"
+							initial="false" optional="true" partof="true" />
+					</attribute>
+
+					<attribute qualifier="discountPrices" autocreate="true"
+						type="PromotionPriceRowCollectionType">
+						<description>Fixed price for discount in specific currencies.</description>
+						<persistence type="property" />
+						<modifiers read="true" write="true" search="false"
+							initial="false" optional="true" partof="true" />
+					</attribute>
+
+					<attribute qualifier="messageFired" type="localized:java.lang.String">
+						<description>The message to show when the promotion has fired.</description>
+						<modifiers read="true" write="true" optional="true" />
+						<persistence type="property">
+							<columntype database="oracle">
+								<value>varchar2(4000)</value>
+							</columntype>
+							<columntype database="mysql">
+								<value>text</value>
+							</columntype>
+							<columntype database="sqlserver">
+								<value>nvarchar(max)</value>
+							</columntype>
+							<columntype database="hsqldb">
+								<value>LONGVARCHAR</value>
+							</columntype>
+							<columntype>
+								<value>varchar</value>
+							</columntype>
+						</persistence>
+					</attribute>
+
+					<attribute qualifier="messageCouldHaveFired" type="localized:java.lang.String">
+						<description>The message to show when the promotion could have potentially fire.</description>
+						<modifiers read="true" write="true" optional="true" />
+						<persistence type="property">
+							<columntype database="oracle">
+								<value>varchar2(4000)</value>
+							</columntype>
+							<columntype database="mysql">
+								<value>text</value>
+							</columntype>
+							<columntype database="sqlserver">
+								<value>nvarchar(max)</value>
+							</columntype>
+							<columntype database="hsqldb">
+								<value>LONGVARCHAR</value>
+							</columntype>
+							<columntype>
+								<value>varchar</value>
+							</columntype>
+						</persistence>
+					</attribute>
+				</attributes>
+			</itemtype>
+			
+			<itemtype code="OshStatePromotion" extends="OrderPromotion"
+				jaloclass="com.hybris.osh.core.promotion.jalo.OshStateHolidayPromotion"
+				autocreate="true" generate="true">
+				<attributes>
+
+					<attribute qualifier="FreeShippingStatesName" autocreate="true"
+						type="localized:java.lang.String">
+						<description>Name of States where we wanna Give free Shipping</description>
+						<persistence type="property" />
+					</attribute>
+					
+					<attribute qualifier="thresholdTotals" autocreate="true"
+						type="PromotionPriceRowCollectionType">
+						<description>The cart total value threshold in specific currencies.</description>
+						<persistence type="property" />
+						<modifiers read="true" write="true" search="false"
+							initial="false" optional="true" partof="true" />
+					</attribute>
+
+					<attribute qualifier="discountPrices" autocreate="true"
+						type="PromotionPriceRowCollectionType">
+						<description>Fixed price for discount in specific currencies.</description>
+						<persistence type="property" />
+						<modifiers read="true" write="true" search="false"
+							initial="false" optional="true" partof="true" />
+					</attribute>
+
+					<attribute qualifier="messageFired" type="localized:java.lang.String">
+						<description>The message to show when the promotion has fired.</description>
+						<modifiers read="true" write="true" optional="true" />
+						<persistence type="property">
+							<columntype database="oracle">
+								<value>varchar2(4000)</value>
+							</columntype>
+							<columntype database="mysql">
+								<value>text</value>
+							</columntype>
+							<columntype database="sqlserver">
+								<value>nvarchar(max)</value>
+							</columntype>
+							<columntype database="hsqldb">
+								<value>LONGVARCHAR</value>
+							</columntype>
+							<columntype>
+								<value>varchar</value>
+							</columntype>
+						</persistence>
+					</attribute>
+
+					<attribute qualifier="messageCouldHaveFired" type="localized:java.lang.String">
+						<description>The message to show when the promotion could have potentially fire.</description>
+						<modifiers read="true" write="true" optional="true" />
+						<persistence type="property">
+							<columntype database="oracle">
+								<value>varchar2(4000)</value>
+							</columntype>
+							<columntype database="mysql">
+								<value>text</value>
+							</columntype>
+							<columntype database="sqlserver">
+								<value>nvarchar(max)</value>
+							</columntype>
+							<columntype database="hsqldb">
+								<value>LONGVARCHAR</value>
+							</columntype>
+							<columntype>
+								<value>varchar</value>
+							</columntype>
+						</persistence>
+					</attribute>
+				</attributes>
+			</itemtype>
+			
+			
+			<itemtype code="OshSFTP" extends="GenericItem"
+				jaloclass="com.hybris.osh.core.jalo.OshSFTP" autocreate="true"
+				generate="true">
+				<description>SFTP Credentials and File Name</description>
+				<attributes>
+					<attribute qualifier="transferHost" type="java.lang.String">
+					<persistence type="property" />
+					<modifiers optional="false"/>
+						<description>Holds Transfer Box IP</description>
+					</attribute>
+					<attribute qualifier="transferPort" type="java.lang.String">
+					<persistence type="property" />
+					<modifiers optional="false"/>
+						<description>PORT No</description>
+					</attribute>
+					<attribute qualifier="transferUser" type="java.lang.String">
+					<persistence type="property" />
+					<modifiers optional="false"/>
+						<description>User Id</description>
+					</attribute>
+					<attribute qualifier="transferPassword" type="java.lang.String">
+					<persistence type="property" />
+						<description>Transfer Box Password</description>
+					</attribute>
+					<attribute qualifier="transferUniqueKeyPath" type="java.lang.String">
+					<persistence type="property" />
+						<description>Transfer Box Unique Key Path</description>
+					</attribute>										
+				</attributes>
+			</itemtype>
+			
+			<itemtype code="OshStoreFlag" extends="GenericItem"
+				jaloclass="com.hybris.osh.core.jalo.OshStoreFlag" autocreate="true" generate="true">
+				<attributes>
+					<attribute qualifier="storeFlag" type="java.lang.Boolean">
+						<persistence type="property"/>
+						<modifiers optional="true" />
+						<description>flag for stores to show or not</description>
+					</attribute>
+				</attributes>
+			</itemtype>
+			
+		</typegroup>
+		<typegroup name="Processes">
+			<itemtype code="SendEmailToFriendProcess" autocreate="true"
+				generate="true"
+				jaloclass="com.hybris.osh.core.orderprocessing.jalo.SendMailToFriendProcess"
+				extends="StoreFrontCustomerProcess">
+				<description>Represents process that is used for suggest to your friend.</description>
+				<attributes>
+					<attribute qualifier="fromEmail" type="java.lang.String">
+						<persistence type="property" />
+						<description>Holds email From address information for the email page.</description>
+					</attribute>
+					<attribute qualifier="toEmail" type="java.lang.String">
+						<persistence type="property" />
+						<description>Holds email address From name information for the email page.</description>
+					</attribute>
+					<attribute qualifier="subject" type="java.lang.String">
+						<persistence type="property" />
+						<description>Holds email address From name information for the email page.</description>
+					</attribute>
+					<attribute qualifier="notes" type="java.lang.String">
+						<persistence type="property" />
+						<description>Holds email address From name information for the email page.</description>
+					</attribute>
+					<attribute qualifier="product" type="Product">
+						<persistence type="property" />
+						<description>Holds product information for the suggest friend.</description>
+					</attribute>
+				</attributes>
+			</itemtype>
+			<itemtype code="ReturnRequest" autocreate="false" generate="false"
+				extends="GenericItem">
+				<attributes>
+					<attribute qualifier="tlogPerformed" type="boolean">
+						<persistence type="property" />
+						<modifiers optional="true" />
+						<description> </description>
+					</attribute>
+				</attributes>
+			</itemtype>
+			
+		<itemtype code="CronJob" jaloclass="de.hybris.platform.cronjob.jalo.CronJob" extends="GenericItem" autocreate="false" generate="false">
+			<attributes>
+				<attribute qualifier="integrationDate" type="java.util.Date">
+						<persistence type="property" />
+						<modifiers optional="true" />
+						<description>Used for Polling Integration to pull out records of previous date</description>
+					</attribute>
+				</attributes>
+				</itemtype>	
+				
+		<itemtype code="StateRestriction" extends="Restriction" autocreate="true" generate="true" jaloclass="com.hybris.osh.core.promotion.jalo.StateRestriction">
+			<attributes>
+				<attribute type="RegionCollection" qualifier="region">
+					<persistence type="property"/>
+					<modifiers optional="false"/>
+				</attribute>
+			</attributes>
+		</itemtype>	
+		
+		</typegroup>
+	</itemtypes>
+</items>

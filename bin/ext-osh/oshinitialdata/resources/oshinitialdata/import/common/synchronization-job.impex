@@ -1,0 +1,5 @@
+INSERT_UPDATE CatalogVersionSyncCronJob;code[unique=true];job(code)[unique=true][path-delimiter=#]
+;oshProductCatalogSyncCronJob;"sync oshProductCatalog:Staged->Online"
+
+INSERT_UPDATE Trigger;cronjob(code)[unique=true];day;second;minute;hour;year;month;weekinterval;relative
+;oshProductCatalogSyncCronJob;0;0;15;0;0;0;0;1

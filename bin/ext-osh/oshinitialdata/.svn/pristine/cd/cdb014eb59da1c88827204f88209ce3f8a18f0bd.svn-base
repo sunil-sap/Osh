@@ -1,0 +1,24 @@
+$productCatalog=oshProductCatalog
+$catalogVersion=catalogversion(catalog(id[default=$productCatalog]),version[default='Staged'])[unique=true,default=$productCatalog]
+
+
+
+INSERT_UPDATE ConversionMediaFormat;qualifier[unique=true];name[lang=en];name[lang=de];conversionStrategy;conversion;inputFormat(qualifier);mediaAddOns(code,catalogVersion(catalog(id),version));mimeType;
+;150x150;150Wx150H;150x150;imageMagickMediaConversionStrategy;-geometry 150x150!;;;image/jpeg;
+;300x300;300Wx300H;300x300;imageMagickMediaConversionStrategy;-geometry 300x300!;;;image/jpeg;
+;515x515;515Wx515H;515x515;imageMagickMediaConversionStrategy;-geometry 515x515!;;;image/jpeg;
+;50x50;50Wx50H;50x50;imageMagickMediaConversionStrategy;-geometry 50x50!;;;image/jpeg;
+;92x92;92Wx92H;92x92;imageMagickMediaConversionStrategy;-geometry 92X92!;;;image/jpeg;
+;175x175;175Wx175H;175x175;imageMagickMediaConversionStrategy;-geometry 175x175!;;;image/jpeg;
+#;120x120;120Wx120H;120x120;imageMagickMediaConversionStrategy;-geometry 120x120!;;;image/jpeg;
+;250x250;250Wx250H;250x250;imageMagickMediaConversionStrategy;-geometry 250x250!;;;image/jpeg;
+
+INSERT_UPDATE ConversionGroup;code[unique=true];name[lang=en];name[lang=de];supportedFormats(qualifier);
+;ImageMagickConversionGroup;Image Magick Conversion Group;ImageMagickConversionGroup;150x150,300x300,515x515,50x50,92x92,250x250;
+;LessThan515x515Group;Less Than 515x515 Group;LessThan515x515Group;150x150,300x300,50x50,92x92,250x250;
+
+
+INSERT_UPDATE MediaConversionCronJob;code[unique=true];job(code);sessionLanguage(isocode);includedFormats(qualifier);$catalogVersion
+;ImageMagickConversionCronjob;mediaConversionJob;en;150x150,300x300,515x515,50x50,92x92,250x250;
+
+

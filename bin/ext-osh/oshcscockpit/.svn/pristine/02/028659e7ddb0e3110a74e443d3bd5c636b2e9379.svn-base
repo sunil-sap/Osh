@@ -1,0 +1,207 @@
+
+
+.create-adhoc-workflow-center {
+	white-space:nowrap;
+	background-color: #D1E2BE;	
+	background-image: url("images/gradient_light_green.gif");
+	border: 1px solid #878C92;
+}
+
+.create-adhoc-workflow-label {
+	font-size: 11px !important;
+	line-height: 18px;
+}
+
+.adhoc_wf_entry { 
+	padding: 0 2px;
+	border-top:1px solid #CCCCCC;
+	padding-top:2px;
+}
+
+.adhoc_wf_entry .wf_icon {
+	margin: 2px;
+}
+
+.workflows-tree table{
+	border-collapse: separate;
+	border-spacing: 1px;
+}
+
+
+.workflow-template img {
+	vertical-align: middle;	
+}
+
+.workflow-template span.z-dottree-root-close {
+	background-position:0 -18px;	
+}
+.workflow-date-and-status{
+	float: right;
+}
+.workflow-date-and-status span{
+	vertical-align:top;
+	font-size: x-small;
+}
+.workflow .z-tree-cell-cnt > div > img,
+.adhoc-workflow .z-tree-cell-cnt > div > img
+{
+	position: relative;
+	top: 2px;
+}
+
+.workflow-template div.z-tree-cell-cnt,
+.workflow-template-step div.z-tree-cell-cnt,
+.create-adhoc-workflow-center,
+.workflow div.z-tree-cell-cnt,
+.adhoc-workflow div.z-tree-cell-cnt
+{
+	margin-bottom: 2px;
+	margin-top: 2px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	-o-box-border-radius: 3px;
+	-icab-border-radius: 3px;
+	-khtml-border-radius: 3px;
+	line-height:16px;
+	background-repeat: repeat-x;
+}
+
+.workflow-template > td {
+	border-top:1px solid #CCCCCC;
+	margin-top:3px;
+	padding-top:3px;
+	width:100%;
+}
+
+.workflow-template.first_item > td {
+	border-top:none;
+	margin-top:0;
+	padding-top:0;
+	width:100%;
+}
+
+
+.workflow-template div.z-tree-cell-cnt,
+.workflow div.z-tree-cell-cnt {
+	background-color: #BED1E2;	
+	background-image: url("images/gradient_light_blue.gif");
+	border: 1px solid #878C92;
+}
+
+.workflow-template div.z-tree-cell-cnt {
+	margin-bottom: 4px;
+	margin-top: 4px;
+}
+
+.workflow div.z-tree-cell-cnt,
+.adhoc-workflow  div.z-tree-cell-cnt {
+	margin-bottom: 1px;
+	margin-top: 0;
+}
+
+.workflow-template-step div.z-tree-cell-cnt {
+	background-color: #FFEFAE;
+	background-image: url("images/gradient_light_yellow.gif");
+	border: 1px solid #C6B298;
+}
+
+.adhoc-workflow div.z-tree-cell-cnt {
+	background-color: #FFD0C1;
+	border: 1px solid #D4B2B2;
+}
+
+.create-adhoc-workflow-center .z-hbox {
+	width: 100%;
+	table-layout: fixed;
+}
+
+.create-adhoc-workflow-center .labelCnt {
+	overflow: hidden;
+}
+
+.create-adhoc-workflow-center .workflow-add-button {
+	right: 12px;
+} 
+         
+.workflow-add-button {
+    cursor: pointer;
+    margin-top: 2px;
+    margin-right: 4px;
+    position: absolute;
+    right: 4px;
+}
+
+.z-workflowstemplates-tree span.z-tree-ico,
+.z-workflowstemplates-tree span.z-tree-line,
+.z-workflowstemplates-tree span.checkmark-spacer {
+	min-height: 14px;
+	width: 10px;
+}
+
+.workflowstemplates-tree span.z-dottree-line { visibility: hidden; }
+
+
+
+
+
+
+
+
+
+
+
+
+
+.taskListView .z-groupbox-hl {
+ background: transparent url(images/groupbox-tb.png) repeat-x scroll 0 0;
+ border-bottom: 1px solid #ddd;
+ cursor: pointer;
+}
+
+.taskListView .z-groupbox-hr {
+ background: transparent url(images/groupbox-tb.png) repeat-x scroll 0 0;
+}
+
+.taskListView .listColumnContent .z-vbox td {
+	border-bottom: 0;
+}
+
+div.section_component_container div.actionRow { background-color: #e7e8e9; padding: 5px 12px; }
+div.section_component_container div.commentAdd { padding: 5px 5px; padding-left: 25px; }
+div.section_component_container div.comment { padding:5px 5px; }
+.section_component_container .automated .z-label { font-style: italic; color: #999; }
+.section_component_container .actionRow img { margin-left: 10px; cursor: pointer; }
+div.actionRow > span.z-button { vertical-align: middle; margin: 0; position: relative; to: 0; line-height: 12px; }
+
+.taskListView .defaultListViewCell,
+.taskListView .selectedListViewRow,
+.taskListView .selectedListViewCell,
+.taskListView .activatedListViewRow {
+	height: 100% !important;	
+	padding: 0 !important;
+}
+
+.workflowTerminatePopup {
+	width:400px;
+}
+.workflowTerminatePopup div.workflowTerminatePopupDiv {
+	padding:5px;
+}
+.workflowTerminatePopup div.workflowTerminatePopupDiv.error span {
+	color:#ff0000;
+}
+.workflowTerminatePopup div.workflowTerminatePopupText {
+	padding:5px 0;
+}
+.workflowTerminatePopup div.workflowTerminatePopupText textarea {
+	width:350px;
+}
+.workflowFilterBar .label {
+	font-weight:bold;
+}
+.workflowFilterBar>span>input {
+	margin: 0 3px 0 10px;
+}
+.taskGroupbox .advancedGroupbox_label {
+	font-weight:bold;
+}

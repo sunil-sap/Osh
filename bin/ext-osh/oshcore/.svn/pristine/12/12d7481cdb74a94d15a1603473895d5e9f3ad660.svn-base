@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ [y] hybris Platform
+
+ Copyright (c) 2000-2012 hybris AG
+ All rights reserved.
+
+ This software is the confidential and proprietary information of hybris
+ ("Confidential Information"). You shall not disclose such Confidential
+ Information and shall use it only in accordance with the terms of the
+ license agreement you entered into with hybris.
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+<alias alias="oshPriceService" name="oshPriceService"/>
+	<bean id="oshPriceService"	class="com.hybris.osh.core.price.services.impl.DefaultOshPriceService" scope="tenant"/>
+	
+	<bean id="guestCustomerAccountService" class="com.hybris.osh.core.service.impl.DefaultGuestCustomerAccountService" scope="tenant"/>
+
+		<bean id="createMediaImpexService" class="com.hybris.osh.core.service.impl.DefaultCreateMediaImpexService" scope="tenant">
+		<property name="findMediaContainerDao" ref="findMediaContainerDao"/>
+		<property name="productDao" ref="productDao"/>
+		<property name="importHeader">
+			<value>
+			#% impex.setRelaxedMode(true);
+			$productCatalog=oshProductCatalog
+			$catalogVersion=catalogversion(catalog(id[default=$productCatalog]),version[default='Staged'])[unique=true,default=$productCatalog]
+			$media=@media[translator=de.hybris.platform.impex.jalo.media.MediaDataTranslator]
+			$medias=medias(code, $catalogVersion)			
+			$thumbnail=thumbnail(code, $catalogVersion)
+			$picture=picture(code, $catalogVersion)
+			$galleryImages=galleryImages(qualifier, $catalogVersion)
+			$siteResource=jar:com.hybris.osh.initialdata.setup.InitialDataSystemSetup&amp;/oshinitialdata/import/productCatalogs/$productCatalog
+		</value>		
+		</property>
+		<property name="mediaHeader">
+		<value># Import media
+			INSERT_UPDATE Media;mediaFormat(qualifier);code[unique=true];$media;mime[default='image/jpg'];$catalogVersion;folder(qualifier)
+		</value>
+		</property>
+			<property name="mediaContHeader">
+		<value># Import media container
+			INSERT_UPDATE MediaContainer;qualifier[unique=true];$medias;$catalogVersion;conversionGroup(code)
+		</value>
+		</property>	
+		<property name="productHeader">
+		<value># Import product images
+			UPDATE Product;code[unique=true];$picture;$thumbnail;$galleryImages;$catalogVersion
+		</value>
+		</property>	
+		<property name="productHeaderForAltCont">
+		<value># Import product images for alternate media container
+			UPDATE Product;code[unique=true];$galleryImages[mode=append];$catalogVersion
+		</value>
+		</property>	
+		<property name="productHeaderForExistingCont">
+		<value># Import product images for existing media containers
+			UPDATE Product;code[unique=true];$picture;$thumbnail;$catalogVersion
+		</value>
+		</property>	
+		<property name="removeOriginalImageHeader">
+		<value># Remove original product images
+			Remove Media;code[unique=true];mime[default='image/jpg'];$catalogVersion;folder(qualifier)
+		</value>
+		</property>	
+		<property name="importService" ref="importService"/>
+	</bean>
+	
+	
+	
+	
+	<bean id="cartRemovalService" class="com.hybris.osh.core.service.impl.DefaultCartRemovalService"  scope="tenant">
+		<property name="cartRemovalDao" ref="cartRemovalDao"/>
+		<property name="modelService" ref="modelService"/>
+	</bean>
+	
+	<bean id="dropshipFileCreatorService" class="com.hybris.osh.core.service.impl.DefaultDropshipFileCreatorService"  scope="tenant">
+		<property name="oshOrderDao" ref="oshOrderDao"/>
+		<property name="modelService" ref="modelService"/>
+		<property name="oshSFTPService" ref="oshSFTPService"/>	
+		<property name="dropshipPOFileCreatorService" ref="dropshipPOFileCreatorService"/>
+	</bean>
+	
+	<bean id="dropshipProcessingService" class="com.hybris.osh.core.service.impl.DefaultDropshipProcessingService"  scope="tenant">
+		<property name="oshOrderDao" ref="oshOrderDao"/>
+		<property name="modelService" ref="modelService"/>
+		<property name="businessProcessService" ref="businessProcessService" ></property>
+	</bean>
+	
+	<bean id="tLogFileCreatorService" class="com.hybris.osh.core.service.impl.DefaultTLogFileCreatorService"  scope="tenant">
+		<property name="oshOrderDao" ref="oshOrderDao"/>
+		<property name="modelService" ref="modelService"/>
+		<property name="oshSFTPService" ref="oshSFTPService"/>		
+		<property name="populateRecordTypesService" ref="populateRecordTypesService"/>
+		
+	</bean>
+	
+	
+	<bean id="cheetahMailSubscriberService" class="com.hybris.osh.core.service.impl.DefaultCheetahMailSubscriberService"  scope="tenant">
+		<property name="cheetahMailSubscriberDao" ref="cheetahMailSubscriberDao"/>
+	</bean>	
+	
+	<bean id="readyToPickupReminderService" class="com.hybris.osh.core.service.impl.DefaultReadyToPickupReminderService"  scope="tenant">
+	<property name="readyToPickupReminderDao" ref="readyToPickupReminderDao"/>
+	<property name="eventService" ref="eventService"/>
+	<property name="configurationService" ref="configurationService"/>
+	<property name="modelService" ref="modelService"/>
+	</bean>
+	
+	<alias name="oshCommerceCartService" alias="commerceCartService"/>
+	<bean id="oshCommerceCartService" class="com.hybris.osh.core.service.impl.DefaultOshCommerceCartService" parent="defaultCommerceCartService" scope="tenant">
+	  	<property name="orderDao" ref="orderDao"/>
+	  	<property name="orderEntryDao" ref="orderEntryDao"/>	  	  	
+	</bean>
+	
+	<alias name="oshCommerceCheckoutService" alias="commerceCheckoutService"/>
+	<bean id="oshCommerceCheckoutService" class="com.hybris.osh.core.service.impl.DefaultOshCommerceCheckoutService" parent="defaultCommerceCheckoutService" scope="tenant">	  	  	  	
+	</bean>	
+	
+	<alias alias="stockLevelStatusStrategy" name="oshCommerceStockLevelStatusStrategy" />
+	 <bean id="oshCommerceStockLevelStatusStrategy" class="com.hybris.osh.core.stock.impl.OshCommerceStockLevelStatusStrategy" scope="tenant" parent="commerceStockLevelStatusStrategy">
+	</bean> 
+	
+	<alias name="DefaultOshCommerceReturnService" alias="oshCommerceReturnService" />
+	<bean id="DefaultOshCommerceReturnService" class="com.hybris.osh.core.service.impl.DefaultOshCommerceReturnService" scope="tenant">
+		<property name="configurationService" ref="configurationService"/>
+	</bean>
+		<!-- fulfilment -->
+
+	<alias alias="orderService" name="acceleratorDefaultOrderService"/>
+	<bean id="acceleratorDefaultOrderService" parent="defaultOrderService" scope="tenant">
+		<property name="submitOrderStrategies">
+			<list>
+				<!-- implementation that sends SubmitOrderEvent -->
+				<ref bean="eventPublishingSubmitOrderStrategy"/>
+			</list>
+		</property>
+	</bean>
+
+	<alias alias="orderSplittingService" name="oshOrderSplittingService"/>
+	<bean id="oshOrderSplittingService" parent="defaultOrderSplittingService" scope="tenant" class="com.hybris.osh.core.checkout.ordersplitting.strategy.impl.OshOrderSplittingService">
+		<property name="strategiesList">
+			<list>
+				<ref bean="oshSplitByWarehouse" />
+			</list>
+		</property>
+	</bean>
+	
+    <bean id="oshSplitByWarehouse"
+		class="com.hybris.osh.core.checkout.ordersplitting.strategy.impl.OshSplitByWarehouse" parent="splitByWarehouse"
+		scope="tenant">
+		<property name="warehouseService" ref="warehouseService"/>
+	</bean> 
+	
+	
+	<!-- Simple Suggestion Service -->
+	<alias alias="simpleSuggestionService" name="defaultSimpleSuggestionService"/>
+	<bean id="defaultSimpleSuggestionService"	class="com.hybris.osh.core.suggestion.impl.DefaultSimpleSuggestionService" scope="tenant">
+		<property name="simpleSuggestionDao" ref="simpleSuggestionDao"/>
+	</bean>
+		
+	<bean id="fileTransferService" class="com.hybris.osh.core.service.impl.DefaultFileTransferService"  scope="tenant"/>
+	
+	<alias alias="voucherService" name="oshVoucherService" />
+	<bean id="oshVoucherService" class="com.hybris.osh.core.voucher.impl.DefaultOshVoucherService" parent="defaultVoucherService"
+		scope="tenant">
+		<property name="oshPromotionDao" ref="oshPromotionDao"/>
+	</bean>
+	
+	<alias alias="customerAccountService" name="oshCustomerAccountService"/>
+	<bean id="oshCustomerAccountService" class="com.hybris.osh.core.service.impl.DefaultOshCustomerAccountService" parent="defaultCustomerAccountService" scope="tenant">
+	</bean>
+	
+	<bean id="discountPriceService" class="com.hybris.osh.core.service.impl.DefaultDiscountPriceService"  scope="tenant">
+	</bean>
+		
+	<alias alias="commerceCommonI18NService" name="oshCommerceCommonI18NService"/>
+	<bean id="oshCommerceCommonI18NService" class="com.hybris.osh.core.service.impl.DefaultOshCommerceCommonI18NService"  parent="defaultCommerceCommonI18NService" scope="tenant"/>
+
+	<bean id="oshTaxService" class="com.hybris.osh.core.service.impl.OshTaxServiceImpl" scope="tenant"/>
+	
+	<bean id="gzipExtractService" class="com.hybris.osh.core.service.impl.DefaultGZipExtractService" scope="tenant">
+		<property name="configurationService" ref="configurationService"/>
+	</bean>
+	
+	<bean id="sftpStoreExportService" class="com.hybris.osh.core.service.impl.DefaultSFTPStoreExportService" scope="tenant">
+		<property name="configurationService" ref="configurationService"/>
+		<property name="oshSFTPService" ref="oshSFTPService"/>	
+	</bean>
+	
+	<bean id="sftpOnlineExportService" class="com.hybris.osh.core.service.impl.DefaultSFTPOnlineExportService" scope="tenant">
+		<property name="configurationService" ref="configurationService"/>
+		<property name="oshSFTPService" ref="oshSFTPService"/>	
+	</bean>
+	
+	<bean id="sftpPriceExportService" class="com.hybris.osh.core.service.impl.DefaultSFTPPriceExportService" scope="tenant">
+		<property name="configurationService" ref="configurationService"/>
+		<property name="oshSFTPService" ref="oshSFTPService"/>	
+	</bean>
+	
+	<bean id="sftpProductExportService" class="com.hybris.osh.core.service.impl.DefaultSFTPProductExportService" scope="tenant">
+		<property name="configurationService" ref="configurationService"/>
+		<property name="oshSFTPService" ref="oshSFTPService"/>	
+	</bean>
+	
+	<bean id="sftpPriceCheckService" class="com.hybris.osh.core.service.impl.DefaultSFTPPriceCheckService" scope="tenant">
+	<property name="configurationService" ref="configurationService"/>
+	<property name="oshSFTPService" ref="oshSFTPService"/>	
+	</bean>
+	
+	
+	<bean id="sftpProductCheckService" class="com.hybris.osh.core.service.impl.DefaultSFTPProductCheckService" scope="tenant">
+	<property name="configurationService" ref="configurationService"/>
+	<property name="oshSFTPService" ref="oshSFTPService"/>	
+	</bean>
+	
+	
+	<bean id="oshSFTPService" class="com.hybris.osh.core.service.OshSFTPService" scope="tenant"/>
+	
+	<bean id="populateRecordTypesService" class="com.hybris.osh.core.service.impl.DefaultPopulateRecordTypesService" scope="tenant">
+	<property name="oshOrderDao" ref="oshOrderDao"/>
+	</bean>
+	
+	<bean id="dropshipPOFileCreatorService" class="com.hybris.osh.core.service.impl.DefaultDropshipPOFileCreatorService" scope="tenant"/>
+	
+	<alias alias="deliveryService" name="defaultOshDeliveryService"/>
+	<bean id="defaultOshDeliveryService"  parent="defaultDeliveryService" class="com.hybris.osh.core.delivery.impl.DefaultOshDeliveryService" scope="tenant" />
+	
+	<alias name="defaultOshCalculationService" alias="calculationService" />
+	<bean id="defaultOshCalculationService"
+		class="com.hybris.osh.core.service.impl.DefaultOshCalculationService"
+		scope="tenant" parent="defaultCalculationService">
+		<property name="orderOshRequiresCalculationStrategy" ref="orderRequiresCalculationStrategy"/>
+	</bean>
+	
+		<alias name="defaultOshFindDeliveryCostStrategy" alias="findDeliveryCostStrategy"/>
+	<bean id="defaultOshFindDeliveryCostStrategy" class="com.hybris.osh.core.delivery.strategy.impl.DefaultOshFindDeliveryCostStrategy" scope="tenant" parent="defaultFindDeliveryCostStrategy"/>
+	 
+	 	<alias alias="createOrderFromCartStrategy" name="defaultOshCreateOrderFromCartStrategy"/>
+	<bean id="defaultOshCreateOrderFromCartStrategy" class="com.hybris.osh.core.service.impl.DefaultOshCreateOrderFromCartStrategy" scope="tenant">
+		<property name="cartValidator" ref="cartValidator"/>
+		<property name="cloneAbstractOrderStrategy" ref ="cloneAbstractOrderStrategy"/>
+	</bean>
+	
+ 	<alias alias="customerEmailResolutionService" name="defaultOshCustomerEmailResolutionService"/>
+	<bean id="defaultOshCustomerEmailResolutionService" class="com.hybris.osh.core.customer.impl.DefaultOshCustomerEmailResolutionService" scope="tenant" parent="defaultCustomerEmailResolutionService">
+	</bean>
+	
+	<alias name="defaultOshCommerceSearchTextPopulator" alias="commerceSearchTextPopulator"/>
+	<bean id="defaultOshCommerceSearchTextPopulator" class="de.hybris.platform.commerceservices.search.solrfacetsearch.populators.SearchTextPopulator" scope="tenant">
+		<property name="freeTextQueryBuilders">
+			<list>
+				<bean class="com.hybris.osh.core.search.solrfacetsearch.querybuilder.impl.DefaultOshFreeTextQueryBuilder">
+					<property name="propertyName" value="ean"/>
+					<property name="boost" value="100"/>
+				</bean>
+				<bean class="com.hybris.osh.core.search.solrfacetsearch.querybuilder.impl.DefaultOshFreeTextQueryBuilder">
+					<property name="propertyName" value="code"/>
+					<property name="boost" value="90"/>
+				</bean>
+				<bean class="com.hybris.osh.core.search.solrfacetsearch.querybuilder.impl.DefaultOshFreeTextQueryBuilder">
+					<property name="propertyName" value="name"/>
+					<property name="boost" value="50"/>
+				</bean>
+				<bean class="com.hybris.osh.core.search.solrfacetsearch.querybuilder.impl.DefaultOshFreeTextQueryBuilder">
+					<property name="propertyName" value="manufacturerName"/>
+					<property name="boost" value="40"/>
+				</bean>
+				<bean class="de.hybris.platform.commerceservices.search.solrfacetsearch.querybuilder.impl.ClassificationFreeTextQueryBuilder">
+					<property name="boost" value="30"/>
+				</bean>
+				<bean class="com.hybris.osh.core.search.solrfacetsearch.querybuilder.impl.DefaultOshFreeTextQueryBuilder">
+					<property name="propertyName" value="keywords"/>
+					<property name="boost" value="20"/>
+				</bean>
+				<bean class="com.hybris.osh.core.search.solrfacetsearch.querybuilder.impl.DefaultOshFreeTextQueryBuilder">
+					<property name="propertyName" value="categoryName"/>
+					<property name="boost" value="10"/>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="oshStoreFlagService" class="com.hybris.osh.core.service.impl.DefautlOshStoreFlagService" scope="tenant"></bean>
+	
+	
+	<alias name="oshFindOrderDiscountValuesStrategy" alias="findOrderDiscountValuesStrategy"/>
+	<bean id="oshFindOrderDiscountValuesStrategy" parent="abstractBusinessService"
+		class="com.hybris.osh.core.discount.strategy.impl.OshFindPricingWithCurrentPriceFactoryStrategy"
+		scope="tenant"/>
+		
+	
+	<alias name="defaultOshWarehouseService" alias="warehouseService"/>
+	<bean id="defaultOshWarehouseService" parent="defaultWarehouseService"
+		class="com.hybris.osh.core.ordersplitting.impl.DefaultOshWarehouseService"
+		scope="tenant"/>
+		
+	</beans>
+	
+	

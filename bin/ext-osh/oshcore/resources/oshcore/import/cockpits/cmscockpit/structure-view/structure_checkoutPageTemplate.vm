@@ -1,0 +1,45 @@
+<div>
+<table width="100%" cellspacing="0" style="margin:0;padding:0;table-layout:auto;border:1px solid #1E4EBF;">
+		<tbody>
+			<tr>
+				<td colspan="3" width="50%" height="100px"  class="structureViewSection">
+					<cockpit code="CheckoutSiteLogo" />
+				</td>
+				
+				<td colspan="3" width="50%" height="100px" class="structureViewSection">
+					<cockpit code="CheckoutRight" />
+				</td>
+			</tr>
+			<tr>
+				<td colspan="6" height="40px" style="vertical-align:middle;" class="structureViewSection">
+					<div>Error Message</div>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="4" height="250px" width="70%" class="structureViewSection" style="vertical-align:middle;">
+					<div>CheckOut Popup</div>
+				</td>
+				<td colspan="2" height="250px" width="30%" class="structureViewSection" style="vertical-align:Right;">
+					<cockpit code="CheckoutSideImg"/>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="4" height="300px" width="85%" style="vertical-align:middle;" class="structureViewSection">
+					<div>Shopping Cart</div>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="3" height="250px" style="vertical-align:top;" class="structureViewSection">
+					<cockpit code="CheckoutFooterLeft" />
+				</td>
+				<td colspan="3" height="250px" style="vertical-align:top;" class="structureViewSection">
+					<cockpit code="CheckoutFooterRight" />
+				</td>
+			</tr>
+			
+		</tbody>
+	</table>
+	<div style="width:100%; border-top: 2px solid #bbb" class="cmsContentEditor">
+	<cockpit code="editor" />
+	</div>
+</div>

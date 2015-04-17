@@ -1,0 +1,107 @@
+# ImpEx for Importing Products Stock Levels and Warehouses
+
+# Macros / Replacement Parameter definitions
+$productCatalog=oshProductCatalog
+
+$catalogVersion=catalogversion(catalog(id[default=$productCatalog]),version[default='Staged'])[unique=true,default=$productCatalog:Staged]
+
+INSERT_UPDATE Vendor;code[unique=true];name[lang=en];name[lang=de]
+;electro;Electro;Electro
+
+INSERT_UPDATE Warehouse;code[unique=true];name[lang=en];name[lang=de];vendor(code);default
+;Alum Rock ;Warehouse Alum Rock ;Warehouse Alum Rock ;electro;false 
+;Antelope;Warehouse Antelope;Warehouse Antelope;electro;false 
+;Antioch;Warehouse Antioch;Warehouse Antioch;electro;false 
+;Arden Watt;Warehouse Arden Watt;Warehouse Arden Watt;electro;false 
+;Bakersfield;Warehouse Bakersfield;Warehouse Bakersfield;electro;false 
+;Berkeley;Warehouse Berkeley;Warehouse Berkeley;electro;false 
+;Blackstone ;Warehouse Blackstone ;Warehouse Blackstone ;electro;false 
+;Branham Lane ;Warehouse Branham Lane ;Warehouse Branham Lane ;electro;false 
+;Burbank;Warehouse Burbank;Warehouse Burbank;electro;false 
+;Canoga Park;Warehouse Canoga Park;Warehouse Canoga Park;electro;false 
+;Capitola;Warehouse Capitola;Warehouse Capitola;electro;false 
+;Chico;Warehouse Chico;Warehouse Chico;electro;false 
+;Citrus Heights;Warehouse Citrus Heights;Warehouse Citrus Heights;electro;false 
+;Clayton ;Warehouse Clayton ;Warehouse Clayton ;electro;false 
+;Clovis;Warehouse Clovis;Warehouse Clovis;electro;false 
+;Concord;Warehouse Concord;Warehouse Concord;electro;false 
+;Cottle Road ;Warehouse Cottle Road ;Warehouse Cottle Road ;electro;false 
+;Dublin;Warehouse Dublin;Warehouse Dublin;electro;false 
+;East Modesto;Warehouse East Modesto;Warehouse East Modesto;electro;false 
+;El Camino ;Warehouse El Camino ;Warehouse El Camino ;electro;false 
+;El Cerrito;Warehouse El Cerrito;Warehouse El Cerrito;electro;false 
+;Elk Grove;Warehouse Elk Grove;Warehouse Elk Grove;electro;false 
+;Fairfield;Warehouse Fairfield;Warehouse Fairfield;electro;false 
+;Folsom;Warehouse Folsom;Warehouse Folsom;electro;false 
+;Foster City;Warehouse Foster City;Warehouse Foster City;electro;false 
+;Fountain Valley;Warehouse Fountain Valley;Warehouse Fountain Valley;electro;false 
+;Fremont;Warehouse Fremont;Warehouse Fremont;electro;false 
+;Gilroy;Warehouse Gilroy;Warehouse Gilroy;electro;false 
+;Goleta ;Warehouse Goleta ;Warehouse Goleta ;electro;false 
+;Granada Hills;Warehouse Granada Hills;Warehouse Granada Hills;electro;false 
+;Hanford;Warehouse Hanford;Warehouse Hanford;electro;false 
+;Hesperia;Warehouse Hesperia;Warehouse Hesperia;electro;false 
+;Hollywood;Warehouse Hollywood;Warehouse Hollywood;electro;false 
+;Huntington Beach;Warehouse Huntington Beach;Warehouse Huntington Beach;electro;false 
+;Kings Canyon ;Warehouse Kings Canyon ;Warehouse Kings Canyon ;electro;false 
+;La Crescenta;Warehouse La Crescenta;Warehouse La Crescenta;electro;false 
+;La Verne;Warehouse La Verne;Warehouse La Verne;electro;false 
+;Livermore;Warehouse Livermore;Warehouse Livermore;electro;false 
+;Lodi;Warehouse Lodi;Warehouse Lodi;electro;false 
+;Lone Tree ;Warehouse Lone Tree ;Warehouse Lone Tree ;electro;false 
+;Long Beach;Warehouse Long Beach;Warehouse Long Beach;electro;false 
+;Manteca;Warehouse Manteca;Warehouse Manteca;electro;false 
+;Merced;Warehouse Merced;Warehouse Merced;electro;false 
+;Midtown;Warehouse Midtown;Warehouse Midtown;electro;false 
+;Millbrae;Warehouse Millbrae;Warehouse Millbrae;electro;false 
+;Milpitas;Warehouse Milpitas;Warehouse Milpitas;electro;false 
+;Modesto;Warehouse Modesto;Warehouse Modesto;electro;false 
+;Moraga;Warehouse Moraga;Warehouse Moraga;electro;false 
+;Mountain View;Warehouse Mountain View;Warehouse Mountain View;electro;false 
+;N.E. Fresno;Warehouse N.E. Fresno;Warehouse N.E. Fresno;electro;false 
+;Napa;Warehouse Napa;Warehouse Napa;electro;false 
+;Newark;Newark Warehouse ;Newark Warehouse ;electro;false 
+;Pasadena;Warehouse Pasadena;Warehouse Pasadena;electro;false 
+;Paso Robles;Warehouse Paso Robles;Warehouse Paso Robles;electro;false 
+;Petaluma;Warehouse Petaluma;Warehouse Petaluma;electro;false 
+;Pinole;Warehouse Pinole;Warehouse Pinole;electro;false 
+;Pismo Beach;Warehouse Pismo Beach;Warehouse Pismo Beach;electro;false 
+;Princeton Plaza;Warehouse Princeton Plaza;Warehouse Princeton Plaza;electro;false 
+;Prospect Road;Warehouse Prospect Road;Warehouse Prospect Road;electro;false 
+;Rancho Cucamonga;Warehouse Rancho Cucamonga;Warehouse Rancho Cucamonga;electro;false 
+;Redding;Warehouse Redding;Warehouse Redding;electro;false 
+;Redwood City;Warehouse Redwood City;Warehouse Redwood City;electro;false 
+;Salinas;Warehouse Salinas;Warehouse Salinas;electro;false 
+;San Carlos;Warehouse San Carlos;Warehouse San Carlos;electro;false 
+;San Leandro;Warehouse San Leandro;Warehouse San Leandro;electro;false 
+;San Lorenzo;Warehouse San Lorenzo;Warehouse San Lorenzo;electro;false 
+;San Rafael;Warehouse San Rafael;Warehouse San Rafael;electro;false 
+;San Ramon;Warehouse San Ramon;Warehouse San Ramon;electro;false 
+;Sand City;Warehouse Sand City;Warehouse Sand City;electro;false 
+;Santa Ana;Warehouse Santa Ana;Warehouse Santa Ana;electro;false 
+;Santa Clarita;Warehouse Santa Clarita;Warehouse Santa Clarita;electro;false 
+;Santa Maria;Warehouse Santa Maria;Warehouse Santa Maria;electro;false 
+;Santa Rosa;Warehouse Santa Rosa;Warehouse Santa Rosa;electro;false 
+;Silver Creek;Warehouse Silver Creek;Warehouse Silver Creek;electro;false 
+;Sonora;Warehouse Sonora;Warehouse Sonora;electro;false 
+;South Pasadena;Warehouse South Pasadena;Warehouse South Pasadena;electro;false 
+;South San Francisco;Warehouse South San Francisco;Warehouse South San Francisco;electro;false 
+;Stockton;Warehouse Stockton;Warehouse Stockton;electro;false 
+;Sunnyvale;Warehouse Sunnyvale;Warehouse Sunnyvale;electro;false 
+;Thousand Oaks;Warehouse Thousand Oaks;Warehouse Thousand Oaks;electro;false 
+;Torrance;Warehouse Torrance;Warehouse Torrance;electro;false 
+;Tracy;Warehouse Tracy;Warehouse Tracy;electro;false 
+;Turlock;Warehouse Turlock;Warehouse Turlock;electro;false 
+;Vacaville;Warehouse Vacaville;Warehouse Vacaville;electro;false 
+;Van Nuys;Warehouse Van Nuys;Warehouse Van Nuys;electro;false 
+;Visalia;Warehouse Visalia;Warehouse Visalia;electro;false 
+;Watsonville;Warehouse Watsonville;Warehouse Watsonville;electro;false 
+;West Los Angeles;Warehouse West Los Angeles;Warehouse West Los Angeles;electro;false 
+;Woodland;Warehouse Woodland;Warehouse Woodland;electro;false 
+;Yuba City;Warehouse Yuba City;Warehouse Yuba City;electro;false 
+;Figarden;Warehouse Figarden;Warehouse Figarden;electro;false 
+;South Bay ;Warehouse South Bay ;Warehouse South Bay ;electro;false 
+
+;online;Warehouse Online;Warehouse Online;electro;true
+;dropship;Warehouse dropship;Warehouse dropship;electro;false
+

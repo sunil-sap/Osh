@@ -1,0 +1,43 @@
+#
+# ENGLISH LOCALIZATION
+#
+# put localizations of item types into this file
+# Note that you can also add special locatizations which 
+# can be retrieved with the 
+#
+# ...tools.localization.Localization.getLocalizedString(...)
+# 
+# methods.
+#
+# syntax for type localizations:
+#
+# type.<code of type>.name=XY
+# type.<code of type>.<qualifier of attribute>.name=XY
+# type.<code of type>.description=XY
+# type.<code of type>.<qualifier of attribute>.description=XY
+#
+# yourcustomlocalekey=value
+
+type.ApparelProduct.name=Bekleidungsartikel
+type.ApparelProduct.description=Ein Artikel im Bekleidungsshop
+type.ApparelProduct.genders.name=Frauen-/Männermode
+type.ApparelProduct.genders.description=Bekleidungsartikel für Frauen und Männerl
+type.ApparelProduct.productFeatureComponents.name=Produkteigenschaft-Komponenten
+
+type.VariantProduct.productFeatureComponents.name=Produkteigenschaft-Komponenten
+
+type.ApparelStyleVariantProduct.name=Kleidungsstil – Variante
+type.ApparelStyleVariantProduct.description=
+type.ApparelStyleVariantProduct.style.name=Stil
+type.ApparelStyleVariantProduct.style.description=
+type.ApparelStyleVariantProduct.swatchColour.name=Farbe des Stoffs
+type.ApparelStyleVariantProduct.swatchColour.description=
+
+type.ApparelSizeVariantProduct.name=Kleidungsgröße – Variante
+type.ApparelSizeVariantProduct.description=
+type.ApparelSizeVariantProduct.size.name=Größe
+type.ApparelSizeVariantProduct.size.description=
+
+type.CheckoutFlowEnum.name=Kassenablauf-Aufz.
+type.CheckoutFlowEnum.SINGLE.name=Mit einem Schritt zur Kasse gehen
+type.CheckoutFlowEnum.MULTISTEP.name=Mit mehreren Schritten zur Kasse gehen

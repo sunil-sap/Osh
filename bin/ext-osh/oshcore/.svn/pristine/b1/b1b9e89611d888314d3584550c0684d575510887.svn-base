@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<base>
+	<search>
+		<search-properties>
+			<property qualifier="TaxRow.currency"/>
+			<property qualifier="TaxRow.value"/>
+		</search-properties>
+		<sort-properties>
+			<property qualifier="TaxRow.currency"/>
+			<property qualifier="TaxRow.value"/>
+		</sort-properties>
+	</search>
+	<label>
+		<property qualifier="TaxRow.tax.name"/>
+	</label>
+</base>

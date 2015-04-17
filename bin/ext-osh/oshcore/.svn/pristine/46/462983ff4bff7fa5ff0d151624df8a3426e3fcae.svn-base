@@ -1,0 +1,1 @@
+Auto-Cancellation failed order ${ctx.order.code}

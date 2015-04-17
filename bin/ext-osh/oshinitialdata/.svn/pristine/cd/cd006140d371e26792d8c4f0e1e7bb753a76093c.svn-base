@@ -1,0 +1,47 @@
+# ImPex for Importing Product Media
+
+# Macros / Replacement Parameter definitions
+$productCatalog=oshProductCatalog
+$storeName=osh
+$contentCatalog=oshContentCatalog
+$catalogVersion=catalogversion(catalog(id[default=$productCatalog]),version[default='Staged'])[unique=true,default=$productCatalog]
+$media=@media[translator=de.hybris.platform.impex.jalo.media.MediaDataTranslator]
+$thumbnail=thumbnail(code, $catalogVersion)
+$picture=picture(code, $catalogVersion)
+$thumbnails=thumbnails(code, $catalogVersion)
+$detail=detail(code, $catalogVersion)
+$normal=normal(code, $catalogVersion)
+$others=others(code, $catalogVersion)
+$data_sheet=data_sheet(code, $catalogVersion)
+$medias=medias(code, $catalogVersion)
+$galleryImages=galleryImages(qualifier, $catalogVersion)
+$siteResource=jar:com.hybris.osh.initialdata.setup.InitialDataSystemSetup&/oshinitialdata/import/productCatalogs/catalogName
+
+INSERT_UPDATE MediaFolder;qualifier[unique=true];path[unique=true]
+;images;images
+
+# Create Media
+INSERT_UPDATE Media;mediaFormat(qualifier);code[unique=true];$media;mime[default='image/jpg'];$catalogVersion;folder(qualifier)
+;1200Wx1200H;/productimages/image1.jpg;$siteResource/images/productimages/image1.jpg;;;images
+;1200Wx1200H;/productimages/image2.jpg;$siteResource/images/productimages/image2.jpg;;;images
+;1200Wx1200H;/productimages/image3.jpg;$siteResource/images/productimages/image3.jpg;;;images
+;1200Wx1200H;/productimages/image4.jpg;$siteResource/images/productimages/image4.jpg;;;images
+;1200Wx1200H;/productimages/image5.jpg;$siteResource/images/productimages/image5.jpg;;;images
+;1200Wx1200H;/productimages/image6.jpg;$siteResource/images/productimages/image6.jpg;;;images
+;1200Wx1200H;/productimages/image7.jpg;$siteResource/images/productimages/image7.jpg;;;images
+
+
+# Create Media Containers
+INSERT_UPDATE MediaContainer;qualifier[unique=true];$medias;$catalogVersion
+;P-OEF10001-thumb;/productimages/image1.jpg,/productimages/image2.jpg;
+;P-OEF20002-thumb;/productimages/image3.jpg,/productimages/image4.jpg;
+;P-OEF30003-thumb;/productimages/image5.jpg,/productimages/image6.jpg;
+
+# Update Products with Media and Media Containers
+UPDATE OshProduct;code[unique=true];$picture;$thumbnail;$detail;$others;$normal;$thumbnails;$galleryImages;$catalogVersion
+;P-OEF10001;/productimages/image5.jpg;/productimages/image4.jpg;;;;/productimages/image3.jpg;P-OEF10001-thumb;
+;P-OEF20002;/productimages/image6.jpg;/productimages/image5.jpg;;;;/productimages/image1.jpg;P-OEF20002-thumb;
+;P-OEF20002;/productimages/image7.jpg;/productimages/image1.jpg;;;;/productimages/image4.jpg;P-OEF30003-thumb;
+
+
+

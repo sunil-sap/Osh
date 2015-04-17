@@ -1,0 +1,22 @@
+
+$facetSearchConfig=facetSearchConfig(name[default=oshIndex])
+INSERT_UPDATE SolrIndexerCronJob;code[unique=true];job(code);singleExecutable;sessionLanguage(isocode);indexerOperation(code);$facetSearchConfig
+;oshSolrJob;solrIndexerJob;false;en;full;
+ 
+INSERT_UPDATE CatalogVersionSyncCronJob;code[unique=true];job(code)[unique=true][path-delimiter=#]
+;compositeSyncCronJob;"sync oshProductCatalog:Staged->Online"
+
+
+###############################CompositeJOB######################################
+INSERT_UPDATE CompositeCronJob;code[unique=true];job(code)[unique=true];active;sessionLanguage(isocode);sessionCurrency(isocode);compositeEntries[mode=append];
+;Solr_Composite_CronJob;compositeJobPerformable;false;en;USD;;
+
+INSERT_UPDATE CompositeEntry;code[unique=true];executableCronJob(code);
+;oshSolrCronJob;oshSolrJob;
+;compositeSyncJob;compositeSyncCronJob;
+
+UPDATE CompositeCronJob;code[unique=true];compositeEntries(code);
+;Solr_Composite_CronJob;compositeSyncJob,oshSolrCronJob;
+
+INSERT_UPDATE Trigger;cronJob(code)[unique=true];active;activationTime[dateformat=yyyy-mm-dd HH:mm:ss];year;month;day;hour;minute;second;relative;maxAcceptableDelay
+;Solr_Composite_CronJob;true;2013-06-18 12:00:00;-1;-1;1;-1;-1;0;true;10	

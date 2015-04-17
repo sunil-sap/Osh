@@ -1,0 +1,66 @@
+#
+# Import the CMS content for the Osh site
+#
+$contentCatalog=oshContentCatalog
+$contentCV=catalogVersion(CatalogVersion.catalog(Catalog.id[default=$contentCatalog]),CatalogVersion.version[default=Staged])[default=$contentCatalog:Staged]
+$jarResourceCms=jar:com.hybris.osh.core.setup.CoreSystemSetup&/oshcore/import/cockpits/cmscockpit
+$siteResource=jar:com.hybris.osh.initialdata.setup.InitialDataSystemSetup&/oshinitialdata/import/contentCatalogs/$contentCatalog
+$picture=media(code, $contentCV);
+$lang=en
+# These define sets of components that can fit into similar slots
+$wideContent=CMSImageComponent,SimpleBannerComponent,BannerComponent,ImageMapComponent,RotatingImagesComponent,ProductCarouselComponent,CMSParagraphComponent
+$narrowContent=ProductFeatureComponent,CategoryFeatureComponent,CMSImageComponent,SimpleBannerComponent,BannerComponent,ImageMapComponent,RotatingImagesComponent,ProductCarouselComponent,CMSParagraphComponent
+$productCV=catalogVersion(catalog(id[default=$productCatalog]),version[default='Staged'])[unique=true,default=$productCatalog:Staged]
+# Create PageTemplates
+# These define the layout for pages
+# "FrontendTemplateName" is used to define the JSP that should be used to render the page for pages with multiple possible layouts.
+# "RestrictedPageTypes" is used to restrict templates to page types
+
+
+INSERT_UPDATE PageTemplate;$contentCV[unique=true];uid[unique=true];name;frontendTemplateName;restrictedPageTypes(code);active[default=true]
+;;SiteMapPageTemplate;siteMap Page Template;siteMap/siteMapPage;ContentPage;true
+
+# Add Velocity templates that are in the CMS Cockpit. These give a better layout for editing pages
+# The FileLoaderValueTranslator loads a File into a String property. The templates could also be inserted in-line in this file.
+UPDATE PageTemplate;$contentCV[unique=true];uid[unique=true];velocityTemplate[translator=de.hybris.platform.commerceservices.impex.impl.FileLoaderValueTranslator]
+;;SiteMapPageTemplate;$jarResourceCms/structure-view/structure_SiteMapPageTemplate.vm
+
+#############################################Started siteMap Page Template##############################################3
+# Template used for all of the siteMap pages
+INSERT_UPDATE ContentSlotName;name[unique=true];template(uid,$contentCV)[unique=true][default='SiteMapPageTemplate'];validComponentTypes(code)
+;RightHeaderNavTop;;OshLinkComponent,CMSParagraphComponent
+;MiddleHeaderNavTop;;OshLinkComponent,CMSParagraphComponent
+;LeftHeaderNavTop;;OshLinkComponent,CMSParagraphComponent
+;RightHeaderNavBottom;;OshLinkComponent,CMSParagraphComponent
+;RightHeaderNavMiddleBottom;;OshLinkComponent,CMSParagraphComponent
+;MiddleHeaderNavBottom;;OshLinkComponent,CMSParagraphComponent
+;LeftHeaderNavBottom;;OshLinkComponent,CMSParagraphComponent
+;SiteLogo;;CMSImageComponent,BannerComponent
+;HeaderLinks;;CMSLinkComponent,CMSParagraphComponent
+;MiniCart;;MiniCartComponent
+;NavigationBar;;NavigationBarComponent
+;SiteMapTopSection;;$wideContent
+;FooterSection;;FooterComponent
+
+
+
+INSERT_UPDATE ContentSlotForTemplate;$contentCV[unique=true];uid[unique=true];position[unique=true];pageTemplate(uid,$contentCV)[unique=true][default='SiteMapPageTemplate'];contentSlot(uid,$contentCV)[unique=true];allowOverwrite
+;;RightStoreListPageNavTop-SiteMapPage;RightHeaderNavTop;;RightHomepageNavTopSlot;true
+;;MiddleStoreListPageNavTop-SiteMapPage;MiddleHeaderNavTop;;MiddleHomepageNavTopSlot;true
+;;LeftStoreListPageNavTop-SiteMapPage;LeftHeaderNavTop;;LeftHomepageNavTopSlot;true
+;;RightStoreListPageNav-SiteMapPage;RightHeaderNavBottom;;RightHomepageNavBottomSlot;true
+;;RightHeaderNavMiddleBottomNav-SiteMapPage;RightHeaderNavMiddleBottom;;RightHeaderNavMiddleBottomSlot;true
+;;MiddleStoreListPageNav-SiteMapPage;MiddleHeaderNavBottom;;MiddleHomepageNavBottomSlot;true
+;;LeftStoreListPageNav-SiteMapPage;LeftHeaderNavBottom;;LeftHomepageNavBottomSlot;true
+;;SiteLogo-SiteMapPage;SiteLogo;;SiteLogoSlot;true
+;;StoreListPageLink-SiteMapPage;HomepageNavLink;;HomepageNavLinkSlot;true
+;;NavigationBar-SiteMapPage;NavigationBar;;NavigationBarSlot;true
+;;MiniCart-SiteMapPage;MiniCart;;MiniCartSlot;true
+;;GlobalSection-SiteMapPage;GlobalSection;;GlobalSectionSlot;true
+;;SiteMapTopSection-SiteMapPage;SiteMapTopSection;;SiteMap_TopSlot;true
+;;FooterSectionSlot-SiteMapPage;FooterSection;;FooterSectionSlot;true
+
+
+
+INSERT_UPDATE ContentPage;$contentCV[unique=true];uid[unique=true];name;title[lang=$lang];masterTemplate(uid,$contentCV);label;defaultPage[default='true'];approvalStatus(code)[default='approved']
+;;siteMap;siteMap Page;SiteMapPage;SiteMapPageTemplate;/siteMap;true

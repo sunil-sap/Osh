@@ -1,0 +1,838 @@
+#
+# Import the CMS content for the Osh site
+#
+$contentCatalog=oshContentCatalog
+$contentCV=catalogVersion(CatalogVersion.catalog(Catalog.id[default=$contentCatalog]),CatalogVersion.version[default=Staged])[default=$contentCatalog:Staged]
+$jarResourceCms=jar:com.hybris.osh.core.setup.CoreSystemSetup&/oshcore/import/cockpits/cmscockpit
+$siteResource=jar:com.hybris.osh.initialdata.setup.InitialDataSystemSetup&/oshinitialdata/import/contentCatalogs/$contentCatalog
+$picture=media(code, $contentCV);
+$productCatalog=oshProductCatalog
+$lang=en
+# These define sets of components that can fit into similar slots
+$wideContent=CMSImageComponent,SimpleBannerComponent,BannerComponent,ImageMapComponent,RotatingImagesComponent,ProductCarouselComponent,CMSParagraphComponent
+$narrowContent=ProductFeatureComponent,CategoryFeatureComponent,CMSImageComponent,SimpleBannerComponent,BannerComponent,ImageMapComponent,RotatingImagesComponent,ProductCarouselComponent,CMSParagraphComponent
+$productCV=catalogVersion(catalog(id[default=$productCatalog]),version[default='Staged'])[unique=true,default=$productCatalog:Staged]
+# Create PageTemplates
+# These define the layout for pages
+# "FrontendTemplateName" is used to define the JSP that should be used to render the page for pages with multiple possible layouts.
+# "RestrictedPageTypes" is used to restrict templates to page types
+
+
+###############################################Global Header Started##################################
+
+# Site Logo Component
+INSERT_UPDATE CMSImageComponent;$contentCV[unique=true];uid[unique=true];name;&componentRef;media(code,$contentCV)[lang=$lang]
+;;SiteLogoImage;Site Logo Image;SiteLogoImage;main_logo.png
+;;ContactUsImage;Contact Us Image;ContactUsImage;banner_placeholder.gif
+;;CheckoutTrustLogoImage;Trust Symbol Image;CheckoutTrustLogoImage;CheckoutTrustLogoImage
+
+# Top Header Link Component
+INSERT_UPDATE OshLinkComponent;$contentCV[unique=true];uid[unique=true];name;linkName[lang=$lang];url;&linkRef;&componentRef;category(code, $productCV);target(code)[default='sameWindow'];content;style
+;;LoginOrRegister;Login Or Register;Login Or Register;/login;;LoginOrRegisterLink;;;;false
+;;ClubOrchardLinkforHeader;Club Orchard;Club Orchard;http://cluborchard.osh.com;club Orchard;ClubOrchardLinkforHeader;;newWindow;;true
+;;WishListLink;WishList;WishList;/wishList;;WishListLink;;;;false
+;;FindAStoreLink;Find A Store;Find A Store;/store-finder;;FindAStoreLink;;;;false
+;;LogoutLink;Sign Out;Sign Out;/logout;;LogoutLink;;;;false
+
+;;YourAccountLink;Your Account;Your Account;/my-account;;YourAccountLink;;;;false
+;;MyStoreLink;MyStore;MyStore;/store-finder;;MyStoreLink;;;;false
+;;ChangeStoreLink;ChangeStore;change;/store-finder;;ChangeStoreLink;;;;false
+;;WeeklyAdd;WeeklyAd;Weekly Ad;http://www.circularhub.com/pub/orchardsupplyhardware?type=2;;WeeklyAdd;;;;true
+;;sale;Sale;Sale;c/oshCategories;;sale;;;;true
+
+
+
+# Lightbox Banner for Mini Cart
+INSERT_UPDATE SimpleBannerComponent;$contentCV[unique=true];uid[unique=true];name;&componentRef;urlLink
+;;LightboxHomeDeliveryBannerComponent;Lightbox Home Delivery Banner Component;LightboxHomeDeliveryBannerComponent;#
+
+UPDATE SimpleBannerComponent;$contentCV[unique=true];uid[unique=true];$picture[lang=$lang];styleClass[lang=$lang]
+;;LightboxHomeDeliveryBannerComponent;b1.jpg;minicartimage
+
+
+# CMS Mini Cart Component
+INSERT_UPDATE MiniCartComponent;$contentCV[unique=true];uid[unique=true];name;&componentRef;totalDisplay(code);shownProductCount;lightboxBannerComponent(&componentRef)
+;;MiniCartComp;Mini Cart;MiniCartComp;SUBTOTAL;2;LightboxHomeDeliveryBannerComponent
+
+
+###############################################Global Header End######################################
+
+INSERT_UPDATE Media;$contentCV[unique=true];code[unique=true];realfilename;@media[translator=de.hybris.platform.impex.jalo.media.MediaDataTranslator][forceWrite=true];mime[default='image/jpeg'];altText;&imageRef;folder(qualifier)[default='images']
+;;b1.jpg;;;;"Order before 6pm for next day delivery";;
+
+INSERT_UPDATE Media;code[unique=true];$contentCV[unique=true];realfilename;@media[translator=de.hybris.platform.impex.jalo.media.MediaDataTranslator][forceWrite=true];mime[default='image/jpeg']
+;main_logo.png;;main_logo.png;$siteResource/images/theme/main_logo.png;
+#HomePage
+;homepageImage1;;slide01.jpg;$siteResource/images/theme/slide01.jpg;
+;homepageImage2;;slide02.jpg;$siteResource/images/theme/slide02.jpg;
+;homepageImage3;;slide03.jpg;$siteResource/images/theme/slide03.jpg;
+;SizeChartBannerImage;;sizeChart.jpg;$siteResource/images/theme/sizechart.jpg;
+;banner_placeholder.gif;;banner_placeholder.gif;$siteResource/images/theme/banner_placeholder.gif;
+
+
+
+#################################BANNER###########################################
+;SearchEmptyImage;;;;
+;SearchEmptyBottomImage;;;;
+;SearchNeedHelpImage;;;
+;HomeMidLeftImage;;b1.jpg;$siteResource/images/theme/b1.jpg;
+;HomeMidRightImage;;b2.jpg;$siteResource/images/theme/b2.jpg;
+;HomeBtmRightImage;;c1.jpg;$siteResource/images/theme/c1.jpg;
+;HomeBtmLeftImage;;c2.jpg;$siteResource/images/theme/c2.jpg;
+;HomeBtmMidImage;;c3.jpg;$siteResource/images/theme/c3.jpg;
+;GlobalImage;;;
+;StoreTopBanner;;
+;StoreDownBanner;;
+;SearchTopBanner;;
+;ESCheckout_Right;;
+
+;CategoryTopImage;;;
+;PDPBuyOnlinePickupImage;;buyonline.jpg;$siteResource/images/theme/buyonline.jpg
+;PDPVendorCraftsmanImage;;vendor_craftsman.jpg;$siteResource/images/theme/vendor_craftsman.jpg
+;CheckoutTrustLogoImage;;nortonsecired_icon.gif;$siteResource/images/theme/nortonsecired_icon.gif;
+;CheckoutSideImage;;
+;checkoutRighSideImage;;;
+##########################FooterLinks###########################################
+
+;LikeUsFBImage;;facebook_small_icon.gif;$siteResource/images/theme/facebook_small_icon.gif;
+;FollowUsTwitrImage;;twitter_small_icon.gif;$siteResource/images/theme/twitter_small_icon.gif;
+;WatchOnUtubImage;;youtube_small_icon.gif;$siteResource/images/theme/youtube_small_icon.gif;
+;PinUsOnImage;;pinterest_small_icon.gif;$siteResource/images/theme/pinterest_small_icon.gif;
+;SecurityAndPrivacyImage;;nortonsecired_icon.gif;$siteResource/images/theme/nortonsecired_icon.gif;
+;PaymentAcceptImage;;payment_accept_icon.gif;$siteResource/images/theme/payment_accept_icon.gif;
+
+
+##########################Navigation Bar###########################################
+;NavigationBarImage;;
+;CategoryES_BrandSeoImages;;;
+;CategoryES_CatagorySeoImages;;;
+;CategoryEs_HowToImage;;;
+;CategoryEs_ProjectGuideImage;;;
+;CategoryEs_CategorySaleImage;;;
+#####################################StoreLocator###############
+
+INSERT_UPDATE BannerComponent;$contentCV[unique=true];uid[unique=true];name;media(code,$contentCV)[lang=$lang];&componentRef;headline;urlLink;styleClass[lang=$lang]												
+;;StoreBannerTopComponent;StoreBannerTop;StoreTopBanner;StoreBannerTopComponent;;#
+;;StoreBannerDownComponent;StoreBannerDown;StoreDownBanner;StoreBannerDownComponent;;#
+;;SearchBannerBottomComponent;SearchBannerBottom;SearchTopBanner;SearchBannerBottomComponent;;#
+
+###################################################################
+############################CMSParagraph Component#########################
+INSERT_UPDATE CMSParagraphComponent;$contentCV[unique=true];uid[unique=true];name;&componentRef;content[lang=$lang]
+;;home_cms_paragraphComponent;home_cms_paragraphComponent;home_cms_paragraphComponent;"THIS IS PARAGRAPH SECTION"
+;;CheckOutLoginTxt;Check Out Login Txt;CheckOutLoginTxt;"1 888 SHOP OSH"
+;;ClubOrchardNumberTxt;Osh Number;OshNumber;"1 888 SHOP OSH"
+;;CheckOutFooterTxt;Check Out Login Footer Txt;CheckOutFooterTxt;"Copyright &copy; 2013 Orchard Supply Hardware. <br /> All rights reserved.<a href='/oshstorefront/privacyPolicy'>Privacy Policy</a>"
+;;PDPCraftsManTxt;Crafts Man Text;PDPCraftsManTxtParagraphComponent;Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
+;;NoSearchResultsParagraphComponent;No Search Results Paragraph Component;NoSearchResultsParagraphComponent;"<h2>Sorry, we couldn't find any results for your search</h2><p>Suggestions</p><ul><li>You may have typed your word incorrectly - please check for misspellings</li><li>You may have been too specific - please broaden your search by using fewer keywords</li><li>Browse our products by selecting a category above.</li></ul>
+<pre>
+<h2>Shop by Category</h2>                              
+<a href='OSH-Categories/Electrical/c/osh1005' style='color:blue'>Electrical</a>
+<a href='OSH-Categories/ToolsAndHardware/c/osh1006' style='color:blue'>Tools & Hardware</a>
+<a href='OSH-Categories/Outdoor/c/osh1001' style='color:blue'>Outdoor</a>
+<a href='OSH-Categories/HeatingAndCooling/c/osh1002' style='color:blue'>Heating and Cooling</a>
+<a href='OSH-Categories/Plumbing/c/osh1003' style='color:blue'>Plumbing</a>
+<a href='OSH-Categories/Home/c/osh1004' style='color:blue'>Home</a>
+</pre>"
+
+;;storeLocatorRightContent;store Locator Right Content;storeLocatorRightContent;<p>A list of stores within a maximum of 50 miles of your search location will appear here.</p><p>Search Suggestions:</p><p>Make sure the city and state names are spelled correctly.<br>Make sure your address contains a city and a state.<br>Enter a ZIP Code.</p>
+
+;;accountBottomTextContent;Account Home Page Text Content;accountBottomTextContent;<div class="img_left"><div class="img-text"><img src="_ui/desktop/osh/images/cartpage/u40_normal.png"/></div></div><div class="middle_contain"><p><b>Club Orchard Member Benefits</b></p></div><div class="contain"><p>Earn a point for nearly every $1 spent<br />For every 250 points earned, receive a rewards certificate for $5<br />Exclusive Club Orchard pricing on select merchandise and access to member only sale days<br />Get exclusive access to member-only offers, money saving coupons and pre-sale notifications<br /> Track purchases and monitor points online<br />Special Birthday Gift</p></div>
+;;errorPageContent;Error Page Content;errorPageContent;OOPS – PAGE NOT FOUND 
+
+################################OshFooterComponent##########################
+INSERT_UPDATE BannerComponent;$contentCV[unique=true];uid[unique=true];name;media(code,$contentCV)[lang=$lang];&componentRef;headline;urlLink;styleClass[lang=$lang]												
+;;GlobalBannerComponent;ES_Global;GlobalImage;GlobalBannerComponent;;#;
+;;RightBannerComponent;ES_Checkout_Right;ESCheckout_Right;RightBannerComponent;;#;
+;;HomeMidLeftBannerComponent;ES_HOME_MID_LEFT;HomeMidLeftImage;HomeMidLeftBannerComponent;;#;
+;;HomeMidRightBannerComponent;ES_HOME_MID_RIGHT;HomeMidRightImage;HomeMidRightBannerComponent;;#;
+;;HomeBtmRightBannerComponent;ES_HOME_BTM_RIGHT;HomeBtmRightImage;HomeBtmRightBannerComponent;;#;
+;;HomeBtmMidBannerComponent;ES_HOME_BTM_MID;HomeBtmMidImage;HomeBtmMidBannerComponent;;#;
+;;HomeBtmLeftBannerComponent;ES_HOME_BTM_LEFT;HomeBtmLeftImage;HomeBtmLeftBannerComponent;;#;
+;;CategoryTopBannerComponent;CatagoryNameSection;CategoryTopImage;CategoryTopBannerComponent;;#;
+;;LikeUsOnFB;Like Us on Facebook;LikeUsFBImage;FooterFacebook;;"https://www.facebook.com/OrchardSupplyHardware";
+;;FollowUsOnTwitr;Follow Us on Twitter;FollowUsTwitrImage;FooterTwiter;;"https://twitter.com/orchardsupply";
+;;WatchOnUtub;Watch Us on You Tube;WatchOnUtubImage;FooterYouTube;;"http://www.youtube.com/user/OrchardSupplyHrdware";
+;;PinUsOnPinterest;Pin Us on Pinterest;PinUsOnImage;FooterPintrest;;"http://pinterest.com/orchardsupply/";
+;;CategoryEs_HowBanner;Catagory Es_HowTo;CategoryEs_HowToImage;CategoryEs_HowBanner;;#;categoryimage
+;;CategoryEs_ProjectGuideBanner;Category Es_Project Guide;CategoryEs_ProjectGuideImage;CategoryEs_ProjectGuideBanner;;#;categoryimage
+;;CategoryEs_CategorySaleBanner;Category Es_Category Sale;CategoryEs_CategorySaleImage;CategoryEs_CategorySaleBanner;;#;categoryimage
+;;CategoryES_CatagorySeoBanner;Category ES_CatagorySeoImages;CategoryES_CatagorySeoImages;CategoryES_CatagorySeoBanner;;#;categoryseoimage
+;;CategoryES_BrandSeoBanner;Category ES_BrandSeoImages;CategoryES_BrandSeoImages;CategoryES_BrandSeoBanner;;#;categoryseoimage
+;;oshbanner1;osh banner1;homepageImage1;oshbanner1
+;;oshbanner2;osh banner2;homepageImage2;oshbanner2
+;;oshbanner3;osh banner3;homepageImage3;oshbanner3
+;;ProductEs_RightBanner;ProductEs_Right;CategoryEs_HowToImage;ProductEs_RightBanner;;#;categoryimage
+;;PDPBuyOnlinePickupBannerComponent;PDP buyOnline pickup image;PDPBuyOnlinePickupImage;PDPBuyOnlinePickupBannerComponent;;#
+;;PDPVendorCraftsmanBannerComponent;PDP Description Tab image;PDPVendorCraftsmanImage;PDPVendorCraftsmanBannerComponent;;#
+;;SizeChartBanner;Size Chart Banner;SizeChartBannerImage;SizeChartBanner;;#
+;;CheckoutSummaryRightBanner;Checkout Summary Right Image;checkoutRighSideImage;CheckoutSummaryRightBanner;;
+
+##################StoreLocatorBanners#############################
+;;StoreLocatorLeftBannerComponent;StoreLocatorLeftBanner;HomeBtmLeftImage;StoreLocatorLeftBannerComponent;;#
+;;LeftSideStoreLocatorBannerComponent;LeftSideStoreLocatorBanner;HomeBtmLeftImage;LeftSideStoreLocatorBannerComponent;;#
+;;LowerStoreLocatorBannerComponent;LowerStoreLocatorBanner;GlobalImage;LowerStoreLocatorBannerComponent;;#
+;;ES_GlobleBannerComponent;ES_GlobleBanner;GlobalImage;ES_GlobleBannerComponent;;#
+;;ES_StoreLocatorBannerComponent;ES_StoreLocatorBanner;CategoryTopImage;ES_StoreLocatorBannerComponent;;#
+;;SearchEmptyImageBannerComponent;SideContent;SearchEmptyImage;SearchEmptyImageBannerComponent;;#
+;;SearchEmptyBottomImageBannerComponent;BottomContent;SearchEmptyBottomImage;SearchEmptyBottomImageBannerComponent;;#;searchbottomimage
+;;SearchNeedImageBannerComponent;ES_ Search_LeftContent;SearchNeedHelpImage;SearchNeedImageBannerComponent;;#;
+;;CheckoutSideImageBannerComponent;CheckoutPage Side Image;CheckoutSideImage;CheckoutSideImageBannerComponent;;#;
+###################################################
+INSERT_UPDATE OshImageTextComponent;$contentCV[unique=true];uid[unique=true];&componentRef;content;media(code,$contentCV)[lang=$lang]
+;;footerBanner1;footerBanner1;We Value Your Security & Privacy;SecurityAndPrivacyImage
+;;footerBanner2;footerBanner2; Payments We Accept;PaymentAcceptImage
+
+
+
+#home page rotating images component
+INSERT_UPDATE OshRotatingImagesComponent;$contentCV[unique=true];uid[unique=true];name;banners(&componentRef);timeout;&componentRef
+;;OshRotatingImagesComponent;Osh Rotating Images Component;oshbanner1,oshbanner2,oshbanner3;5000;oshRotatingImagesComponent
+
+
+# CMS Link Components
+INSERT_UPDATE CMSLinkComponent;$contentCV[unique=true];uid[unique=true];name;url;&componentRef;target(code)[default='sameWindow']
+;;AboutUsLink;About Us;/oshstorefront/aboutUs;AboutUsLink;newWindow
+;;ContactUsLink;Contact Us;/oshstorefront/contactUs;ContactUsLink;newWindow
+;;FAQsLink;FAQs;/oshstorefront/faq;FAQsLink;newWindow
+;;GiftCardLink;Gift Card;"/oshstorefront/giftCard";GiftCardLink;newWindow
+;;PrivacyPolicyLink ;Privacy Policy ;/oshstorefront/privacyPolicy;PrivacyPolicyLink;newWindow
+;;ProductSafetyLink;Product Safety;/oshstorefront/productSafety;ProductSafetyLink;newWindow
+;;RebatesLink;Rebates;/oshstorefront/rebates;RebatesLink;newWindow
+;;ReturnsAndRefundsLink;Returns and Refunds;/oshstorefront/r&r;ReturnsAndRefundsLink;newWindow
+;;ShippingLink;Shipping;/oshstorefront/shipping;ShippingLink;newWindow
+;;SiteMapLink;Site Map;/oshstorefront/siteMap;SiteMapLink;newWindow
+;;TermsOfUseLink;Terms of Use;/oshstorefront/terms;TermsOfUseLink;newWindow
+;;WeeklyAdLink;Weekly Ad;http://www.circularhub.com/pub/orchardsupplyhardware?type=2;WeeklyAdLink;newWindow
+;;AffiliateProgramLink;Forward Looking Statements;/oshstorefront/affiliateProgram;AffiliateProgramLink;newWindow
+;;CaliforniaTransparencyActLink;California Transparency Act;/oshstorefront/ctAct;CaliforniaTransparencyActLink;newWindow
+;;CareersLink;Careers;"https://rn11.ultipro.com/ORC1000/jobboard/SearchJobs.aspx?Page=Search";CareersLink;newWindow
+;;CommercialServicesLink;Commercial Services;/oshstorefront/commercialServices;CommercialServicesLink;newWindow
+;;ClubOrchardLink;Club Orchard;http://cluborchard.osh.com;ClubOrchardLink;newWindow
+;;FindStoreLink;Find a Store;/oshstorefront/store-finder;FindStoreLink;newWindow
+;;InvestorRelationsLink;Investor Relations;/oshstorefront/investorRelations;InvestorRelationsLink;newWindow
+;;SupplierPartnersLink;Supplier Partners;/oshstorefront/supplierPartners;SupplierPartnersLink;newWindow
+
+INSERT_UPDATE CMSNavigationNode;uid[unique=true];$contentCV[unique=true];name;parent(uid, $contentCV);links(&componentRef);&nodeRef
+;OshFooterNavNode;;OshFooterNavNode;;;OshFooterNavNode
+;CustomerServiceNavNode;;Customer Service;OshFooterNavNode;ContactUsLink,FAQsLink,GiftCardLink,ProductSafetyLink,RebatesLink,ShippingLink,ReturnsAndRefundsLink,WeeklyAdLink,PrivacyPolicyLink,TermsOfUseLink,AffiliateProgramLink,SiteMapLink;CustomerServiceNavNode
+;AboutOshNavNode;;About Orchard Supply Hardware;OshFooterNavNode;AboutUsLink,FindStoreLink,CareersLink,ClubOrchardLink,CommercialServicesLink,SupplierPartnersLink,InvestorRelationsLink,CaliforniaTransparencyActLink;AboutOshNavNode
+
+
+INSERT_UPDATE OshFooterComponent;$contentCV[unique=true];uid[unique=true];name;wrapAfter;&componentRef;navigationNodes(&nodeRef);oshFooterLogoText(&componentRef);notice[lang=$lang];banners(&componentRef)
+;;FooterComponent;Osh Footer;2;FooterComponent;CustomerServiceNavNode,AboutOshNavNode;footerBanner1,footerBanner2;Copyright &#64 2013 Orchard Supply Hardware. All rights reserved.;FooterFacebook,FooterTwiter,FooterYouTube,FooterPintrest
+
+
+
+##########################################Footer End###########################################
+
+
+################################TopNavigationNodesEntry#############################
+
+
+INSERT_UPDATE CMSLinkComponent;$contentCV[unique=true];uid[unique=true];name;linkName[lang=$lang];url;&linkRef;&componentRef;category(code, $productCV);target(code)[default='sameWindow']
+
+;;ToolsAndHardwarePageNavLink;tools;Tools & Hardware;"OSH-Categories/ToolsAndHardware/c/osh1006";ToolsAndHardwarePageNavLink;ToolsAndHardwarePageNavLink
+;;OutDoorPageNavLink;outdoor;Outdoor;"OSH-Categories/Outdoor/c/osh1001";OutDoorPageNavLink;OutDoorPageNavLink
+;;PaintNavLink;paint;Paint;"OSH-Categories/Paint/c/osh1007";PaintNavLink;PaintNavLink;
+;;HomepageNavLink;home page;Home;/OSH-Categories/Home/c/osh1004;HomepageNavLink;HomepageNavLink;
+;;HNCPageNavLink;hnc;Heating & Cooling;"/OSH-Categories/HeatingAndCooling/c/osh1002";HNCPageNavLink;HNCPageNavLink
+;;ElectricalNavLink;electrical;Electrical;"OSH-Categories/Electrical/c/osh1005";ElectricalNavLink;ElectricalNavLink
+;;PlumbingPageNavLink;plumbing;Plumbing;"OSH-Categories/Plumbing/c/osh1003";PlumbingPageNavLink;PlumbingPageNavLink
+;;How-ToNavLink;howto;Installed Home Improvement;"http://www.osh.com/eng/home-improvement/";How-ToNavLink;How-ToNavLink;;newWindow
+
+
+
+
+#3rd level links of building material
+;;ConcreteCementandMasonryLink;CCAndM;Concrete, Cement and Masonry;OSH-Categories/CCAndM/c/osh3017;ConcreteCementandMasonryLink;ConcreteCementandMasonryLink
+;;FastenersLink;Fasteners;Fasteners;OSH-Categories/Fasteners/c/osh3074;FastenersLink;FastenersLink
+;;FencingLink;Fencing;Fencing;OSH-Categories/Fencing/c/osh3071;FencingLink;FencingLink
+;;RoofingAndGuttersLink;RoofingAndGutters;Roofing and Gutters;OSH-Categories/RoofingAndGutters/c/osh3070;RoofingAndGuttersLink;RoofingAndGuttersLink
+;;MoreBuildingMaterialsLink;MoreBuildingMaterials;More Building Materials;OSH-Categories/MoreBuildingMaterials/c/osh3068;MoreBuildingMaterialsLink;MoreBuildingMaterialsLink
+
+#3rd level links of Hardware
+;;LocksetsandHomeSecurityLink;LocksetsandHomeSecurity;Locksets and Home Security;OSH-Categories/LocksetsandHomeSecurity/c/osh3051;LocksetsandHomeSecurityLink;LocksetsandHomeSecurityLink
+;;CabinetHardwareLink;CabinetHardware;Cabinet Hardware;OSH-Categories/CabinetHardware/c/osh3150;CabinetHardwareLink;CabinetHardwareLink
+;;MailboxesAndAccessoriesLink;MailboxesAccessories;Mailboxes and Accessories;OSH-Categories/MailboxesAccessories/c/osh3148;MailboxesAndAccessoriesLink;MailboxesAndAccessoriesLink
+;;SafetyLink;Safety;Safety;OSH-Categories/Safety/c/osh3067;SafetyLink;SafetyLink
+;;AutomotiveAndGarageLink;AutomotiveGarage;Automotive & Garage;OSH-Categories/AutomotiveGarage/c/osh3064;AutomotiveAndGarageLink;AutomotiveAndGarageLink
+;;MoreHardwareLink;MoreHardware;More Hardware;OSH-Categories/MoreHardware/c/osh3072;MoreHardwareLink;MoreHardwareLink
+;;MovingSuppliesLink;MovingSupplies;Moving Supplies;OSH-Categories/MovingSupplies/c/osh3151;MovingSuppliesLink;MovingSuppliesLink
+
+#3rd level Brand links of Tools
+;;BlackAndDeckerToolsBrandLink;BlackAndDeckerBrand;Black & Decker;Brands/c/BlackAndDecker-osh1006;BlackAndDeckerToolsBrandLink;BlackAndDeckerToolsBrandLink
+;;BoschToolsBrandLink;BoschBrand;Bosch;Brands/c/Bosch-osh1006;BoschLink;BoschLink
+;;BrinksToolsBrandLink;BrinksBrand;Brinks;Brands/c/Brinks-osh1006;BrinksLink;BrinksLink
+;;CarharttToolsBrandLink;CarharttBrand;Carhartt;Brands/c/Carhartt-osh1006;CarharttLink;CarharttLink
+;;CraftsmanToolsBrandLink;CraftsmanBrand;Craftsman;Brands/c/Craftsman-osh1006;CraftsmanLink;CraftsmanLink
+;;DeWaltToolsBrandLink;DeWaltBrand;DeWalt;Brands/c/DeWalt-osh1006;DeWaltLink;DeWaltLink
+;;DremelToolsBrandLink;DremelBrand;Dremel;Brands/c/Dremel-osh1006;DremelLink;DremelLink
+;;IrwinToolsBrandLink;IrwinBrand;Irwin;Brands/c/Irwin-osh1006;IrwinLink;IrwinLink
+;;KwiksetToolsBrandLink;KwiksetBrand;Kwikset;Brands/c/Kwikset-osh1006;KwiksetLink;KwiksetLink
+;;McGuireNicholasToolsBrandLink;McGuireNicholasBrand;McGuire Nicholas;Brands/c/McGuireNicholas-osh1006;McGuireNicholasLink;McGuireNicholasLink
+;;RichelieuToolsBrandLink;RichelieuBrand;Richelieu;Brands/c/Richelieu-osh1006;RichelieuLink;RichelieuLink
+;;SchlageToolsBrandLink;SchlageBrand;Schlage;Brands/c/Schlage-osh1006;SchlageLink;SchlageLink
+;;StanleyToolsBrandLink;StanleyBrand;Stanley;Brands/c/Stanley-osh1006;StanleyLink;StanleyLink
+
+#3rd level Brand links of OutDoor
+#;;ArrowOutBrandLink;ArrowBrand;Arrow;Brands/c/Arrow-osh1001;ArrowLink;ArrowLink
+;;RealFlameOutBrandLink;RealFlame;Real Flame;Brands/c/RealFlame-osh1001;RealFlameOutBrandLink;RealFlameOutBrandLink
+;;DeltaOutBrandLink;Delta;Delta;Brands/c/Delta-osh1001;DeltaOutBrandLink;DeltaOutBrandLink
+;;OutdoorBlackAndDeckerOutBrandLink;BlackAndDeckerBrand;Black & Decker;Brands/c/BlackAndDecker-osh1001;OutdoorBlackAndDeckerOutBrandLink;OutdoorBlackAndDeckerOutBrandLink
+#;;BackYardProOutBrandLink;BackYardProBrand;BackYard Pro;Brands/c/BackYardPro-osh1001;BackYardProLink;BackYardProLink
+;;CharBroilOutBrandLink;CharBroilBrand;Char-Broil;Brands/c/CharBroil-osh1001;CharBroilLink;CharBroilLink
+;;CoronaOutBrandLink;CoronaBrand;Corona;Brands/c/Corona-osh1001;CoronaLink;CoronaLink
+;;CraftsmanOutBrandLink;CraftsmanBrand;Craftsman;Brands/c/Craftsman-osh1001;CraftsmansLink;CraftsmansLink
+;;FiskarsOutBrandLink;FiskarsBrand;Fiskars;Brands/c/Fiskars-osh1001;FiskarsLink;FiskarsLink
+#;;KeterOutBrandLink;KeterBrand;Keter;Brands/c/Keter-osh1001;KeterLink;KeterLink
+;;ScottsOutBrandLink;ScottsBrand;Scotts;Brands/c/Scotts-osh1001;ScottsLink;ScottsLink
+;;SuncastOutBrandLink;SuncastBrand;Suncast;Brands/c/Suncast-osh1001;SuncastLink;SuncastLink
+;;ToroOutBrandLink;ToroBrand;Toro;Brands/c/Toro-osh1001;ToroLink;ToroLink
+;;WeberOutBrandLink;WeberBrand;Weber;Brands/c/Weber-osh1001;WeberLink;WeberLink
+
+#3rd level Brand Links of Plumbing
+;;AquaVistaPlumbBrandLink;AquaVistaBrand;AquaVista;Brands/c/AquaVista-osh1003;AquaVistaLink;AquaVistaLink
+;;DanzePlumbBrandLink;DanzeBrand;Danze;Brands/c/Danze-osh1003;DanzeLink;DanzeLink
+;;DeltaPlumbBrandLink;DeltaBrand;Delta;Brands/c/Delta-osh1003;DeltaLink;DeltaLink
+;;KenmorePlumbBrandLink;KenmoreBrand;Kenmore;Brands/c/Kenmore-osh1003;KenmoreLink;KenmoreLink
+;;KohlerPlumbBrandLink;KohlerBrand;Kohler;Brands/c/Kohler-osh1003;KohlerLink;KohlerLink
+;;KorkyPlumbBrandLink;KorkyBrand;Korky;Brands/c/Korky-osh1003;KorkyLink;KorkyLink
+;;BBenMoenPlumbBrandLink;MoenBrand;Moen;Brands/c/Moen-osh1003;MoenLink;MoenLink
+;;PfisterPlumbBrandLink;PfisterBrand;Price Pfister;Brands/c/Pfister-osh1003;PfisterLink;PfisterLink
+
+#3rd level Brand Links of H&C
+#;;DeLonghiHNCBrandLink;DeLonghiBrand;De'Longhi;Brands/c/DeLonghi-osh1002;DeLonghiLink;DeLonghiLink
+;;FiltreteHNCBrandLink;FiltreteBrand;Filtrete;Brands/c/Filtrete-osh1002;FiltreteLink;FiltreteLink
+;;RealFlameHNCBrandLink;RealFlameBrand;Real Flame;Brands/c/RealFlame-osh1002;RealFlameHNCBrandLink;RealFlameHNCBrandLink
+;;VornadoHNCBrandLink;VornadoBrand;Vornado;Brands/c/Vornado-osh1002;VornadoHNCBrandLink;VornadoHNCBrandLink
+;;3MHNCBrandLink;3MBrand;3M;Brands/c/3M-osh1002;3MHNCBrandLink;3MHNCBrandLink
+
+#3rd level Brand links of Home Nav
+;;BlackAndDeckerHomeBrandLink;BlackAndDeckerBrand;Black & Decker;Brands/c/BlackAndDecker-osh1004;BlackAndDeckerLink;BlackAndDeckerLink
+;;ArrowHomeBrandLink;ArrowBrand;Arrow;Brands/c/Arrow-osh1004;ArrowHomeBrandLink;ArrowHomeBrandLink
+;;CraftsmanHomeBrandLink;CraftsmanBrand;Craftsman;Brands/c/Craftsman-osh1004;CraftsmanHomeBrandLink;CraftsmanHomeBrandLink
+;;BBenMoenHomeBrandLink;MoenBrand;Moen;Brands/c/Moen-osh1004;BBenMoenHomeBrandLink;BBenMoenHomeBrandLink
+;;BissellHomeBrandLink;BissellBrand;Bissell;Brands/c/Bissell-osh1004;BissellLink;BissellLink
+;;CloroxHomeBrandLink;CloroxBrand;Clorox;Brands/c/Clorox-osh1004;CloroxLink;CloroxLink
+;;ClosetMaidHomeBrandLink;ClosetMaidBrand;ClosetMaid;Brands/c/ClosetMaid-osh1004;ClosetMaidLink;ClosetMaidLink
+#;;XtendAndClimbHomeBrandLink;XtendAndClimbBrand;Xtend & Climb;Brands/c/XtendAndClimb-osh1004;XtendAndClimbLink;XtendAndClimbLink
+;;CoscoHomeBrandLink;CoscoBrand;Cosco;Brands/c/Cosco-osh1004;CoscoLink;CoscoLink
+;;GladiatorHomeBrandLink;GladiatorBrand;Gladiator;Brands/c/Gladiator;GladiatorLink;GladiatorLink
+;;RubbermaidBrandLink;RubbermaidBrand;Rubbermaid;Brands/c/Rubbermaid;RubbermaidLink;RubbermaidLink
+;;SteriliteHomeBrandLink;SteriliteBrand;Sterilite;Brands/c/Sterilite;SteriliteLink;SteriliteLink
+#;;WagnerHomeBrandLink;WagnerBrand;Wagner;Brands/c/Wagner;WagnerLink;WagnerLink
+
+#3rd level brands links of Paint Nav
+#;;3MPaintBrandLink;3MBrand;3M;Brands/c/3M;3MLink;3MLink
+;;BBenjaminMoorePaintBrandLink;BBenjaminMooreBrand;Benjamin Moore;Brands/c/BenjaminMoore-osh1007;BBenjaminMooreLink;BBenjaminMooreLink
+;;PurdyPaintBrandLink;PurdyBrand;Purdy;Brands/c/Purdy-osh1007;PurdyLink;PurdyLink
+;;CoscoPaintBrandLink;CoscoBrand;Cosco;Brands/c/Cosco-osh1007;CoscoPaintBrandLink;CoscoPaintBrandLink
+;;XtendAndClimbPaintBrandLink;XtendAndClimbBrand;Xtend & Climb;Brands/c/XtendAndClimb-osh1007;XtendAndClimbPaintBrandLink;XtendAndClimbPaintBrandLink
+;;WagnerPaintBrandLink;WagnerBrand;Wagner;Brands/c/Wagner-osh1007;WagnerPaintBrandLink;WagnerPaintBrandLink
+#;;DapLink;Dap;Dap;#;DapLink;DapLink
+
+
+
+#3rd level Brand links of Electrical
+#;;CooperLightingElcBrandLink;CooperLightingBrand;CooperLighting;Brands/c/CooperLighting-osh1005;CooperLightingLink;CooperLightingLink
+;;BelAirLightingElcBrandLink;BelAirLightingBrand;Bel Air Lighting;Brands/c/BelAirLighting-osh1005;BelAirLightingLink;BelAirLightingLink
+;;EnergizerElcBrandLink;EnergizerBrand;Energizer;Brands/c/Energizer-osh1005;EnergizerLink;EnergizerLink
+;;GeneralElectricElcBrandLink;GeneralElectricBrand;General Electric;Brands/c/GeneralElectric-osh1005;GeneralElectricLink;GeneralElectricLink
+;;HunterElcBrandLink;HunterBrand;Hunter;Brands/c/Hunter-osh1005;HunterLink;HunterLink
+;;LevitonElcBrandLink;LevitonBrand;Leviton;Brands/c/Leviton-osh1005;LevitonLink;LevitonLink
+;;RayovacElcBrandLink;RayovacBrand;Rayovac;Brands/c/Rayovac-osh1005;RayovacLink;RayovacLink
+;;TCPLinkElcBrandLink;TCPLinkBrand;TCP;Brands/c/TCP-osh1005;TCPLink;TCPLink
+;;WestinghouseElcBrandLink;WestinghouseBrand;Westinghouse;Brands/c/Westinghouse-osh1005;WestinghouseLink;WestinghouseLink
+
+#3rd level links of Tools
+;;PowerToolsLink;PowerTools;Power Tools;OSH-Categories/PowerTools/c/osh3039;PowerToolsLink;PowerToolsLink
+;;PowerToolAccessoriesLink;PowerToolAccessories;Power Tool Accessories;OSH-Categories/PowerToolAccessories/c/osh3043;PowerToolAccessoriesLink;PowerToolAccessoriesLink
+;;AutoMechanicsToolsLink;AutoMechanicsTools;Auto & Mechanics Tools;OSH-Categories/AutoMechanicsTools/c/osh3078;AutoMechanicsToolsLink;AutoMechanicsToolsLink
+;;HandToolsLink;HandTools;Hand Tools;OSH-Categories/HandTools/c/osh3066;HandToolsLink;HandToolsLink
+;;MMAndLevelersLink;MeasuringMarkingandLevelers;Measuring,Marking & Levelers;OSH-Categories/MeasuringMarkingandLevelers/c/osh3041;MMAndLevelersLink;MMAndLevelersLink
+;;ToolStorageAndOrganizationLink;ToolStorageAndOrganization;Tool Storage and Organization;OSH-Categories/ToolStorageAndOrganization/c/osh3042;ToolStorageAndOrganizationLink;ToolStorageAndOrganizationLink
+;;WeldingLink;Welding;Welding;OSH-Categories/Welding/c/osh3077;WeldingLink;WeldingLink
+
+
+#3rd level links of WorkWearNavNode
+;;WorkWearClothingLink;Clothing;Clothing;OSH-Categories/Clothing/c/osh3053;WorkWearClothingLink;WorkWearClothingLink
+;;AccessoriesLink;Accessories;Accessories;OSH-Categories/Accessories/c/osh3054;AccessoriesLink;AccessoriesLink
+;;RainwearLink;Rainwear;Rainwear;OSH-Categories/Rainwear/c/osh3147;RainwearLink;RainwearLink
+#;;Shoes&BootsLink;Shoes&Boots;Shoes & Boots;#;Shoes&BootsLink;Shoes&BootsLink
+
+#3rd level links of Lighting Accessories
+#;;LightingAccessoriesIndoorLightingLink;LightingAccessoriesIndoorLighting;Indoor Lighting;OSH-Categories/LightingAccessoriesIndoorLighting/c/osh3065;LightingAccessoriesIndoorLightingLink;LightingAccessoriesIndoorLightingLink
+
+
+#3rd level links of LightingAndFansNavNode
+;;IndoorLightingLink;IndoorLighting;Indoor Lighting;OSH-Categories/IndoorLighting/c/osh3016;IndoorLightingLink;IndoorLightingLink
+;;OutdoorLightingLink;OutdoorLighting;Outdoor Lighting;OSH-Categories/OutdoorLighting/c/osh3020;OutdoorLightingLink;OutdoorLightingLink
+;;CeilingFansLink;CeilingFans;Ceiling Fans;OSH-Categories/CeilingFans/c/osh3146;CeilingFansLink;CeilingFansLink
+;;LightBulbsLink;LightBulbs;Light Bulbs;OSH-Categories/LightBulbs/c/osh3052;LightBulbsLink;LightBulbsLink
+;;LightingAccessoriesLink;LightingAccessories;Lighting Accessories;OSH-Categories/LightingAccessories/c/osh3037;LightingAccessoriesLink;LightingAccessoriesLink
+#;;PortableFansLink;PortableFans;Portable Fans;OSH-Categories/PortableFans/c/osh3090;PortableFansLink;PortableFansLink
+
+#3rd level links of RoughElectricalNavNode
+;;BreakersAndFusesLink;BreakersAndFuses;Breakers and Fuses;OSH-Categories/BreakersAndFuses/c/osh3045;BreakersAndFusesLink;BreakersAndFusesLink
+#;;ConduitsAndFittingsLink;ConduitsAndFittings;Conduits and Fittings;OSH-Categories/ConduitsAndFittings/c/osh00725;ConduitsAndFittingsLink;ConduitsAndFittingsLink
+;;SwitchesAndOutletsLink;SwitchesAndOutlets;Switches & Outlets;OSH-Categories/SwitchesAndOutlets/c/osh3019;SwitchesAndOutletsLink;SwitchesAndOutletsLink
+;;ConnectorsAndFastenersLink;ConnectorsAndFasteners;Connectors & Fasteners;OSH-Categories/ConnectorsAndFasteners/c/osh3044;ConnectorsAndFastenersLink;ConnectorsAndFastenersLink
+;;ElectricalToolsLink;ElectricalTools;Electrical Tools;OSH-Categories/ElectricalTools/c/osh3046;ElectricalToolsLink;ElectricalToolsLink
+;;WallPlatesLink;WallPlates;Wall Plates;OSH-Categories/WallPlates/c/osh3040;WallPlatesLink;WallPlatesLink
+;;Dimmers&TimersLinks;Dimmers&Timers;Dimmers & Timers;OSH-Categories/Dimmers&Timers/c/osh3035;Dimmers&TimersLinks;Dimmers&TimersLinks
+
+
+#3rd level links of MoreElectricalNavNode
+;;BatteriesAndChargersLink;BatteriesAndChargers;Batteries and Chargers;OSH-Categories/BatteriesAndChargers/c/osh3050;BatteriesAndChargersLink;BatteriesAndChargersLink
+;;AudioAndVideoLink;AudioAndVideo;Audio and Video;OSH-Categories/AudioAndVideo/c/osh3048;AudioAndVideoLink;AudioAndVideoLink
+;;ExtensionCordsLink;ExtensionCords;Extension Cords and Power Strips;OSH-Categories/ExtensionCords/c/osh3047;ExtensionCordsLink;ExtensionCordsLink
+;;FlashlightsLanternsLink;FlashlightsLanterns;Flashlights & Lanterns;OSH-Categories/FlashlightsLanterns/c/osh3049;FlashlightsLanternsLink;FlashlightsLanternsLink
+;;DoorBellsLink;DoorBells;Door Bells;OSH-Categories/DoorBells/c/osh3154;DoorBellsLink;DoorBellsLink
+
+#3rd level links of LawnAndGardenNavNode
+;;GardenToolsLink;GardenTools;Garden Tools;OSH-Categories/GardenTools/c/osh3005;GardenToolsLink;GardenToolsLink
+;;AnimalAndPestControlLink;AnimalAndPestControl;Animal and Pest Control;OSH-Categories/AnimalAndPestControl/c/osh3012;AnimalAndPestControlLink;AnimalAndPestControlLink
+;;LawnAndPlantCareLink;LawnAndPlantCare;Lawn and Plant Care;OSH-Categories/LawnAndPlantCare/c/osh3002;LawnAndPlantCareLink;LawnAndPlantCareLink
+;;LandscapeSuppliesLink;LandscapeSupplies;Landscape Supplies;OSH-Categories/LandscapeSupplies/c/osh3014;LandscapeSuppliesLink;LandscapeSuppliesLink
+;;WateringLink;Watering;Watering;OSH-Categories/Watering/c/osh3010;WateringLink;WateringLink
+;;PlantsBulbsAndSeedsLink;PlantsBulbsAndSeeds;Plants, Bulbs and Seeds;OSH-Categories/PlantsBulbsAndSeeds/c/osh3015;PlantsBulbsAndSeedsLink;PlantsBulbsAndSeedsLink
+;;PlantersLink;Planters;Planters;OSH-Categories/Planters/c/osh3013;PlantersLink;PlantersLink
+;;GreenhousesLink;Greenhouses;Greenhouses;OSH-Categories/Greenhouses/c/osh3100;GreenhousesLink;GreenhousesLink
+;;GardenDecorLink;GardenDecorAndFountains;Garden Décor and Fountains;OSH-Categories/GardenDecorAndFountains/c/osh3018;GardenDecorLink;GardenDecorLink
+#;;FootwearAndApparelLink;FootwearAndApparel;Footwear & Apparel;OSH-Categories/FootwearAndApparel/c/osh00640;FootwearAndApparelLink;FootwearAndApparelLink
+
+
+
+#3rd level links of OutdoorPowerEquipmentNavNode
+;;BlowersLink;Blowers;Blowers;OSH-Categories/Blowers/c/osh3061;BlowersLink;BlowersLink
+;;ChainSawsLink;ChainSaws;Chain Saws;OSH-Categories/ChainSaws/c/osh3033;ChainSawsLink;ChainSawsLink
+;;ChippersShreddersLogLink;ChippersShreddersLog Splitters;Chippers/Shredders/Log Splitters;OSH-Categories/ChippersShreddersLog/c/osh3063;ChippersShreddersLogLink;ChippersShreddersLogLink
+;;GeneratorsLink;Generators;Generators;OSH-Categories/Generators/c/osh3099;GeneratorsLink;GeneratorsLink
+;;HedgeTrimmersLink;HedgeTrimmers ;Hedge Trimmers;OSH-Categories/HedgeTrimmers/c/osh3036;HedgeTrimmersLink;HedgeTrimmersLink
+;;LawnMowersTractorsLink;LawnMowersTractors;Lawn Mowers & Tractors;OSH-Categories/LawnMowersTractors/c/osh3059;LawnMowersTractorsLink;LawnMowersTractorsLink
+#;;MowerAccessoriesLink;MowerAccessories;Mower Accessories;OSH-Categories/MowerAccessories/c/osh3097;MowerAccessoriesLink;MowerAccessoriesLink
+;;PowerLawnTrimmersLink;PowerLawnTrimmers;Power Lawn Trimmers;OSH-Categories/PowerLawnTrimmers/c/osh3034;PowerLawnTrimmersLink;PowerLawnTrimmersLink
+;;PressureWashersLink;PressureWashers;Pressure Washers;OSH-Categories/PressureWashers/c/osh3062;PressureWashersLink;PressureWashersLink
+#;;SnowThrowersLink;SnowThrowers;Snow Throwers;OSH-Categories/SnowThrowers/c/osh0039;SnowThrowersLink;SnowThrowersLink
+;;TillersCultivatorsLink;TillersCultivators;Tillers & Cultivators;OSH-Categories/TillersCultivators/c/osh3060;TillersCultivatorsLink;TillersCultivatorsLink
+;;EdgersLinks;Edgers;Edgers;OSH-Categories/Edgers/c/osh3038;EdgersLinks;EdgersLinks
+
+#3rd level links of OutdoorLivingNavNode
+;;PatioFurnitureLink;PatioFurniture;Patio Furniture;OSH-Categories/PatioFurniture/c/osh3069;PatioFurnitureLink;PatioFurnitureLink;
+;;PatioAccessoriesLink;PatioAccessories;Patio Accessories;OSH-Categories/PatioAccessories/c/osh3091;PatioAccessoriesLink;PatioAccessoriesLink;
+;;GazebosLink;Gazebos;Gazebos;OSH-Categories/Gazebos/c/osh3096;GazebosLink;GazebosLink;
+;;GrillsAndOutdoorLink;GrillsAndOutdoorCooking;Grills and Outdoor Cooking;OSH-Categories/GrillsAndOutdoorCooking/c/osh3055;GrillsAndOutdoorLink;GrillsAndOutdoorLink;
+;;OutdoorHeatingLink;OutdoorHeating;Outdoor Heating;OSH-Categories/OutdoorHeating/c/osh3086;OutdoorHeatingLink;OutdoorHeatingLink;
+#;;BlindsAndAwningsLink;BlindsAndAwnings;Blinds and Awnings;OSH-Categories/BlindsAndAwnings/c/osh3087;BlindsAndAwningsLink;BlindsAndAwningsLink;
+;;HotTubsSaunasAndPoolsLink;HotTubsSaunasAndPools;Hot Tubs, Saunas and Pools;OSH-Categories/HotTubsSaunasAndPools/c/osh3092;HotTubsSaunasAndPoolsLink;HotTubsSaunasAndPoolsLink;
+;;OutdoorStorageLink;OutdoorStorage;Outdoor Storage;OSH-Categories/OutdoorStorage/c/osh3098;OutdoorStorageLink;OutdoorStorageLink;
+;;RecreationLink;Recreation;Recreation;OSH-Categories/Recreation/c/osh3007;RecreationLink;RecreationLink;
+;;BirdingLink;Birding;Birding;OSH-Categories/Birding/c/osh3009;BirdingLink;BirdingLink;
+;;PetLink;Pet;Pet;OSH-Categories/Pet/c/osh3008;PetLink;PetLink;
+;;FuelsLinks;Fuels;Fuels;OSH-Categories/Fuels/c/osh3085;FuelsLinks;FuelsLinks;
+#;;BooksLinks;Books;Books;OSH-Categories/Books/c/osh3101;BooksLinks;BooksLinks;
+;;FlagsThermometersLink;FlagsThermometers;Flags,Thermometers, & Clocks;OSH-Categories/FlagsThermometers/c/osh3001;FlagsThermometersLink;FlagsThermometersLink;
+
+
+#3rd level links of DecorNavNode
+;;FurnitureLink;Furniture;Furniture;OSH-Categories/Furniture/c/osh3056;FurnitureLink;FurnitureLink
+;;RugsLink;Rugs;Rugs;OSH-Categories/Rugs/c/osh3105;RugsLink;RugsLink
+;;DoormatsLink;Doormats;Doormats;OSH-Categories/Doormats/c/osh3104;DoormatsLink;DoormatsLink
+#;;WindowCoveringsLink;WindowCoverings;Window Coverings;#;WindowCoveringsLink;WindowCoveringsLink
+#;;WallDecorLink;WallDecor;Wall Décor;OSH-Categories/WallDecor/c/osh3094;WallDecorLink;WallDecorLink
+
+
+#3rd level links of KitchenAndBathNode
+#;;CookingToolsGadgetsLink;CookingToolsGadgets;Cooking Tools & Gadgets;#;CookingToolsGadgetsLink;CookingToolsGadgetsLink
+#;;SmallAppliancesLink;SmallAppliances;Small Appliances;#;SmallAppliancesLink;SmallAppliancesLink
+;;CanningPreservingLink;CanningPreserving;Canning & Preserving;OSH-Categories/CanningPreserving/c/osh3102;CanningPreservingLink;CanningPreservingLink
+#;;CookwareLink;Cookware;Cookware;#;CookwareLink;CookwareLink
+;;FoodStorageLink;FoodStorage;Food Storage;OSH-Categories/FoodStorageLink/c/osh3107;FoodStorageLink;FoodStorageLink
+#;;KitchenLinensLink;KitchenLinens;Kitchen Linens;#;KitchenLinensLink;KitchenLinensLink
+;;TablewareLink;Tableware;Tableware;OSH-Categories/Tableware/c/osh3093;TablewareLink;TablewareLink
+;;BathAccessoriesLink;BathAccessories;Bath Accessories;OSH-Categories/BathAccessories/c/osh3149;BathAccessoriesLink;BathAccessoriesLink
+#;;VanitiesCabinetsLink;VanitiesCabinets;Vanities & Cabinets;#;VanitiesCabinetsLink;VanitiesCabinetsLink
+
+#3rd level links of StorageOrganizationHousekeeping node
+;;ClosetHouseholdLink;ClosetHousehold;Closet & Household;OSH-Categories/ClosetHousehold/c/osh3103;ClosetHouseholdLink;ClosetHouseholdLink
+;;GarageLink;Garage;Garage Organization;OSH-Categories/Garage/c/osh3011;GarageLink;GarageLink
+;;TotesAndBinsLink;TotesAndBins;Totes and Bins;OSH-Categories/TotesAndBins/c/osh3108;TotesAndBinsLink;TotesAndBinsLink
+;;GarbageCansBagsAndBucketsLink;GarbageCansBagsAndBuckets;Garbage Cans, Bags and Buckets;OSH-Categories/GarbageCansBagsAndBuckets/c/osh3106;GarbageCansBagsAndBucketsLink;GarbageCansBagsAndBucketsLink
+;;CleaningLink;Cleaning;Cleaning;OSH-Categories/Cleaning/c/osh3032;CleaningLink;CleaningLink
+
+
+#3rd level links of Paint node
+#;;ExteriorPaintStainLink;ExteriorPaintStain;Exterior Paint & Stain;#;ExteriorPaintStainLink;ExteriorPaintStainLink
+#;;InteriorPaintStainLink;InteriorPaintStain;Interior Paint & Stain;#;InteriorPaintStainLink;InteriorPaintStainLink
+#;;PaintSolventsStrippersLink;PaintSolventsStrippers;Paint Solvents Or Strippers;#;PaintSolventsStrippersLink;PaintSolventsStrippersLink
+#;;PatchRepairLink;PatchRepair;Patch & Repair;#;PatchRepairLink;PatchRepairLink
+#;;PrimerLink;Primer;Primer;#;PrimerLink;PrimerLink
+#;;SprayPaintEnamelsLink;SprayPaintEnamels;Spray Paint and Enamels;#;SprayPaintEnamelsLink;SprayPaintEnamelsLink
+#;;ToolsSuppliesLink;ToolsSupplies;Tools & Supplies;#;ToolsSuppliesLink;ToolsSuppliesLink
+
+#3rd level links of Indoor node
+;;BathroomLink;Bathroom;Bathroom;OSH-Categories/Bathroom/c/osh3006;BathroomLink;BathroomLink
+;;KitchenLink;Kitchen;Kitchen;OSH-Categories/Kitchen/c/osh3004;KitchenLink;KitchenLink
+;;WaterFiltrationLink;WaterFiltration;Water Filtration;OSH-Categories/WaterFiltration/c/osh3081;WaterFiltrationLink;WaterFiltrationLink
+;;WaterHeatersLink;WaterHeaters;Water Heaters;OSH-Categories/WaterHeaters/c/osh3082;WaterHeatersLink;WaterHeatersLink
+
+#3rd level links of Rough Plumbling node
+;;PipesFittingsLink;PipesFittings;Pipes & Fittings;OSH-Categories/PipesFittings/c/osh3076;PipesFittingsLink;PipesFittingsLink
+;;PumpsLink;Pumps;Pumps;OSH-Categories/Pumps/c/osh3079;PumpsLink;PumpsLink
+;;PlumbingPartsRepairLink;PlumbingPartsRepair;Plumbing Parts Repair;OSH-Categories/PlumbingPartsRepair/c/osh3075;PlumbingPartsRepairLink;PlumbingPartsRepairLink
+
+#3rd level links of Cooling node
+#;;AirConditioningLink;AirConditioning;Air Conditioning;OSH-Categories/AirConditioning/c/osh00724;AirConditioningLink;AirConditioningLink
+;;FansLink;Fans;Fans;OSH-Categories/Fans/c/osh3156;FansLink;FansLink
+
+
+#3rd level links of Gas Line node
+#;;GasLineAccessoriesLink;GasLineAccessories;Gas Line Accessories;OSH-Categories/GasLineAccessories/c/osh00410;GasLineAccessoriesLink;GasLineAccessoriesLink
+#;;GasLineFittingsLink;GasLineFittings;Gas Line Fittings;OSH-Categories/GasLineFittings/c/osh00840;GasLineFittingsLink;GasLineFittingsLink
+#;;GasLineValvesLink;GasLineValves;Gas Line Valves;OSH-Categories/GasLineValves/c/osh00413;GasLineValvesLink;GasLineValvesLink
+#;;GasLinesLink;GasLines;Gas Lines;OSH-Categories/FGasLinesans/c/osh00316;GasLinesLink;GasLinesLink
+
+
+#3rd level links of Ventilation node
+;;BathFanAccessoriesLink;BathFanAccessories;Bath Fan Accessories;OSH-Categories/BathFanAccessories/c/osh3156;BathFanAccessoriesLink;BathFanAccessoriesLink
+#;;BathVentsLink;BathVents;Bath Vents;OSH-Categories/BathVents/c/osh00820;BathVentsLink;BathVentsLink
+#;;DeflectorsLink;Deflectors;Deflectors;OSH-Categories/Deflectors/c/osh00888;DeflectorsLink;DeflectorsLink
+#;;DustShieldPleatedFiltersLink;DustShieldPleatedFilters;Dust Shield Pleated Filters;OSH-Categories/DustShieldPleatedFilters/c/osh00864;DustShieldPleatedFiltersLink;DustShieldPleatedFiltersLink
+#;;FiberglassFiltersLink;FiberglassFilters;Fiberglass Filters;OSH-Categories/FiberglassFilters/c/osh00557;FiberglassFiltersLink;FiberglassFiltersLink
+#;;MicroAllergenFiltersLink;MicroAllergenFilters;Micro Allergen Filters;OSH-Categories/MicroAllergenFilters/c/osh00147;MicroAllergenFiltersLink;MicroAllergenFiltersLink
+#;;FloorRegistersLink;FloorRegisters;Floor Registers;OSH-Categories/FloorRegisters/c/osh00688;FloorRegistersLink;FloorRegistersLink
+#;;FurnaceFilterAccessoriesLink;FurnaceFilterAccessories;Furnace Filter Accessories;OSH-Categories/FurnaceFilterAccessories/c/osh00714;FurnaceFilterAccessoriesLink;FurnaceFilterAccessoriesLink
+;;RangeHoodAccessoriesLink;RangeHoodAccessories;Range Hood Accessories;OSH-Categories/RangeHoodAccessories/c/osh3084;RangeHoodAccessoriesLink;RangeHoodAccessoriesLink
+;;RangeHoodsLink;RangeHoods;Range Hoods;OSH-Categories/RangeHoods/c/osh3083;RangeHoodsLink;RangeHoodsLink
+#;;SpecialtyFiltersLink;SpecialtyFilters;Specialty Filters;OSH-Categories/SpecialtyFilters/c/osh00251;SpecialtyFiltersLink;SpecialtyFiltersLink
+#;;StovePipeLink;StovePipe;Stove Pipe;OSH-Categories/StovePipe/c/osh00824;StovePipeLink;StovePipeLink
+;;ThermostatsLink;Thermostats;Thermostats;OSH-Categories/Thermostats/c/osh3080;ThermostatsLink;ThermostatsLink
+#;;WallRegistersLink;WallRegisters;Wall Registers;OSH-Categories/WallRegisters/c/osh00205;WallRegistersLink;WallRegistersLink
+
+#3rd level links of Heaters & Fireplacesnode
+;;FireplacesLink;Fireplaces;Fireplaces;OSH-Categories/Fireplaces/c/osh3095;FireplacesLink;FireplacesLink
+;;HeatersLink;Heaters;Heaters;OSH-Categories/Heaters/c/osh3088;HeatersLink;HeatersLink
+
+#3rd level links of Air Filters
+
+;;PleatedLink;Pleated;Pleated;OSH-Categories/Pleated/c/osh3003;PleatedLink;PleatedLink
+
+#3rd level links of Drop Cloths, Sheeting & Tarps
+;;DropClothsLink;DropCloths;Drop Cloths;OSH-Categories/DropCloths/c/osh3138;DropClothsLink;DropClothsLink
+;;PolySheetingLink;PolySheeting;Poly Sheeting;OSH-Categories/PolySheeting/c/osh3139;PolySheetingLink;PolySheetingLink
+;;TarpsLink;Tarps;Tarps;OSH-Categories/Tarps/c/osh3140;TarpsLink;TarpsLink
+#;;MaskingPaper&FilmLink;MaskingPaper&Film;Masking Paper & Film;#;MaskingPaper&FilmLink;MaskingPaper&FilmLink;
+
+#3rd level links of Exterior Paint
+;;ExteriorFlatLink;ExteriorFlat;Flat;OSH-Categories/Flat/c/osh3022;ExteriorFlatLink;ExteriorFlatLink
+;;LowLustreLink;LowLustre;Low Lustre;OSH-Categories/LowLustre/c/osh3023;LowLustreLink;LowLustreLink
+#;;ExteriorSatinLink;ExteriorSatin;Satin;OSH-Categories/Satin/c/osh3121;ExteriorSatinLink;ExteriorSatinLink
+#;;SemiGlossLink;SemiGloss;Semi Gloss;OSH-Categories/SemiGloss/c/osh3122;SemiGlossLink;SemiGlossLink
+;;SoftGlossLink;SoftGloss;Soft Gloss;OSH-Categories/SoftGloss/c/osh3024;SoftGlossLink;SoftGlossLink
+
+#3rd level links of Ladders
+;;ExtensionLaddersLink;ExtensionLadders;Extension Ladders;OSH-Categories/ExtensionLadders/c/osh3128;ExtensionLaddersLink;ExtensionLaddersLink
+;;StepladdersLink;Stepladders;Stepladders;OSH-Categories/Stepladders/c/osh3129;StepladdersLink;StepladdersLink
+;;SpecialtyLaddersLink;SpecialtyLadders;Specialty Ladders;OSH-Categories/SpecialtyLadders/c/osh3057;SpecialtyLaddersLink;SpecialtyLaddersLink
+;;UtilityLaddersLink;UtilityLadders;Utility Ladders;OSH-Categories/UtilityLadders/c/osh3153;UtilityLaddersLink;UtilityLaddersLink
+;;StepStoolsLink;StepStools;Step Stools;OSH-Categories/StepStools/c/osh3058;StepStoolsLink;StepStoolsLink
+#;;LadderAccessoriesLink;LadderAccessories;Ladder Accessories;#;LadderAccessoriesLink;LadderAccessoriesLink
+
+#3rd level links of Paint Applicators & Tools
+;;PaintApplicatorsLink;PaintApplicators;Paint Applicators;OSH-Categories/PaintApplicators/c/osh3021;PaintApplicatorsLink;PaintApplicatorsLink
+;;ToolsLink;Tools;Tools;OSH-Categories/Tools/c/osh3117;ToolsLink;ToolsLink
+;;HeatGunsLink;HeatGuns;Heat Guns;OSH-Categories/HeatGuns/c/osh3118;HeatGunsLink;HeatGunsLink
+;;PowerPaintingLink;PowerPainting;Power Painting;OSH-Categories/PowerPainting/c/osh3152;PowerPaintingLink;PowerPaintingLink
+
+
+#3rd level links of Solvents, Strippers & Cleaners
+;;Mold&MildewControlLink;Mold&MildewControl;Mold & Mildew Control;OSH-Categories/Mold&MildewControl/c/osh3141;Mold&MildewControlLink;Mold&MildewControlLink;
+#;;StrippersLink;Strippers;Strippers;OSH-Categories/Strippers/c/osh3142;StrippersLink;StrippersLink;
+#;;SolventsLink;Solvents;Solvents;#;SolventsLink;SolventsLink
+#;;Cleaners&RemoversLink;Cleaners&Removers;Cleaners & Removers;#;Cleaners&RemoversLink;Cleaners&RemoversLink
+
+
+#3rd level links of Spray Paint
+;;RustPreventativeLinks;RustPreventative;Rust Preventative;OSH-Categories/RustPreventative/c/osh3143;RustPreventativeLinks;RustPreventativeLinks;
+#;;GeneralPurposeLink;GeneralPurpose;General Purpose;#;GeneralPurposeLink;GeneralPurposeLink
+#;;Traffic&MarkingLink;Traffic&Marking;Traffic & Marking;#;Traffic&MarkingLink;Traffic&MarkingLink
+;;Specialty&DecorativeLink;Specialty&Decorative;Specialty & Decorative;OSH-Categories/Specialty&Decorative/c/osh3089;Specialty&DecorativeLink;Specialty&DecorativeLink
+#;;AutomotiveLink;Automotive;Automotive;#;AutomotiveLink;AutomotiveLink
+#;;CraftPaint&PensLink;CraftPaint&Pens;Craft Paint & Pens;#;CraftPaint&PensLink;CraftPaint&PensLink
+#;;ClearCoatingsLink;ClearCoatings;Clear Coatings;#;ClearCoatingsLink;ClearCoatingsLink
+
+
+
+
+#3rd level links of Exterior Stain
+#;;StainingPrepLink;StainingPrep;Staining Prep;OSH-Categories/StainingPrep/c/osh3123;StainingPrepLink;StainingPrepLink;
+;;WaterproofersLink;Waterproofers;Waterproofers;OSH-Categories/Waterproofers/c/osh3124;WaterproofersLink;WaterproofersLink;
+;;DeckSiding&FenceStainsLink;DeckSiding&FenceStains;Deck, Siding & Fence Stains;OSH-Categories/DeckSiding&FenceStains/c/osh3025;DeckSiding&FenceStainsLink;DeckSiding&FenceStainsLink;
+#;;SealersLink;Sealers;Sealers;OSH-Categories/Sealers/c/;SealersLink;SealersLink
+
+
+#3rd level links of Caulking & Sealants
+;;FoamSealantsLink;FoamSealants;Foam Sealants;OSH-Categories/FoamSealants/c/osh3119;FoamSealantsLink;FoamSealantsLink;
+;;CaulkLink;Caulk;Caulk;OSH-Categories/Caulk/c/osh3120;CaulkLink;CaulkLink;
+#;;CaulkingGunsLink;CaulkingGuns;Caulking Guns;#;CaulkingGunsLink;CaulkingGunsLink
+#;;CaulkingStrips&BathtubSealersLink;CaulkingStrips&BathtubSealers;Caulking Strips & Bathtub Sealers;#;CaulkingStrips&BathtubSealersLink;CaulkingStrips&BathtubSealersLink
+
+
+
+#3rd level links of Tape
+;;DuctTapeLink;DuctTape;Duct Tape;OSH-Categories/DuctTape/c/osh3144;DuctTapeLink;DuctTapeLink;
+;;Packaging&ShippingTapeLink;Packaging&Shipping Tape;Packaging & Shipping Tape;OSH-Categories/Packaging&ShippingTape/c/osh3145;Packaging&ShippingTapeLink;Packaging&ShippingTapeLink;
+#;;MaskingTapeLink;MaskingTape;Masking Tape;#;MaskingTapeLink;MaskingTapeLink
+#;;GeneralPurposeTapeLink;GeneralPurposeTape;General Purpose Tape;#;GeneralPurposeTapeLink;GeneralPurposeTapeLink
+
+
+
+
+#3rd level links of Patch & Repair
+#;;DrywallRepairLink;DrywallRepair;Drywall Repair;OSH-Categories/DrywallRepair/c/osh3125;DrywallRepairLink;DrywallRepairLink;
+;;SpacklingPasteLink;SpacklingPaste;Spackling Paste;OSH-Categories/SpacklingPaste/c/osh3131;SpacklingPasteLink;SpacklingPasteLink;
+#;;All-PurposeFillersLink;All-PurposeFillers;All-Purpose Fillers;OSH-Categories/All-PurposeFillers/c/osh3132;All-PurposeFillersLink;All-PurposeFillersLink;
+;;TileRepairLink;TileRepair;Tile Repair;OSH-Categories/TileRepair/c/osh3133;TileRepairLink;TileRepairLink;
+;;TextureRepairLink;TextureRepair;Texture Repair;OSH-Categories/TextureRepair/c/osh3134;TextureRepairLink;TextureRepairLink;
+;;WallRepairLink;WallRepair;Wall Repair;OSH-Categories/WallRepair/c/osh3130;WallRepairLink;WallRepairLink;
+#;;Taping&PuttyKnivesLink;Taping&PuttyKnives;Taping & Putty Knives;OSH-Categories/Taping&PuttyKnives/c/osh3136;Taping&PuttyKnivesLink;Taping&PuttyKnivesLink;
+;;WoodRestorationLink;WoodRestoration;Wood Restoration;OSH-Categories/WoodRestoration/c/osh3137;WoodRestorationLink;WoodRestorationLink;
+#;;RoofRepairProductsLink;RoofRepairProducts;Roof Repair Products;OSH-Categories/RoofRepairProducts/c/osh3073;RoofRepairProductsLink;RoofRepairProductsLink;
+#;;WindowGlazingLink;WindowGlazing;Window Glazing;OSH-Categories/WindowGlazing/c;WindowGlazingLink;WindowGlazingLink
+#;;PlasterLink;Plaster;Plaster;OSH-Categories/Plaster/c;PlasterLink;PlasterLink
+#;;PorcelainRepairLink;PorcelainRepair;Porcelain Repair;;PorcelainRepairLink;PorcelainRepairLink
+
+#3rd level links of Adhesives
+;;ConstructionAdhesivesLink;ConstructionAdhesives;Construction Adhesives;OSH-Categories/ConstructionAdhesives/c/osh3111;ConstructionAdhesivesLink;ConstructionAdhesivesLink;
+;;ContactCementsLink;ContactCements;Contact Cements;OSH-Categories/ContactCements/c/osh3112;ContactCementsLink;ContactCementsLink;
+;;EpoxyGluesLink;EpoxyGlues;Epoxy Glues;OSH-Categories/EpoxyGlues/c/osh3113;EpoxyGluesLink;EpoxyGluesLink;
+;;GeneralPurposeGlues&SticksLink;GeneralPurposeGlues&Sticks;General Purpose Glues & Sticks;OSH-Categories/GeneralPurposeGlues&Sticks/c/osh3114;GeneralPurposeGlues&SticksLink;GeneralPurposeGlues&SticksLink;
+;;GlueGuns&AccessoriesLink;GlueGuns&Accessories;Glue Guns & Accessories;OSH-Categories/GlueGuns&Accessories/c/osh3115;GlueGuns&AccessoriesLink;GlueGuns&AccessoriesLink;
+;;WoodGluesLink;WoodGlues;Wood Glues;OSH-Categories/WoodGlues/c/osh3116;WoodGluesLink;WoodGluesLink;
+#;;SuperGlueLink;SuperGlue;Super Glue;;SuperGlueLink;SuperGlueLink
+#;;SprayGlueLink;SprayGlue;Spray Glue;#;SprayGlueLink;SprayGlueLink
+
+#3rd level links of Sandpaper & Abrasives
+;;SandpaperLink;Sandpaper;Sandpaper;OSH-Categories/Sandpaper/c/osh3109;SandpaperLink;SandpaperLink;
+#;;RefinishingPads&SteelWoolLink;RefinishingPads&SteelWool;Refinishing Pads & Steel Wool;OSH-Categories/RefinishingPads&SteelWool/c/osh3110;RefinishingPads&SteelWoolLink;RefinishingPads&SteelWoolLink;
+#;;Hand&PoleSandersLink;Hand&PoleSanders;Hand & Pole Sanders;OSH-Categories/Hand&PoleSanders/c/osh3135;Hand&PoleSandersLink;Hand&PoleSandersLink;
+#;;WireBrushesLink;WireBrushes;Wire Brushes;#;WireBrushesLink;WireBrushesLink
+
+#3rd level links of Primers
+;;Brush-OnPrimersLinks;Brush-OnPrimers;Brush-On Primers;OSH-Categories/Brush-OnPrimers/c/osh3031;Brush-OnPrimersLinks;Brush-OnPrimersLinks;
+#;;SprayPrimersLink;SprayPrimers;Spray Primers;OSH-Categories/SprayPrimers;SprayPrimersLink;SprayPrimersLink
+
+
+#3rd level links of Interior Paint
+#;;FoundationLink;Foundation;Foundation;OSH-Categories/Foundation/c/osh3125;FoundationLink;FoundationLink
+;;MatteLink;Matte;Matte;OSH-Categories/Matte/c/osh3026;MatteLink;MatteLink
+;;EggshellLink;Eggshell;Eggshell;OSH-Categories/Eggshell/c/osh3027;EggshellLink;EggshellLink
+#;;SatinLink;Satin;Satin;OSH-Categories/Satin/c/osh3028;SatinLink;SatinLink
+#;;InteriorPaintSemiGlossLink;InteriorPaintSemiGloss;Semi Gloss;OSH-Categories/InteriorPaintSemiGloss/c/osh3029;InteriorPaintSemiGlossLink;InteriorPaintSemiGlossLink
+;;InteriorFlatLink;InteriorFlat;Flat;OSH-Categories/Flat/c/osh3030;InteriorFlatLink;InteriorFlatLink
+
+#3rd level links of Interior Stains & Clears
+;;OilStainsLink;Oil Stains;Oil Stains;OSH-Categories/OilStains/c/osh3126;OilStainsLink;OilStainsLink
+;;Oils&ConditionersLink;Oils&Conditioners;Oils & Conditioners;OSH-Categories/Oils&Conditioners/c/osh3127;Oils&ConditionersLink;Oils&ConditionersLink
+#;;OilTopcoatsLink;OilTopcoats;Oil Topcoats;#;OilTopcoatsLink;OilTopcoatsLink
+#;;WaterbasedStainsLink;WaterbasedStains;Waterbased Stains;#;WaterbasedStainsLink;WaterbasedStainsLink
+#;;WaterbasedTopcoatsLink;WaterbasedTopcoats;Waterbased Topcoats;#;WaterbasedTopcoatsLink;WaterbasedTopcoatsLink
+#;;Shellac&LacquersLink;Shellac&Lacquers;Shellac & Lacquers;#;Shellac&LacquersLink;Shellac&LacquersLink
+#;;WoodFillersLink;WoodFillers;Wood Fillers;#;WoodFillersLink;WoodFillersLink
+
+
+
+
+#3rd level links of Tape
+#;;TapeLink;Tape;Tape;OSH-Categories/Tape/c/osh3148;TapeLink;TapeLink
+#;;AbrasivesLink;Abrasives;Abrasives;OSH-Categories/Abrasives/c/osh3154;AbrasivesLink;AbrasivesLink
+
+#3rd level links of 
+#;;SpecialtyPaintLink;SpecialtyPaint;Specialty Paint;OSH-Categories/SpecialtyPaint/c/osh3057;SpecialtyPaintLink;SpecialtyPaintLink
+
+
+
+
+INSERT_UPDATE CMSNavigationNode;uid[unique=true];$contentCV[unique=true];name;parent(uid, $contentCV);links(&componentRef);&nodeRef;url[lang=$lang]
+;oshSiteRootNode;;oshSiteRootNode;;;oshSiteRootNodel
+;oshNavNode;;OSH Site;oshSiteRootNode;;HomepageNavLink;oshNavNode
+
+# First Level Navigation Nodes For Navigation Bar
+;ToolsAndHardwareNavNode;;Tools and hardware navigation node;oshNavNode;;ToolsAndHardwareNavNode;#
+;OutDoorNavNode;;Out door navigation node;oshNavNode;;OutDoorNavNode;#
+;PaintNavNode;;Paint navigation node;oshNavNode;;PaintNavNode;#
+;HomeNavNode;;Home navigation node;oshNavNode;;HomeNavNode;#
+;HNCNavNode;;Healing & Cooling Nav Node;oshNavNode;;HNCNavNode;#
+;ElectricalNavNode;;Electrical navigation node;oshNavNode;;ElectricalNavNode;#
+;PlumbingNavNode;;Plumbing navigation node;oshNavNode;;PlumbingNavNode;#
+;HowToNavNode;;How-To Nav Node;oshNavNode;;HowToNavNode;#
+
+
+
+
+# secound Level Navigation Nodes of ToolsAndHardwareNavNode
+;HardwareNavNode;;Hardware;ToolsAndHardwareNavNode;LocksetsandHomeSecurityLink,CabinetHardwareLink,MoreHardwareLink,MailboxesAndAccessoriesLink,SafetyLink,AutomotiveAndGarageLink,MovingSuppliesLink;HardwareNavNode;"OSH-Categories/Hardware/c/osh2017"
+;BuildingMaterialsNavNode;;Building Materials;ToolsAndHardwareNavNode;ConcreteCementandMasonryLink,FastenersLink,FencingLink,RoofingAndGuttersLink,MoreBuildingMaterialsLink;BuildingMaterialsNavNode;"OSH-Categories/BuildingMaterials/c/osh2007"
+;ToolsNavNode;;Tools;ToolsAndHardwareNavNode;PowerToolsLink,PowerToolAccessoriesLink,AutoMechanicsToolsLink,HandToolsLink,MMAndLevelersLink,ToolStorageAndOrganizationLink,WeldingLink;ToolsNavNode;"OSH-Categories/Tools/c/osh2015"
+;WorkWearNavNode;;Work Wear;ToolsAndHardwareNavNode;AccessoriesLink,RainwearLink,WorkWearClothingLink;WorkWearNavNode;"OSH-Categories/WorkWear/c/osh2018"
+;BrandToolsNavNode;;Shop By Brand;ToolsAndHardwareNavNode;BlackAndDeckerToolsBrandLink,BoschLink,BrinksLink,CarharttLink,CraftsmanLink,DeWaltLink,DremelLink,IrwinLink,KwiksetLink,McGuireNicholasLink,RichelieuLink,SchlageLink,StanleyLink;BrandToolsNavNode;"OSH-Categories/"
+
+# secound Level Navigation Nodes of ElectricalNavNode
+;LightingAndFansNavNode;;Lighting & Fans;ElectricalNavNode;IndoorLightingLink,OutdoorLightingLink,CeilingFansLink,LightBulbsLink,PortableFansLink,LightingAccessoriesLink;LightingAndFansNavNode;"OSH-Categories/LightingAndFans/c/osh2006"
+;RoughElectricalNavNode;;Rough Electrical;ElectricalNavNode;BreakersAndFusesLink,SwitchesAndOutletsLink,Dimmers&TimersLinks,WallPlatesLink,ConnectorsAndFastenersLink,ElectricalToolsLink;RoughElectricalNavNode;"OSH-Categories/RoughElectrical/c/osh2008"
+;MoreElectricalNavNode;;More Electrical;ElectricalNavNode;BatteriesAndChargersLink,AudioAndVideoLink,ExtensionCordsLink,FlashlightsLanternsLink,DoorBellsLink;MoreElectricalNavNode;"OSH-Categories/MoreElectrical/c/osh2016"
+;BrandElectricalNavNode;;Shop By Brand;ElectricalNavNode;BelAirLightingLink,EnergizerLink,GeneralElectricLink,HunterLink,LevitonLink,RayovacLink,TCPLink,WestinghouseLink;BrandElectricalNavNode;"#"
+#;LightingAccessoriesNavNode;;Lighting Accessories;ElectricalNavNode;LightingAccessoriesIndoorLightingLink;LightingAccessoriesNavNode;"OSH-Categories/LightingAccessories/c/osh2021"
+
+# secound Level Navigation Nodes of OutDoorNavNode
+;LawnAndGardenNavNode;;Lawn & Garden;OutDoorNavNode;GardenToolsLink,AnimalAndPestControlLink,LawnAndPlantCareLink,LandscapeSuppliesLink,WateringLink,GardenDecorLink,GreenhousesLink,PlantersLink,PlantsBulbsAndSeedsLink;LawnAndGardenNavNode;"OSH-Categories/LawnAndGarden/c/osh2002"
+;OutdoorLivingNavNode;;Outdoor Living;OutDoorNavNode;PatioFurnitureLink,FlagsThermometersLink,PatioAccessoriesLink,HotTubsSaunasAndPoolsLink,BooksLinks,FuelsLinks,GazebosLink,GrillsAndOutdoorLink,BlindsAndAwningsLink,OutdoorHeatingLink,RecreationLink,BirdingLink,PetLink,OutdoorStorageLink;OutdoorLivingNavNode;"OSH-Categories/OutdoorLiving/c/osh2001"
+;OutdoorPowerEquipmentNavNode;;Outdoor Power Equipment;OutDoorNavNode;BlowersLink,ChainSawsLink,GeneratorsLink,TillersCultivatorsLink,PowerLawnTrimmersLink,EdgersLinks,PressureWashersLink,HedgeTrimmersLink,LawnMowersTractorsLink,MowerAccessoriesLink,ChippersShreddersLogLink;OutdoorPowerEquipmentNavNode;"OSH-Categories/OutdoorPowerEquipment/c/osh2014"
+;BrandOutdoorNavNode;;Shop By Brand;OutDoorNavNode;RealFlameOutBrandLink,DeltaOutBrandLink,OutdoorBlackAndDeckerOutBrandLink,CharBroilLink,CoronaLink,CraftsmansLink,FiskarsLink,ScottsLink,SuncastLink,ToroLink,WeberLink;BrandOutdoorNavNode;"OSH-Categories/BrandOutdoor"
+
+# secound Level Navigation Nodes of HomeNavNode
+;DecorNavNode;;Décor;HomeNavNode;FurnitureLink,RugsLink,DoormatsLink,WallDecorLink;DecorNavNode;"OSH-Categories/Decor/c/osh2019"
+;KitchenAndBathNavNode;;Kitchen & Bath;HomeNavNode;CanningPreservingLink,TablewareLink,BathAccessoriesLink,FoodStorageLink;KitchenAndBathNavNode;"OSH-Categories/KitchenAndBath/c/osh2027"
+;StorageOrganizationHousekeepingNavNode;;Storage,Organization, & Housekeeping;HomeNavNode;ClosetHouseholdLink,GarageLink,TotesAndBinsLink,GarbageCansBagsAndBucketsLink,CleaningLink;StorageOrganizationHousekeepingNavNode;"OSH-Categories/StorageOrganizationHousekeeping/c/osh2005"
+;BrandHomeNavNode;;Shop By Brand;HomeNavNode;BlackAndDeckerLink,BissellLink,CloroxLink,ClosetMaidLink,CoscoLink,GladiatorLink,RubbermaidLink,BBenMoenHomeBrandLink,SteriliteLink,CraftsmanHomeBrandLink,ArrowHomeBrandLink;BrandHomeNavNode;
+
+
+#Second level Navigation Nodes of PaintNavNode
+
+;DropClothsSheeting&TarpsNavNode;;Drop Cloths,Sheeting & Tarps;PaintNavNode;DropClothsLink,PolySheetingLink,TarpsLink;DropClothsSheeting&TarpsNavNode;"OSH-Categories/DropClothsSheeting&Tarps/c/osh2032"
+;ExteriorPaintNavNode;;Exterior Paint;PaintNavNode;ExteriorFlatLink,LowLustreLink,ExteriorSatinLink,SemiGlossLink,SoftGlossLink;ExteriorPaintNavNode;"OSH-Categories/ExteriorPaint/c/osh2010"
+;LaddersNavNode;;Ladders;PaintNavNode;ExtensionLaddersLink,StepladdersLink,SpecialtyLaddersLink,UtilityLaddersLink,StepStoolsLink;LaddersNavNode;"OSH-Categories/Ladders/c/osh2020"
+;PaintApplicators&ToolsNavNode;;Paint Applicators & Tools;PaintNavNode;PaintApplicatorsLink,ToolsLink,HeatGunsLink,PowerPaintingLink;PaintApplicators&ToolsNavNode;"OSH-Categories/PaintApplicators&Tools/c/osh2009"
+;SolventsStrippers&CleanersNavNode;;Solvents Strippers & Cleaners;PaintNavNode;Mold&MildewControlLink,StrippersLink;SolventsStrippers&CleanersNavNode;"OSH-Categories/SolventsStrippers&Cleaners/c/osh2033"
+;SprayPaintNavNode;;Spray Paint;PaintNavNode;RustPreventativeLinks,Specialty&DecorativeLink;SprayPaintNavNode;"OSH-Categories/SprayPaint/c/osh2026"
+;ExteriorStainNavNode;;Exterior Stain;PaintNavNode;DeckSiding&FenceStainsLink,StainingPrepLink,WaterproofersLink;ExteriorStainNavNode;"OSH-Categories/ExteriorStain/c/osh2011"
+;TapeNavNode;;Tape;PaintNavNode;DuctTapeLink,Packaging&ShippingTapeLink;TapeNavNode;"OSH-Categories/Tape/c/osh2034"
+;AdhesivesNavNode;;Adhesives;PaintNavNode;GeneralPurposeGlues&SticksLink,GlueGuns&AccessoriesLink,ConstructionAdhesivesLink,ContactCementsLink,WoodGluesLink,EpoxyGluesLink;AdhesivesNavNode;"OSH-Categories/Adhesives/c/osh2029"
+;Sandpaper&AbrasivesNavNode;;Sandpaper & Abrasives;PaintNavNode;SandpaperLink,Hand&PoleSandersLink,RefinishingPads&SteelWoolLink;Sandpaper&AbrasivesNavNode;"OSH-Categories/Sandpaper&Abrasives/c/osh2028"
+#;SprayPaintandEnamelsNavNode;;Spray Paint and Enamels;PaintNavNode;SpecialtyPaintLink;SprayPaintandEnamelsNavNode;"OSH-Categories/SprayPaintandEnamels/c/osh2017"
+;PrimersNavNode;;Primers;PaintNavNode;Brush-OnPrimersLinks;PrimersNavNode;"OSH-Categories/Primers/c/osh2013"
+;InteriorPaintNavNode;;Interior Paint;PaintNavNode;InteriorFlatLink,FoundationLink,MatteLink,EggshellLink,SatinLink,InteriorPaintSemiGlossLink;InteriorPaintNavNode;"OSH-Categories/InteriorPaint/c/osh2012"
+;InteriorStains&ClearsNavNode;;Interior Stains & Clears;PaintNavNode;OilStainsLink,Oils&ConditionersLink;InteriorStains&ClearsNavNode;"OSH-Categories/InteriorStains&Clears/c/osh2031"
+#;Tools&SuppliesNavNode;;Tools & Supplies;PaintNavNode;TapeLink,AbrasivesLink;Tools&SuppliesNavNode;"OSH-Categories/Tools&Supplies/c/osh2036"
+;Patch&RepairNavNode;;Patch & Repair;PaintNavNode;SpacklingPasteLink,All-PurposeFillersLink,TileRepairLink,Taping&PuttyKnivesLink,TextureRepairLink,WallRepairLink,WoodRestorationLink,RoofRepairProductsLink;Patch&RepairNavNode;"OSH-Categories/Patch&Repair/c/osh2022"
+;Caulking&SealantsNavNode;;Caulking & Sealants;PaintNavNode;FoamSealantsLink,CaulkLink;Caulking&SealantsNavNode;"OSH-Categories/Caulking&Sealants/c/osh2030"
+;BrandPaintNavNode;;Shop By Brand;PaintNavNode;BBenjaminMooreLink,PurdyLink,XtendAndClimbPaintBrandLink,CoscoPaintBrandLink,WagnerPaintBrandLink;BrandPaintNavNode;"#"
+
+
+
+
+#;PaintNavNode;;Paint;HomeNavNode;ExteriorPaintStainLink,InteriorPaintStainLink,PaintSolventsStrippersLink,PatchRepairLink,PrimerLink;PaintNavNode
+
+
+# secound Level Navigation Nodes of PlumbingNavNode 
+;IndoorNavNode;;Indoor;PlumbingNavNode;BathroomLink,KitchenLink,WaterFiltrationLink,WaterHeatersLink;IndoorNavNode;"OSH-Categories/Indoor/c/osh2004"
+;RoughPlumbingNavNode;;Rough Plumbing;PlumbingNavNode;PipesFittingsLink,PumpsLink,PlumbingPartsRepairLink;RoughPlumbingNavNode;"OSH-Categories/RoughPlumbing/c/osh2023"
+;BrandPlumbingNavNode;;Shop By Brand;PlumbingNavNode;AquaVistaLink,DanzeLink,DeltaLink,KenmoreLink,KohlerLink,KorkyLink,MoenLink,PfisterLink;BrandPlumbingNavNode;
+
+# secound Level Navigation Nodes of HNCNavNode 
+;CoolingNavNode;;Cooling;HNCNavNode;FansLink;CoolingNavNode;"OSH-Categories/Cooling/c/osh2035"
+#;GasLinesNavNode;;Gas Lines;HNCNavNode;GasLineAccessoriesLink,GasLineFittingsLink,GasLineValvesLink,GasLinesLink;GasLinesNavNode;"OSH-Categories/Gas-Lines/c/osh00318"
+;VentilationNavNode;;Ventilation;HNCNavNode;RangeHoodAccessoriesLink,RangeHoodsLink,BathFanAccessoriesLink,ThermostatsLink;VentilationNavNode;"OSH-Categories/Ventilation/c/osh2024"
+;HeatersAndFireplacesNavNode;;Heaters & Fireplaces;HNCNavNode;FireplacesLink,HeatersLink;HeatersAndFireplacesNavNode;"OSH-Categories/HeatersAndFireplaces/c/osh2025"
+;HeatingAndCoolingNavNode;;Shop By Brand;HNCNavNode;FiltreteLink,3MHNCBrandLink,RealFlameHNCBrandLink,VornadoHNCBrandLink;HeatingAndCoolingNavNode;#
+;AirFiltersNavNode;;Air Filters;HNCNavNode;PleatedLink;AirFiltersNavNode;"OSH-Categories/AirFilters/c/osh2003"
+
+
+# Navigation Bar Component
+INSERT_UPDATE OshNavBarComponent;$contentCV[unique=true];uid[unique=true];name;wrapAfter;link(uid, $contentCV);styleClass;&componentRef;navigationNode(&nodeRef);dropDownLayout(code);media(code,$contentCV)[lang=$lang]
+;;ToolsAndHardwareBarComponent;tools and hardware Bar Component;14;ToolsAndHardwarePageNavLink;;ToolsAndHardwareBarComponent;ToolsAndHardwareNavNode;RIGHT_EDGE;NavigationBarImage
+;;OutDoorNavBarComponent;outDoor Bar Component;14;OutDoorPageNavLink;;OutDoorNavBarComponent;OutDoorNavNode;LEFT_EDGE;NavigationBarImage
+;;PaintNavBarComponent;Paint Bar Component;10;PaintNavLink;;PaintNavBarComponent;PaintNavNode;LEFT_EDGE;NavigationBarImage
+;;HomeBarComponent;Home Bar Component;5;HomepageNavLink;;HomeBarComponent;HomeNavNode;RIGHT_EDGE;NavigationBarImage
+;;HNCBarComponent;healing and cooling Bar Component;10;HNCPageNavLink;;HNCBarComponent;HNCNavNode;RIGHT_EDGE;NavigationBarImage
+;;ElectricalBarComponent;Electrical Bar Component;10;ElectricalNavLink;;ElectricalBarComponent;ElectricalNavNode;LEFT_EDGE;NavigationBarImage
+;;PlumbingBarComponent;plumbing Bar Component;10;PlumbingPageNavLink;;PlumbingBarComponent;PlumbingNavNode;RIGHT_EDGE;NavigationBarImage
+;;HowtoBarComponent;How To Bar Component;10;How-ToNavLink;;HowtoBarComponent;HowToNavNode;RIGHT_EDGE;NavigationBarImage
+
+
+
+# Create Content Slots
+INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];name;active;cmsComponents(&componentRef)
+;;RightHomepageNavTopSlot;Right Homepage Header;true;WeeklyAdd,sale
+;;MiddleHomepageNavTopSlot;Middle Homepage Header;true;OshNumber
+;;LeftHomepageNavTopSlot;Left Homepage Header;true;ClubOrchardLinkforHeader
+;;RightHomepageNavBottomSlot;Your Account Header;true;ChangeStoreLink
+;;RightHeaderNavMiddleBottomSlot;Logout Header;true;LogoutLink
+;;MiddleHomepageNavBottomSlot;Middle Homepage Find Store Header;true;FindAStoreLink
+;;LeftHomepageNavBottomSlot;Left Homepage Header;true;YourAccountLink
+;;SiteLogoSlot;Default Site Logo Slot;true;SiteLogoImage
+;;HomepageNavLinkSlot;Search Section;true;
+;;MiniCartSlot;Mini Cart;true;MiniCartComp
+;;NavigationBarSlot;Navigation Bar;true;ToolsAndHardwareBarComponent,OutDoorNavBarComponent,PaintNavBarComponent,HomeBarComponent,HNCBarComponent,ElectricalBarComponent,PlumbingBarComponent,HowtoBarComponent
+;;SiteMap_TopSlot;Site Map Bar;true;ToolsAndHardwareBarComponent,OutDoorNavBarComponent,PaintNavBarComponent,HomeBarComponent,HNCBarComponent,ElectricalBarComponent,PlumbingBarComponent,HowtoBarComponent
+;;GlobalSectionSlot;ES_Global;true;GlobalBannerComponent
+;;CheckoutRightBannerSlot;ES_Checkout_Right;true;RightBannerComponent
+;;CatagoryNameSectionSlot;CatagoryNameSection;true;CategoryTopBannerComponent
+;;HomeTopSectionSlot;ES_HOME_TOP;true;oshRotatingImagesComponent
+;;HomeMidLeftSectionSlot;ES_HOME_MID_LEFT;true;HomeMidLeftBannerComponent
+;;HomeMidRightSectionSlot;ES_HOME_MID_RIGHT;true;HomeMidRightBannerComponent
+;;HomeBtmRightSectionSlot;ES_HOME_BTM_RIGHT;true;HomeBtmRightBannerComponent
+;;HomeBtmMidSectionSlot;ES_HOME_BTM_MID;true;HomeBtmMidBannerComponent
+;;HomeBtmLeftSectionSlot;ES_HOME_BTM_LEFT;true;HomeBtmLeftBannerComponent
+;;MostPopularSectionSlot;Most Popular Section;true
+;;FooterSectionSlot;FooterSection;true;FooterComponent
+;;ES_HowToSectionSlot;ES_HowToSection;true;CategoryEs_HowBanner
+;;ES_ProjectGuidesSectionSlot;ES_ProjectGuidesSection;true;CategoryEs_ProjectGuideBanner 
+;;ES_CatagorySaleSectionSlot;ES_CatagorySaleSection;true;CategoryEs_CategorySaleBanner
+;;ES_CatagorySeoSectionSlot;ES_CatagorySeoSection;true;CategoryES_CatagorySeoBanner
+;;ES_BrandNameSectionSlot;ES_BrandNameSection;true
+;;ES_BrandSeoSectionSlot;ES_BrandSeoSection;true;CategoryES_BrandSeoBanner
+;;ViewAllCatagorySectionSlot;ViewAllCatagorySection;true
+;;MostPopularProductSectionSlot;MostPopularProductSection;true
+;;SubCatagoryNameSectionSlot;SubCatagoryNameSectionSlot;true;CategoryTopBannerComponent
+;;PDPBuyOnlinePickupSlot;PDP BuyOnline Pickup image;true;PDPBuyOnlinePickupBannerComponent
+;;ES_PDPRightSlot;ES_PDPRight;true;ProductEs_RightBanner
+;;SizeChartSlot;Size Chart;true;SizeChartBanner
+;;PDPVendorCraftsmanSlot;PDP Description Tab image;true;PDPVendorCraftsmanBannerComponent
+;;PDPCraftsManTxtSlot;PDP Crafts Man Text;true;PDPCraftsManTxtParagraphComponent
+;;SideContentSlot;Side Image;true;SearchEmptyImageBannerComponent
+;;BottomContentSlot;Bottom Image;true;SearchEmptyBottomImageBannerComponent
+;;MiddleContentSlot;Middle Slot for searchEmpty;true;NoSearchResultsParagraphComponent
+;;ES_Search_LeftSectionSlot;ES_Search_Left;true;SearchNeedImageBannerComponent
+;;CheckoutSummaryRightSlot;SummaryRight;true;CheckoutSummaryRightBanner
+;;home_cms_paragraphSlot;Body Section;true;home_cms_paragraphComponent
+###########################CheckOut Login Page Entries################################
+;;CheckoutFooterLeftSlot;Checkout Footer Left Slot;true;CheckOutFooterTxt
+;;CheckoutFooterRightSlot;Checkout Footer Right Slot;true;CheckoutTrustLogoImage
+;;CheckoutSiteLogoSlot;Checkout Site Logo Slot;true;SiteLogoImage
+;;CheckoutRightSlot;Checkout Number;true;CheckOutLoginTxt
+;;CheckoutSideSlot;Checkout Side Slot;true;
+###########################Ends CheckOut Login Page Entries###########################
+###########################StoreLocator Page ENtries ##################################
+;;LowerBannerSlot;Lower Banner Slot;true;LowerStoreLocatorBannerComponent
+;;StoreFinderSlot;StoreFinderSlot;true;storeLocatorRightContent
+;;LeftBannerComponentSlot;LeftBannerComponentSlot;true;StoreLocatorLeftBannerComponent
+;;ES_GlobleSlot;ES_GlobleSlot;true;ES_GlobleBannerComponent
+;;ShareBarSlot;ShareBarSlot;true;
+;;ES_StoreLocatorSlot;ES_StoreLocatorSlot;true;ES_StoreLocatorBannerComponent
+;;ES_SearchBottomSlot;ES_SearchBottomSlot;true;SearchBannerBottomComponent
+;;ES_StoreLocator_TopSlot;ES_StoreLocator_TopSlot;true;StoreBannerTopComponent
+;;ES_StoreLocator_Slot;ES_StoreLocator_Slot;true;StoreBannerDownComponent
+;;BlankPageSectionSlot;Blank Page Section;true;
+###########################StoreLocator Page ENtries ENDS ##################################
+
+################################Account Home Page Entries###########################################
+;;AccountBottomSlot;AccountBottomSlot;true;accountBottomTextContent
+;;WishList_TopSlot;WishList_TopSlot;true;StoreBannerTopComponent
+################################Account Home Page Entries Ended###########################################
+
+###############################Order Conformation page Entries Started##################################################
+;;ES_PasswordPolicySlot;ES_PasswordPolicySlot;true;SearchNeedImageBannerComponent
+;;ES_ClubOrchardSlot;ES_ClubOrchardSlot;true;CheckoutSideImageBannerComponent
+###############################Order Conformation page Entries Ended##################################################
+;;ErrorContentSlot;Error_Content_Slot;true;errorPageContent
+
+# CMS ProductReferences Components
+INSERT_UPDATE ProductReferencesComponent;$contentCV[unique=true];uid[unique=true];name;productReferenceType(code);maximumNumberProducts;&componentRef
+;;Similar;Similar;SIMILAR;5;Similar
+
+# Content Slots
+INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];name;active;cmsComponents(&componentRef)
+;;CrossSellSlot;Cross Sell PDP;true;Similar
+;;ImageSlot;Image Slot;true;ContactUsImage

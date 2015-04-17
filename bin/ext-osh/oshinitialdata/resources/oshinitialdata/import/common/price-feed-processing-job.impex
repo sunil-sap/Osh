@@ -1,0 +1,5 @@
+INSERT_UPDATE CronJob; code[unique=true];job(code);singleExecutable;sessionLanguage(isocode)
+;Pricefeedjob;priceFeedProcessingCronjob;false;en
+
+INSERT_UPDATE Trigger;cronJob(code)[unique=true];active;activationTime[dateformat=yyyy-mm-dd HH:mm:ss];year;month;day;hour;minute;second;relative;maxAcceptableDelay;cronExpression
+;Pricefeedjob;true;2014-06-20 10:00:00;-1;-1;1;-1;-1;0;true;10	

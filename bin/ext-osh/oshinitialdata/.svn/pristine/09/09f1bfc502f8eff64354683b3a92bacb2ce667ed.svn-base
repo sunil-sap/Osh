@@ -1,0 +1,6 @@
+
+INSERT_UPDATE ServicelayerJob;code[unique=true];springId
+;RemoveArchiveFoldersFromSftpCronjob;removeArchiveFoldersFromSftpCronjob;
+
+INSERT_UPDATE CronJob; code[unique=true];job(code);singleExecutable;sessionLanguage(isocode)
+;RemoveArchiveFoldersFromSftpCronjob;RemoveArchiveFoldersFromSftpCronjob;false;en

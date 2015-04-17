@@ -1,0 +1,70 @@
+#
+# Import the CMS content for the Osh site
+#
+$contentCatalog=oshContentCatalog
+$contentCV=catalogVersion(CatalogVersion.catalog(Catalog.id[default=$contentCatalog]),CatalogVersion.version[default=Staged])[default=$contentCatalog:Staged]
+$jarResourceCms=jar:com.hybris.osh.core.setup.CoreSystemSetup&/oshcore/import/cockpits/cmscockpit
+$siteResource=jar:com.hybris.osh.initialdata.setup.InitialDataSystemSetup&/oshinitialdata/import/contentCatalogs/$contentCatalog
+$picture=media(code, $contentCV);
+$lang=en
+# These define sets of components that can fit into similar slots
+$wideContent=CMSImageComponent,SimpleBannerComponent,BannerComponent,ImageMapComponent,RotatingImagesComponent,ProductCarouselComponent,CMSParagraphComponent
+$narrowContent=ProductFeatureComponent,CategoryFeatureComponent,CMSImageComponent,SimpleBannerComponent,BannerComponent,ImageMapComponent,RotatingImagesComponent,ProductCarouselComponent,CMSParagraphComponent
+$productCV=catalogVersion(catalog(id[default=$productCatalog]),version[default='Staged'])[unique=true,default=$productCatalog:Staged]
+# Create PageTemplates
+# These define the layout for pages
+# "FrontendTemplateName" is used to define the JSP that should be used to render the page for pages with multiple possible layouts.
+# "RestrictedPageTypes" is used to restrict templates to page types
+
+
+INSERT_UPDATE PageTemplate;$contentCV[unique=true];uid[unique=true];name;frontendTemplateName;restrictedPageTypes(code);active[default=true]
+;;OrderConfirmationPageTemplate;OrderConfirmationPage;checkout/checkoutConfirmationPage;ContentPage
+
+
+# Add Velocity templates that are in the CMS Cockpit. These give a better layout for editing pages
+# The FileLoaderValueTranslator loads a File into a String property. The templates could also be inserted in-line in this file.
+UPDATE PageTemplate;$contentCV[unique=true];uid[unique=true];velocityTemplate[translator=de.hybris.platform.commerceservices.impex.impl.FileLoaderValueTranslator]
+;;OrderConfirmationPageTemplate;$jarResourceCms/structure-view/structure_orderConfirmationPageTemplate.vm
+########################################################Order Confirmation Page##################
+
+INSERT_UPDATE ContentSlotName;name[unique=true];template(uid,$contentCV)[unique=true][default='OrderConfirmationPageTemplate'];validComponentTypes(code)
+;RightHeaderNavTop;;OshLinkComponent,CMSParagraphComponent
+;MiddleHeaderNavTop;;OshLinkComponent,CMSParagraphComponent
+;LeftHeaderNavTop;;OshLinkComponent,CMSParagraphComponent
+;RightHeaderNavBottom;;OshLinkComponent,CMSParagraphComponent
+;RightHeaderNavMiddleBottom;;OshLinkComponent,CMSParagraphComponent
+;MiddleHeaderNavBottom;;OshLinkComponent,CMSParagraphComponent
+;LeftHeaderNavBottom;;OshLinkComponent,CMSParagraphComponent
+;SiteLogo;;CMSImageComponent,BannerComponent
+;HeaderLinks;;CMSLinkComponent,CMSParagraphComponent
+;MiniCart;;MiniCartComponent
+;NavigationBar;;NavigationBarComponent
+;GlobalSection;;$wideContent
+;RightBannerSection;;CMSImageComponent,BannerComponent
+;FooterSection;;FooterComponent
+;ES_PasswordPolicySection;;CMSImageComponent,BannerComponent
+;ES_ClubOrchardSection;;CMSImageComponent,BannerComponent
+
+INSERT_UPDATE ContentSlotForTemplate;$contentCV[unique=true];uid[unique=true];position[unique=true];pageTemplate(uid,$contentCV)[unique=true][default='OrderConfirmationPageTemplate'];contentSlot(uid,$contentCV)[unique=true];allowOverwrite
+;;RightHomepageNavTop-OrderConfirmationPage;RightHeaderNavTop;;RightHomepageNavTopSlot;true
+;;MiddleHomepageNavTop-OrderConfirmationPage;MiddleHeaderNavTop;;MiddleHomepageNavTopSlot;true
+;;LeftHomepageNavTop-OrderConfirmationPage;LeftHeaderNavTop;;LeftHomepageNavTopSlot;true
+;;RightHomepageNav-OrderConfirmationPage;RightHeaderNavBottom;;RightHomepageNavBottomSlot;true
+;;RightHeaderNavMiddleBottomNav-OrderConfirmationPage;RightHeaderNavMiddleBottom;;RightHeaderNavMiddleBottomSlot;true
+;;MiddleHomepageNav-OrderConfirmationPage;MiddleHeaderNavBottom;;MiddleHomepageNavBottomSlot;true
+;;LeftHomepageNav-OrderConfirmationPage;LeftHeaderNavBottom;;LeftHomepageNavBottomSlot;true
+;;SiteLogo-OrderConfirmationPage;SiteLogo;;SiteLogoSlot;true
+;;HomepageLink-OrderConfirmationPage;HeaderLinks;;HomepageNavLinkSlot;true
+;;NavigationBar-OrderConfirmationPage;NavigationBar;;NavigationBarSlot;true
+;;MiniCart-OrderConfirmationPage;MiniCart;;MiniCartSlot;true
+;;GlobalSection-OrderConfirmationPage;GlobalSection;;GlobalSectionSlot;true
+;;ES_ClubOrchardSection-OrderConformationPage;ES_ClubOrchardSection;;ES_ClubOrchardSlot;true
+;;ES_PasswordPolicySection-OrderConformationPage;ES_PasswordPolicySection;;ES_PasswordPolicySlot;true
+;;CheckoutRight-OrderConfirmationPage;RightBannerSection;;CheckoutRightBannerSlot;true
+;;FooterSectionSlot-OrderConfirmationPage;FooterSection;;FooterSectionSlot;true
+
+INSERT_UPDATE ContentPage;$contentCV[unique=true];uid[unique=true];name;masterTemplate(uid,$contentCV);label;defaultPage;approvalStatus(code)[default='approved'];title
+;;OrderConfirmationPage;Order Confirmation Page;OrderConfirmationPageTemplate;orderConfirmation;true;;Order Confirmation Page
+
+#INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];name;active;cmsComponents(&componentRef)
+#;;CheckoutRightBannerSlot;Checkout Right Banner;true;

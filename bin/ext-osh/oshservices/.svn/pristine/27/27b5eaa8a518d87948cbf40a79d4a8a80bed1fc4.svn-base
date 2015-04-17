@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ [y] hybris Platform
+
+ Copyright (c) 2000-2012 hybris AG
+ All rights reserved.
+
+ This software is the confidential and proprietary information of hybris
+ ("Confidential Information"). You shall not disclose such Confidential
+ Information and shall use it only in accordance with the terms of the
+ license agreement you entered into with hybris.
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:int="http://www.springframework.org/schema/integration"
+	xmlns:file="http://www.springframework.org/schema/integration/file"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd
+		http://www.springframework.org/schema/integration/file http://www.springframework.org/schema/integration/file/spring-integration-file-2.1.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- Transformer converters mappings for NEW product-->
+		  
+	<bean id="oshStagedBaseProductConverterMapping" 
+		  class="de.hybris.platform.acceleratorservices.dataimport.batch.converter.mapping.impl.DefaultConverterMapping" 
+		  p:mapping="catalog" 
+		  p:converter-ref="oshBaseProductConverterForStagedVersion"/>
+		  
+	<!-- <bean id="oshOnlineBaseProductConverterMapping" 
+		  class="de.hybris.platform.acceleratorservices.dataimport.batch.converter.mapping.impl.DefaultConverterMapping" 
+		  p:mapping="catalog" 
+		  p:converter-ref="oshBaseProductConverterForOnlineVersion"/>	 -->  
+		  			  	  	
+	<bean id="oshStagedVariantProductConverterMapping" 
+		  class="de.hybris.platform.acceleratorservices.dataimport.batch.converter.mapping.impl.DefaultConverterMapping" 
+		  p:mapping="catalog" 
+		  p:converter-ref="oshVariantProductConverterForStagedVersion"/>
+		  
+   <!-- <bean id="oshOnlineVariantProductConverterMapping" 
+		  class="de.hybris.platform.acceleratorservices.dataimport.batch.converter.mapping.impl.DefaultConverterMapping" 
+		  p:mapping="catalog" 
+		  p:converter-ref="oshVariantProductConverterForOnlineVersion"/> -->
+		  		  	  	  	
+	<!-- NEW product specific converters -->
+	
+	<bean id="oshBaseProductConverterForStagedVersion" class="com.hybris.osh.services.dataimport.batch.converter.impl.OshImpexConverter">
+		<property name="fieldSeperator" value="|"/>
+		<property name="linesToSkip" value="0"/>
+		<property name="header">
+			<!-- make sure to fix the header if there is a change in the header in products.impex -->
+			<value>#{oshImpexProductHeader}
+				$approved=approvalstatus(code)[default='approved']
+				$availablityIn=availabilityInd(code)[default='S']
+				$catalogVersion=catalogversion(catalog(id[default=oshProductCatalog]),version[default='Staged'])[unique=true,default='$productCatalog:Staged']
+				$supercategories=supercategories(code, $catalogVersion)
+				INSERT_UPDATE Product;code[unique=true];name[lang=en];varianttype(code);description[lang=en];summary[lang=en];manufacturerName;minOrderQuantity;mapPriceFlag;approvalStatus(code);availabilityInd(code);$catalogVersion
+			</value>
+		</property>
+		<property name="impexRow">
+			<value>;B-{+0};{1};OshVariantProduct;{5};{1};{14};{16};{s112};{p57};{q128};;</value>
+		</property>
+		<property name="userService" ref="userService"/>
+		<property name="customColumnTranslators">
+			<map>
+				<entry key="p" value-ref="approvedStatusTranslator"/>
+				<entry key="q" value-ref="availabilityIndTranslator"/>
+				<entry key="s" value-ref="mapPriceTranslator"/>
+			</map>
+		</property>	
+	</bean>
+	
+	
+	<!-- <bean id="oshBaseProductConverterForOnlineVersion" class="com.hybris.osh.services.dataimport.batch.converter.impl.OshImpexConverter">
+		<property name="fieldSeperator" value="|"/>
+		<property name="linesToSkip" value="0"/>
+		<property name="header">
+			make sure to fix the header if there is a change in the header in products.impex
+			<value>#{oshImpexProductHeader}
+				$approved=approvalstatus(code)[default='approved']
+				$availablityIn=availabilityInd(code)[default='S']
+				$catalogVersion=catalogversion(catalog(id[default=oshProductCatalog]),version[default='Online'])[unique=true,default='$productCatalog:Online']
+				$supercategories=supercategories(code, $catalogVersion)
+				INSERT_UPDATE Product;code[unique=true];name[lang=en];varianttype(code);description[lang=en];summary[lang=en];manufacturerName;minOrderQuantity;mapPriceFlag;approvalStatus(code);availabilityInd(code);$catalogVersion
+			</value>
+		</property>
+		<property name="impexRow">
+			<value>;B-{+0};{1};OshVariantProduct;{5};{1};{14};{16};{s112};{p57};{q128};;</value>
+		</property>
+		<property name="userService" ref="userService"/>
+		<property name="customColumnTranslators">
+			<map>
+				<entry key="p" value-ref="approvedStatusTranslator"/>
+				<entry key="q" value-ref="availabilityIndTranslator"/>
+				<entry key="s" value-ref="mapPriceTranslator"/>
+			</map>
+		</property>	
+	</bean> -->
+	
+	 <bean id="oshVariantProductConverterForStagedVersion" class="com.hybris.osh.services.dataimport.batch.converter.impl.OshImpexConverter">
+		<property name="fieldSeperator" value="|"/>
+		<property name="linesToSkip" value="0"/>
+		<property name="header">
+			<!--  make sure to fix the header if there is a change in the header in products.impex-->
+			<value>#{oshImpexProductHeader}
+				$availablityIn=availabilityInd(code)[default='S']
+				$productCatalog=oshProductCatalog
+			    $catalogVersion=catalogversion(catalog(id[default=oshProductCatalog]),version[default='Staged'])[unique=true,default='$productCatalog:Staged']
+				$supercategories=supercategories(code, $catalogVersion)
+				$baseProduct=baseProduct(code, catalogVersion(catalog(id[default='$productCatalog']),version[default='Staged']))
+				INSERT_UPDATE OshVariantProduct;code[unique=true];name[lang=en];$baseProduct;unit(code);approvalStatus(code);$catalogVersion;weight;availabilityInd(code);mapPriceFlag
+			</value>
+		</property>
+		<property name="impexRow">
+			<value>;{+0};{1};B-{0};pieces;{p57};;{r17};{q128};{s112}</value>
+		</property>
+		<property name="userService" ref="userService"/>
+		<property name="customColumnTranslators">
+			<map>
+				<entry key="p" value-ref="approvedStatusTranslator"/>
+				<entry key="q" value-ref="availabilityIndTranslator"/>
+				<entry key="r" value-ref="oshDotToCommaTranslator"/>
+				<entry key="s" value-ref="mapPriceTranslator"/>			
+			</map>
+		</property>
+	</bean>
+	
+	<!--  <bean id="oshVariantProductConverterForOnlineVersion" class="com.hybris.osh.services.dataimport.batch.converter.impl.OshImpexConverter">
+		<property name="fieldSeperator" value="|"/>
+		<property name="linesToSkip" value="0"/>
+		<property name="header">
+			 make sure to fix the header if there is a change in the header in products.impex
+			<value>#{oshImpexProductHeader}
+				$availablityIn=availabilityInd(code)[default='S']
+				$productCatalog=oshProductCatalog
+				$catalogVersion=catalogversion(catalog(id[default=oshProductCatalog]),version[default='Online'])[unique=true,default='$productCatalog:Online']
+				$supercategories=supercategories(code, $catalogVersion)
+				$baseProduct=baseProduct(code, catalogVersion(catalog(id[default='$productCatalog']),version[default='Staged']))
+				INSERT_UPDATE OshVariantProduct;code[unique=true];name[lang=en];$baseProduct;unit(code);approvalStatus(code);$catalogVersion;weight;availabilityInd(code);mapPriceFlag
+			</value>
+		</property>
+		<property name="impexRow">
+			<value>;{+0};{1};B-{0};pieces;{p57};;{r17};{q128};{s112}</value>
+		</property>
+		<property name="userService" ref="userService"/>
+		<property name="customColumnTranslators">
+			<map>
+				<entry key="p" value-ref="approvedStatusTranslator"/>
+				<entry key="q" value-ref="availabilityIndTranslator"/>
+				<entry key="r" value-ref="oshDotToCommaTranslator"/>
+				<entry key="s" value-ref="mapPriceTranslator"/>			
+			</map>
+		</property>
+	</bean> -->
+			
+
+	
+	
+	<bean id="approvedStatusTranslator" class="com.hybris.osh.services.dataimport.batch.translator.ApprovedStatusTranslator"/>
+	<bean id="availabilityIndTranslator" class="com.hybris.osh.services.dataimport.batch.translator.AvailabilityIndTranslator"/>
+	<bean id="oshDotToCommaTranslator" class="com.hybris.osh.services.dataimport.batch.translator.OshDotToCommaTranslator"/>
+	<bean id="mapPriceTranslator" class="com.hybris.osh.services.dataimport.batch.translator.MapPriceTranslator"/>
+	
+</beans>

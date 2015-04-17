@@ -1,0 +1,5 @@
+INSERT_UPDATE CronJob; code[unique=true];job(code);singleExecutable;sessionLanguage(isocode)
+;dropshipFeedProcessingCronjob;dropshipFeedProcessingCronjob;false;en
+ 
+INSERT_UPDATE Trigger;cronJob(code)[unique=true];active;activationTime[dateformat=yyyy-mm-dd HH:mm:ss];year;month;day;hour;minute;second;relative;maxAcceptableDelay
+;dropshipFeedProcessingCronjob;true;2013-06-18 00:00:00;-1;-1;-1;1;-1;0;true;10	

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<editor>	
+	<group qualifier="editorial" visible="true" initially-opened="true">
+		<label key="config.general.editorial" />
+		<property qualifier="OshImageTextComponent.content" editor="wysiwyg"/>
+		<property qualifier="OshImageTextComponent.media" editor="simpleMediaReferenceSelector">
+		<parameter>
+				<name>mimeTypes</name>
+				<value>
+					image/jpeg;image/gif
+				</value>
+			</parameter>
+			<parameter>
+				<name>allowCreate</name>
+				<value>true</value>
+			</parameter>
+		<parameter>
+				<name>restrictToCreateTypes</name>
+				<value>Media</value>
+			</parameter>
+			<parameter>
+				<name>celumMediaFormat</name>
+				<value>picture</value>
+			</parameter>
+		</property>
+	</group>
+</editor>

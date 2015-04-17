@@ -1,0 +1,4 @@
+# ImpEx for Importing Supplier Media
+
+# Macros / Replacement Parameter definitions
+$productCatalog=oshProductCatalog

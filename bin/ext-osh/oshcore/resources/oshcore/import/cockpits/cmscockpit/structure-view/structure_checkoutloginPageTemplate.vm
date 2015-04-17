@@ -1,0 +1,39 @@
+<div>
+	<table width="100%" cellspacing="0" style="margin:0;padding:0;table-layout:auto;border:1px solid #1E4EBF;">
+		<tbody>
+			<tr>
+				<td colspan="2" width="50%" height="100px"  class="structureViewSection">
+					<cockpit code="CheckoutSiteLogo" />
+				</td>
+				
+				<td width="50%" height="100px" class="structureViewSection">
+					<cockpit code="CheckoutRight" />
+				</td>
+			</tr>
+			<tr>
+				<td colspan="4" height="58px" style="vertical-align:middle;" class="structureViewSection">
+					<div>Breadcrumb</div>
+				</td>
+			</tr>
+			<tr>
+				<td width="15%" height="100px" class="structureViewSection">
+					<cockpit code="SideContent" />
+				</td>
+				<td colspan="3" rowspan="1" height="300px" style="vertical-align:middle;" class="structureViewSection">
+					<div>Login data</div>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2" height="250px" style="vertical-align:top;" class="structureViewSection">
+					<cockpit code="CheckoutFooterLeft" />
+				</td>
+				<td colspan="2" height="250px" style="vertical-align:top;" class="structureViewSection">
+					<cockpit code="CheckoutFooterRight" />
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<div style="width:100%; border-top: 2px solid #bbb" class="cmsContentEditor">
+		<cockpit code="editor" />
+	</div>
+</div>

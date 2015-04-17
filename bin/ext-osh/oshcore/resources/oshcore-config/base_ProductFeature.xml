@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<base>
+	<search>
+		<search-properties>
+			<property qualifier="ProductFeature.qualifier"/>
+			<property qualifier="ProductFeature.product"/>
+			<property qualifier="ProductFeature.value"/>
+		</search-properties>
+		<sort-properties>
+			<property qualifier="ProductFeature.qualifier"/>
+			<property qualifier="ProductFeature.product"/>
+		</sort-properties>
+	</search>
+	<label>
+		<property qualifier="ProductFeature.qualifier"/>
+	</label>
+</base>

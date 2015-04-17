@@ -1,0 +1,10 @@
+#
+# Import the Osh Content Catalog
+#
+# ENGLISH LOCALIZATION
+#
+$lang=en
+$contentCatalog=oshContentCatalog
+ 
+UPDATE ContentCatalog;id[unique=true];name[lang=$lang];
+;$contentCatalog;"osh Content Catalog"

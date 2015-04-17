@@ -1,0 +1,123 @@
+#
+# Import the CMS content for the Osh site
+#
+$contentCatalog=oshContentCatalog
+$contentCV=catalogVersion(CatalogVersion.catalog(Catalog.id[default=$contentCatalog]),CatalogVersion.version[default=Staged])[default=$contentCatalog:Staged]
+$jarResourceCms=jar:com.hybris.osh.core.setup.CoreSystemSetup&/oshcore/import/cockpits/cmscockpit
+$siteResource=jar:com.hybris.osh.initialdata.setup.InitialDataSystemSetup&/oshinitialdata/import/contentCatalogs/$contentCatalog
+$picture=media(code, $contentCV);
+$lang=en
+# These define sets of components that can fit into similar slots
+$wideContent=CMSImageComponent,SimpleBannerComponent,BannerComponent,ImageMapComponent,RotatingImagesComponent,ProductCarouselComponent,CMSParagraphComponent
+$narrowContent=ProductFeatureComponent,CategoryFeatureComponent,CMSImageComponent,SimpleBannerComponent,BannerComponent,ImageMapComponent,RotatingImagesComponent,ProductCarouselComponent,CMSParagraphComponent
+$productCV=catalogVersion(catalog(id[default=$productCatalog]),version[default='Staged'])[unique=true,default=$productCatalog:Staged]
+# Create PageTemplates
+# These define the layout for pages
+# "FrontendTemplateName" is used to define the JSP that should be used to render the page for pages with multiple possible layouts.
+# "RestrictedPageTypes" is used to restrict templates to page types
+
+
+###################################################### PageTemplate ######################################################
+INSERT_UPDATE PageTemplate;$contentCV[unique=true];uid[unique=true];name;frontendTemplateName;restrictedPageTypes(code);active[default=true];velocityTemplate[translator=de.hybris.platform.commerceservices.impex.impl.FileLoaderValueTranslator]
+
+;;OshLandingPageTemplate;Osh Landing Page Template;layout/oshLandingPageTemplate;ContentPage;;$jarResourceCms/structure-view/structure_oshLandingPageTemplate.vm
+
+################################### CONTENT PAGE####################################################
+INSERT_UPDATE ContentPage;$contentCV[unique=true];uid[unique=true];name;masterTemplate(uid,$contentCV);label;defaultPage[default='true'];approvalStatus(code)[default='approved'];homepage[default='false']
+#;;landingPageTemplate;Base Template for all the Landing Pages;OshLandingPageTemplate;/landingPageTemplate
+;;giftCardPage;Gift Card Landing Page;OshLandingPageTemplate;/giftCard
+;;privacyPolicyPage;Privacy Policy Landing Page;OshLandingPageTemplate;/privacyPolicy
+;;faqLinksPage;FAQ links page;OshLandingPageTemplate;/faq
+;;productSafety;Product Safety page;OshLandingPageTemplate;/productSafety
+;;rebates;Rebates page;OshLandingPageTemplate;/rebates
+;;returnsAndRefunds;Returns and Refunds page;OshLandingPageTemplate;/r&r
+;;shipping;Shipping page;OshLandingPageTemplate;/shipping
+;;termsOfUse;Terms page;OshLandingPageTemplate;/terms
+;;aboutUs;About Us page;OshLandingPageTemplate;/aboutUs
+;;affiliateProgram;Affiliate Program page;OshLandingPageTemplate;/affiliateProgram
+;;californiaTransparencyAct;CT Act page;OshLandingPageTemplate;/ctAct
+;;careers;Careers page;OshLandingPageTemplate;/careers
+;;commercialServices;Commercial Services page;OshLandingPageTemplate;/commercialServices
+;;investorRelations;Investor Relations page;OshLandingPageTemplate;/investorRelations
+
+####################################################### ContentSlotName######################################################
+INSERT_UPDATE ContentSlotName;name[unique=true];template(uid,$contentCV)[unique=true][default='OshLandingPageTemplate'];validComponentTypes(code)
+;"#% impex.includeExternalData(new CSVReader(de.hybris.platform.util.Config.getParameter(""HYBRIS_BIN_DIR"") + ""/ext-osh/oshcore/resources/oshcore/import/contentCatalogs/oshContentCatalog/default_cnt_slot_names.csv"",""utf-8""));"
+;BodySectionLandingPage;;$narrowContent
+;FooterSection;;FooterComponent
+;MiddleBodySection;;$narrowContent
+
+INSERT_UPDATE CMSParagraphComponent;$contentCV[unique=true];uid[unique=true];name;&componentRef;content
+#;;OSHLandingPageSlot;Body Section for Landing Page;OSHBodySectionLandingPageParagraphComponent;"<h1>This seems to be a common section of the Landing Page.</h1>"
+;;OSHGiftCardBodySlot; Body Section for Gift Card Landing Page;OSHGiftCardBodySectionComponent; "<h1>This is the the Body Section of the Gift Card Page.</h1>"
+;;OSHBodySectionPrivacyPolicySlot;Body Section for Privacy Policy Page;OSHPrivacyPolicyBodySectionComponent;"<h1>This is the Body Section of the Privacy Policy Page.</h1>"
+;;OSHBodySectionFAQSlot;Body Section for FAQ Page;OSHFAQBodySectionComponent;"<h1>This is the Body Section of the FAQ Page.</h1>"
+;;OSHBodySectionProductSafetySlot;Body Section for ProductSafety Page;OSHProductSafetyBodySectionComponent;"<h1>This is the Body Section of the Product Safety Page.</h1>"
+;;OSHBodySectionRebateslot;Body Section for Rebates Page;OSHRebatesBodySectionComponent;"<h1>This is the Body Section of the Rebates Page.</h1>"
+;;OSHBodySectionReturnsAndRefundsSlot;Body Section for ReturnsAndRefunds Page;OSHReturnsAndRefundsBodySectionComponent;"<h1>This is the Body Section of the Returns And Refunds Page.</h1>"
+;;OSHBodySectionShippingSlot;Body Section for Shipping Page;OSHShippingBodySectionComponent;"<h1>This is the Body Section of the Shipping Page.</h1>"
+;;OSHBodySectionTermsOfUseSlot;Body Section for TermsOfUse Page;OSHTermsOfUseBodySectionComponent;"<h1>This is the Body Section of the Terms Of Use Page.</h1>"
+;;OSHBodySectionAboutUSSlot;Body Section for AboutUS Page;OSHAboutUSBodySectionComponent;"<h1>This is the Body Section of the About US Page.</h1>"
+;;OSHBodySectionAffiliateSlot;Body Section for Affiliate Page;OSHAffiliateBodySectionComponent;"<h1>This is the Body Section of the Affiliate Page.</h1>"
+;;OSHBodySectionCTActSlot;Body Section for CTAct Page;OSHCTActBodySectionComponent;"<h1>This is the Body Section of the CTAct Page.</h1>"
+;;OSHBodySectionCareersSlot;Body Section for Careers Page;OSHCareersBodySectionComponent;"<h1>This is the Body Section of the Careers Page.</h1>"
+;;OSHBodySectionCommercialServicesSlot;Body Section for CommercialServices Page;OSHCommercialServicesBodySectionComponent;"<h1>This is the Body Section of the Commercial Services Page.</h1>"
+;;OSHBodySectionInvestorRelationsSlot;Body Section for InvestorRelations Page;OSHInvestorRelationsBodySectionComponent;"<h1>This is the Body Section of the InvestorRelations Page.</h1>"
+
+
+###################################################### ContentSlotForTemplate ######################################################
+INSERT_UPDATE ContentSlotForTemplate;$contentCV[unique=true];uid[unique=true];position[unique=true];pageTemplate(uid,$contentCV)[unique=true][default='OshLandingPageTemplate'];contentSlot(uid,$contentCV)[unique=true];allowOverwrite
+;;HeaderRight-LandingPage;RightHeaderNavTop;;RightHomepageNavTopSlot;true
+;;HeaderMiddle-LandingPage;MiddleHeaderNavTop;;MiddleHomepageNavTopSlot;true
+;;HeaderLeft-LandingPage;LeftHeaderNavTop;;LeftHomepageNavTopSlot;true
+;;HeaderRightBottom-LandingPage;RightHeaderNavBottom;;RightHomepageNavBottomSlot;true
+;;HeaderRightNavMiddleBottom-LandingPage;RightHeaderNavMiddleBottom;;RightHeaderNavMiddleBottomSlot;true
+;;HeaderMiddleBottom-LandingPage;MiddleHeaderNavBottom;;MiddleHomepageNavBottomSlot;true
+;;HeaderLeftBottom-LandingPage;LeftHeaderNavBottom;;LeftHomepageNavBottomSlot;true
+;;SiteLogo-LandingPage;SiteLogo;;SiteLogoSlot;true
+;;LandingPageLink-LandingPage;HomepageNavLink;;HomepageNavLinkSlot;true
+;;NavigationBar-LandingPage;NavigationBar;;NavigationBarSlot;true
+;;MiniCart-LandingPage;MiniCart;;MiniCartSlot;true
+;;GlobalSection-LandingPage;GlobalSection;;GlobalSectionSlot;true
+;;FooterSectionSlot-LandingPage;FooterSection;;FooterSectionSlot;true
+
+
+###################################################### ContentSlotForPage######################################################
+INSERT_UPDATE ContentSlotForPage;$contentCV[unique=true];uid[unique=true];position[unique=true];page(uid,$contentCV)[unique=true];contentSlot(uid,$contentCV)[unique=true]
+#;;BodySection-LandingPage;BodySectionLandingPage;landingPageTemplate;BodySectionLandingPagePageSlot
+;;BodySection-GiftCard;MiddleBodySection;giftCardPage;BodySectionGiftCardPageSlot
+;;BodySection-PrivacyPolicy;MiddleBodySection;privacyPolicyPage;BodySectionPrivacyPolicyPageSlot
+;;BodySection-FAQ;MiddleBodySection;faqLinksPage;BodySectionFAQPageSlot
+;;BodySection-ProductSafety;MiddleBodySection;productSafety;BodySectionProductSafetyPageSlot
+;;BodySection-Rebates;MiddleBodySection;rebates;BodySectionRebatesPageSlot
+;;BodySection-Returns&Refunds;MiddleBodySection;returnsAndRefunds;BodySectionReturns&RefundsPageSlot
+;;BodySection-Shipping;MiddleBodySection;shipping;BodySectionShippingPageSlot
+;;BodySection-TermsOfUse;MiddleBodySection;termsOfUse;BodySectionTermsPageSlot
+;;BodySection-AboutUs;MiddleBodySection;aboutUs;BodySectionAboutUsPageSlot
+;;BodySection-AffiliateProgram;MiddleBodySection;affiliateProgram;BodySectionAffiliateProgramPageSlot
+;;BodySection-CTAct;MiddleBodySection;californiaTransparencyAct;BodySectionCTActPageSlot
+;;BodySection-Careers;MiddleBodySection;careers;BodySectionCareersPageSlot
+;;BodySection-CommercialServices;MiddleBodySection;commercialServices;BodySectionCommercialServicesPageSlot
+;;BodySection-InvestorRelations;MiddleBodySection;investorRelations;BodySectionInvestorRelationsPageSlot
+
+
+
+######################################################### Content Slots######################################################
+INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];name;active;cmsComponents(&componentRef)
+#;;BodySectionLandingPageSlot;Body Section of the the Landing Page;true;OSHBodySectionLandingPageParagraphComponent
+;;BodySectionGiftCardPageSlot;Body Section of the Gift Card Page;true;OSHGiftCardBodySectionComponent
+;;BodySectionFAQPageSlot;Body Section of the FAQ Page;true;OSHFAQBodySectionComponent
+;;BodySectionPrivacyPolicyPageSlot;Body Section of the Privacy Policy Page;true;OSHPrivacyPolicyBodySectionComponent
+;;BodySectionProductSafetyPageSlot;Body Section of the ProductSafety;true;OSHProductSafetyBodySectionComponent
+;;BodySectionRebatesPageSlot;Body Section of the Rebates;true;OSHRebatesBodySectionComponent
+;;BodySectionReturns&RefundsPageSlot;Body Section of the Returns&Refunds Page;true;OSHReturnsAndRefundsBodySectionComponent
+;;BodySectionShippingPageSlot;Body Section of the Shipping Page;true;OSHShippingBodySectionComponent
+;;BodySectionTermsPageSlot;Body Section of the Terms Page;true;OSHTermsOfUseBodySectionComponent
+;;BodySectionAboutUsPageSlot;Body Section of the About Us Page;true;OSHAboutUSBodySectionComponent
+;;BodySectionAffiliateProgramPageSlot;Body Section of the Affiliate Program Page;true;OSHAffiliateBodySectionComponent
+;;BodySectionCTActPageSlot;Body Section of the CT Act Page;true;OSHCTActBodySectionComponent
+;;BodySectionCareersPageSlot;Body Section of the Careers Page;true;OSHCareersBodySectionComponent
+;;BodySectionCommercialServicesPageSlot;Body Section of the Commercial Services Page;true;OSHCommercialServicesBodySectionComponent
+;;BodySectionInvestorRelationsPageSlot;Body Section of the Investor Relations Page;true;OSHInvestorRelationsBodySectionComponent
+
+

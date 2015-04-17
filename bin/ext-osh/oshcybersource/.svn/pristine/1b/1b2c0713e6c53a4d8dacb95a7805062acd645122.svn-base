@@ -1,0 +1,16 @@
+/**
+ * 
+ */
+package com.hybris.osh.payment.service;
+
+import de.hybris.platform.payment.methods.CardPaymentService;
+
+import com.hybris.osh.command.request.FullReversalRequest;
+import com.hybris.osh.command.result.FullReversalResult;
+
+
+public interface OshCardPaymentService extends CardPaymentService
+{
+
+	public FullReversalResult FullReversal(final FullReversalRequest request);
+}

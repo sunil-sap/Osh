@@ -1,0 +1,411 @@
+#
+# Import the CMS content for the Merchandise site emails
+#
+$contentCatalog=oshContentCatalog
+$contentCV=catalogVersion(CatalogVersion.catalog(Catalog.id[default=$contentCatalog]),CatalogVersion.version[default=Staged])[default=$contentCatalog:Staged]
+$wideContent=CMSImageComponent,BannerComponent
+$jarResourceCms=jar:com.hybris.osh.core.setup.CoreSystemSetup&/oshcore/import/cockpits/cmscockpit
+$emailResource=jar:com.hybris.osh.core.setup.CoreSystemSetup&/oshcore/import/contentCatalogs/$contentCatalog/emails
+
+# Language
+$lang=en
+
+# Email page Template
+INSERT_UPDATE EmailPageTemplate;$contentCV[unique=true];uid[unique=true];name;active;frontendTemplateName;subject(code);htmlTemplate(code);restrictedPageTypes(code)
+;;ForgottenPasswordEmailTemplate;Forgotten Password Email Template;true;forgottenPasswordEmail;osh_Email_Forgotten_Password_Subject;osh_Email_Forgotten_Password_HTML;EmailPage
+;;OrderConfirmationEmailTemplate;Order Confirmation Email Template;true;orderConfirmationEmail;osh_Email_Order_Confirmation_Subject;osh_Email_Order_Confirmation_HTML;EmailPage
+;;ReadyForPickUpReminderEmailTemplate;Ready For PickUp Reminder Email Template;true;readyForPickUpReminderEmail;osh_Email_ReadyFor_Pickup_Subject;osh_Email_ReadyFor_Pickup_HTML;EmailPage
+;;OrderCancellationEmailTemplate;Order Cancellation Email Template;true;Order Cancellation Email;osh_Email_Order_Cancellation_Subject;osh_Email_Cancellation_HTML;EmailPage
+;;OrderShippedEmailTemplate;Order Shipped Email Template;true;orderShippedEmailTemplate;osh_Email_Order_Shipped_Subject;osh_Email_Order_Shipped_HTML;EmailPage
+;;ReadyForPickUpEmailTemplate;Ready For PickUp Email Template;true;readyForPickUpEmail;osh_Email_ReadyFor_Pickup_Status_Subject;osh_Email_ReadyFor_Pickup_Status_HTML;EmailPage
+;;OrderReturnConfirmationEmailTemplate;Order Retrun Confirmation Email Template;true;OrderReturnConfirmationEmailTemplate;osh_Email_Order_Return_Confirmation_Subject;osh_Email_Order_Returne_Confirmation_HTML;EmailPage
+;;RMANumberEmailTemplate;RMA Number Email Template;true;RMANumberEmailTemplate;RMA_number_email_Subject;RMA_number_email_HTML;EmailPage
+;;EmailSendToFriendTemplate;Email To Friend Template;true;EmailSendToFriendTemplate;email_SendToFriend_Subject;email_SendToFriend_HTML;EmailPage
+;;PaymentFailedEmailTemplate;Payment Failed Email Template;true;PaymentFailedEmailTemplate;payment_Failed_Subject;payment_Failed_HTML;EmailPage
+;;PaymentFailedCancelEmailTemplate;Payment Failed Cancel Email Template;true;PaymentFailedCancelEmailTemplate;payment_Failed_Cancel_Subject;payment_Failed_Cancel_HTML;EmailPage
+
+# Templates for CMS Cockpit Page Edit
+UPDATE EmailPageTemplate;$contentCV[unique=true];uid[unique=true];velocityTemplate[translator=de.hybris.platform.commerceservices.impex.impl.FileLoaderValueTranslator]
+;;ForgottenPasswordEmailTemplate;$jarResourceCms/structure-view/structure_forgottenPasswordEmailTemplate.vm
+;;OrderConfirmationEmailTemplate;$jarResourceCms/structure-view/structure_orderConfirmationEmailTemplate.vm
+;;ReadyForPickUpReminderEmailTemplate;$jarResourceCms/structure-view/structure_readyForPickUpReminderEmailTemplate.vm
+;;OrderCancellationEmailTemplate;$jarResourceCms/structure-view/structure_orderCancellationEmailTemplate.vm
+;;OrderShippedEmailTemplate;$jarResourceCms/structure-view/structure_orderShippedEmailTemplate.vm
+;;ReadyForPickUpEmailTemplate;$jarResourceCms/structure-view/structure_readyForPickUpEmailTemplate.vm
+;;OrderReturnConfirmationEmailTemplate;$jarResourceCms/structure-view/structure_returnConfirmationEmailTemplate.vm
+;;RMANumberEmailTemplate;$jarResourceCms/structure-view/structure_RMANumberEmailTemplate.vm
+;;EmailSendToFriendTemplate;$jarResourceCms/structure-view/structure_emailSendToFriendTemplate.vm
+;;PaymentFailedEmailTemplate;$jarResourceCms/structure-view/structure_paymentFailedEmailTemplate.vm
+;;PaymentFailedCancelEmailTemplate;$jarResourceCms/structure-view/structure_paymentFailedCancelEmailTemplate.vm
+
+INSERT_UPDATE ContentSlotName;name[unique=true];template(uid,$contentCV)[unique=true][default='ForgottenPasswordEmailTemplate'];validComponentTypes(code)
+;SiteLogo;;CMSImageComponent,BannerComponent
+;TopContent;;$wideContent;
+;BottomContent;;$wideContent;
+
+
+
+INSERT_UPDATE ContentSlotForTemplate;$contentCV;uid[unique=true];position[unique=true];pageTemplate(uid,$contentCV)[unique=true][default='ForgottenPasswordEmailTemplate'];contentSlot(uid,$contentCV)[unique=true];allowOverwrite
+;;SiteLogo-ForgottenPasswordEmail;SiteLogo;;SiteLogoSlot;true
+;;TopContent-ForgottenPasswordEmail;TopContent;;EmailTopSlot;true
+;;BottomContent-ForgottenPasswordEmail;BottomContent;;EmailBottomSlot;true
+
+# Email velocity templates
+INSERT_UPDATE RendererTemplate;code[unique=true];contextClass;rendererType(code)[default='velocity']
+;osh_Email_Forgotten_Password_HTML;com.hybris.osh.facades.process.email.context.ForgottenPasswordEmailContext
+;osh_Email_Forgotten_Password_Subject;com.hybris.osh.facades.process.email.context.ForgottenPasswordEmailContext
+;osh_Email_Order_Confirmation_HTML;com.hybris.osh.facades.process.email.context.OrderConfirmationEmailContext
+;osh_Email_Order_Confirmation_Subject;com.hybris.osh.facades.process.email.context.OrderConfirmationEmailContext
+;osh_Email_ReadyFor_Pickup_HTML;com.hybris.osh.facades.process.email.context.ReadyForPickUpEmailContext
+;osh_Email_ReadyFor_Pickup_Subject;com.hybris.osh.facades.process.email.context.ReadyForPickUpEmailContext
+;osh_Email_Cancellation_HTML;com.hybris.osh.facades.process.email.context.OrderCancelNotificationEmailContext
+;osh_Email_Order_Cancellation_Subject;com.hybris.osh.facades.process.email.context.OrderCancelNotificationEmailContext
+;osh_Email_Order_Shipped_HTML;com.hybris.osh.facades.process.email.context.OrderShippedEmailContext
+;osh_Email_Order_Shipped_Subject;com.hybris.osh.facades.process.email.context.OrderShippedEmailContext
+;osh_Email_ReadyFor_Pickup_Status_HTML;com.hybris.osh.facades.process.email.context.ReadyForPickUpEmailContext
+;osh_Email_ReadyFor_Pickup_Status_Subject;com.hybris.osh.facades.process.email.context.ReadyForPickUpEmailContext
+;osh_Email_Order_Return_Confirmation_Subject;com.hybris.osh.facades.process.email.context.OrderReturnEmailContext
+;osh_Email_Order_Returne_Confirmation_HTML;com.hybris.osh.facades.process.email.context.OrderReturnEmailContext
+;RMA_number_email_HTML;com.hybris.osh.facades.process.email.context.OrderRMAMailContext
+;RMA_number_email_Subject;com.hybris.osh.facades.process.email.context.OrderRMAMailContext
+;email_SendToFriend_Subject;com.hybris.osh.facades.process.email.context.SendEmailToFriendContext
+;email_SendToFriend_HTML;com.hybris.osh.facades.process.email.context.SendEmailToFriendContext
+;payment_Failed_Subject;com.hybris.osh.facades.process.email.context.PaymentFailedEmailContext
+;payment_Failed_HTML;com.hybris.osh.facades.process.email.context.PaymentFailedEmailContext
+;payment_Failed_Cancel_Subject;com.hybris.osh.facades.process.email.context.PaymentFailedEmailContext
+;payment_Failed_Cancel_HTML;com.hybris.osh.facades.process.email.context.PaymentFailedEmailContext
+
+
+# Create Content Slots
+INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];name;active
+;;EmailTopSlot;Default Email Top Slot;true
+;;EmailBottomSlot;Default Email Bottom Slot;true
+
+# Email Pages
+INSERT_UPDATE EmailPage;$contentCV[unique=true];uid[unique=true];name;masterTemplate(uid,$contentCV);defaultPage;approvalStatus(code)[default='approved']
+;;ForgottenPasswordEmail;Forgotten Password Email;ForgottenPasswordEmailTemplate;true;
+
+# Email Pages
+UPDATE EmailPage;$contentCV[unique=true];uid[unique=true];fromEmail[lang=$lang];fromName[lang=$lang]
+;;ForgottenPasswordEmail;"customerservices@osh.com";"Orchard Customer Care"
+
+# CMS components velocity templates
+UPDATE RendererTemplate;code[unique=true];description[lang=$lang];templateScript[lang=$lang,translator=de.hybris.platform.commerceservices.impex.impl.FileLoaderValueTranslator]
+;osh-CMSImageComponent-template;CMSImageComponent Template;$emailResource/email-cmsImageComponentTemplate.vm
+;osh-BannerComponent-template;CMSBannerComponent Template;$emailResource/email-bannerComponentTemplate.vm
+;osh-CMSLinkComponent-template;CMSLinkComponent Template;$emailResource/email-cmsLinkComponentTemplate.vm
+;osh-CMSParagraphComponent-template;CMSParagraphComponent Template;$emailResource/email-cmsParagraphComponentTemplate.vm
+
+# CMS components velocity templates
+INSERT_UPDATE RendererTemplate;code[unique=true];contextClass;rendererType(code)[default='velocity']
+;osh-CMSImageComponent-template;java.util.Map
+;osh-BannerComponent-template;java.util.Map
+;osh-CMSLinkComponent-template;java.util.Map
+;osh-CMSParagraphComponent-template;java.util.Map
+
+# Email velocity templates
+UPDATE RendererTemplate;code[unique=true];description[lang=$lang];templateScript[lang=$lang,translator=de.hybris.platform.commerceservices.impex.impl.FileLoaderValueTranslator]
+;osh_Email_Forgotten_Password_HTML;Forgotten Password HTML Email;$emailResource/osh_Email_Forgotten_Password_HTML.vm
+;osh_Email_Forgotten_Password_Subject;Forgotten Password Email Subject;$emailResource/osh_Email_Forgotten_Password_Subject.vm
+
+# Preview Image for use in the CMS Cockpit
+INSERT_UPDATE Media;$contentCV[unique=true];code[unique=true];mime;realfilename;@media[translator=de.hybris.platform.impex.jalo.media.MediaDataTranslator][forceWrite=true]
+;;EmailPageModel_preview;text/gif;EmailPageModel_preview.gif;$jarResourceCms/preview-images/EmailPageModel_preview.gif
+
+UPDATE EmailPage;$contentCV[unique=true];uid[unique=true];previewImage(code, $contentCV)
+;;ForgottenPasswordEmail;EmailPageModel_preview
+
+
+################################# Email template for OrderConfirmation ###################################
+INSERT_UPDATE ContentSlotName;name[unique=true];template(uid,$contentCV)[unique=true][default='OrderConfirmationEmailTemplate'];validComponentTypes(code)
+;SiteLogo;;CMSImageComponent,BannerComponent
+;TopContent;;$wideContent;
+;BottomContent;;$wideContent;
+
+INSERT_UPDATE ContentSlotForTemplate;$contentCV;uid[unique=true];position[unique=true];pageTemplate(uid,$contentCV)[unique=true][default='OrderConfirmationEmailTemplate'];contentSlot(uid,$contentCV)[unique=true];allowOverwrite
+;;SiteLogo-orderConfirmationEmail;SiteLogo;;SiteLogoSlot;true
+;;TopContent-orderConfirmationEmail;TopContent;;EmailTopSlot;true
+;;BottomContent-orderConfirmationEmail;BottomContent;;EmailBottomSlot;true
+
+################################# Email template for Order Cancellation ###################################
+INSERT_UPDATE ContentSlotName;name[unique=true];template(uid,$contentCV)[unique=true][default='OrderCancellationEmailTemplate'];validComponentTypes(code)
+;SiteLogo;;CMSImageComponent,BannerComponent
+;TopContent;;$wideContent;
+;BottomContent;;$wideContent;
+
+INSERT_UPDATE ContentSlotForTemplate;$contentCV;uid[unique=true];position[unique=true];pageTemplate(uid,$contentCV)[unique=true][default='OrderCancellationEmailTemplate'];contentSlot(uid,$contentCV)[unique=true];allowOverwrite
+;;SiteLogo-orderCancellationEmail;SiteLogo;;SiteLogoSlot;true
+;;TopContent-orderCancellationEmail;TopContent;;EmailTopSlot;true
+;;BottomContent-orderCancellationEmail;BottomContent;;EmailBottomSlot;true
+
+################################# Email template for Ready For PickUp Reminder ###################################
+
+INSERT_UPDATE ContentSlotName;name[unique=true];template(uid,$contentCV)[unique=true][default='ReadyForPickUpReminderEmailTemplate'];validComponentTypes(code)
+;SiteLogo;;CMSImageComponent,BannerComponent
+;TopContent;;$wideContent;
+;BottomContent;;$wideContent;
+
+INSERT_UPDATE ContentSlotForTemplate;$contentCV;uid[unique=true];position[unique=true];pageTemplate(uid,$contentCV)[unique=true][default='ReadyForPickUpReminderEmailTemplate'];contentSlot(uid,$contentCV)[unique=true];allowOverwrite
+;;SiteLogo-readyForPickupReminderEmail;SiteLogo;;SiteLogoSlot;true
+;;TopContent-readyForPickupReminderEmail;TopContent;;EmailTopSlot;true
+;;BottomContent-readyForPickupReminderEmail;BottomContent;;EmailBottomSlot;true
+
+ # Email Pages
+INSERT_UPDATE EmailPage;$contentCV[unique=true];uid[unique=true];name;masterTemplate(uid,$contentCV);defaultPage;approvalStatus(code)[default='approved']
+;;readyForPickUpReminderEmail;ready For PickUp Reminder Email;ReadyForPickUpReminderEmailTemplate;true;
+
+# Email Pages
+UPDATE EmailPage;$contentCV[unique=true];uid[unique=true];fromEmail[lang=$lang];fromName[lang=$lang]
+;;readyForPickUpReminderEmail;"customerservices@osh.com";"Orchard Customer Care"
+
+UPDATE EmailPage;$contentCV[unique=true];uid[unique=true];previewImage(code, $contentCV)
+;;readyForPickUpReminderEmail;EmailPageModel_preview
+
+ #Email velocity templates
+UPDATE RendererTemplate;code[unique=true];description[lang=$lang];templateScript[lang=$lang,translator=de.hybris.platform.commerceservices.impex.impl.FileLoaderValueTranslator]
+;osh_Email_ReadyFor_Pickup_HTML;Ready For Pickup Reminder Email Html;$emailResource/osh_Email_ReadyFor_PickUp_Reminder_HTML.vm
+;osh_Email_ReadyFor_Pickup_Subject;Ready For Pickup Reminder Email Subject;$emailResource/osh_Email_ReadyFor_PickUp_Reminder_Subject.vm
+
+
+ # Email Pages
+INSERT_UPDATE EmailPage;$contentCV[unique=true];uid[unique=true];name;masterTemplate(uid,$contentCV);defaultPage;approvalStatus(code)[default='approved']
+;;orderConfirmationEmail;order Confirmation Email;OrderConfirmationEmailTemplate;true;
+;;orderCancellationEmail;order Cancellation Email;OrderCancellationEmailTemplate;true;
+
+# Email Pages
+UPDATE EmailPage;$contentCV[unique=true];uid[unique=true];fromEmail[lang=$lang];fromName[lang=$lang]
+;;orderConfirmationEmail;"customerservices@osh.com";"Orchard Customer Care"
+;;orderCancellationEmail;"customerservices@osh.com";"Orchard Customer Care"
+
+UPDATE EmailPage;$contentCV[unique=true];uid[unique=true];previewImage(code, $contentCV)
+;;orderConfirmationEmail;EmailPageModel_preview
+;;orderCancellationEmail;EmailPageModel_preview
+
+
+ #Email velocity templates
+UPDATE RendererTemplate;code[unique=true];description[lang=$lang];templateScript[lang=$lang,translator=de.hybris.platform.commerceservices.impex.impl.FileLoaderValueTranslator]
+;osh_Email_Order_Confirmation_HTML;Order Confirmation HTML Email;$emailResource/osh_Email_Order_Confirmation_HTML.vm
+;osh_Email_Order_Confirmation_Subject;Order Confirmation Email Subject;$emailResource/osh_Email_Order_Confirmation_Subject.vm
+;osh_Email_Cancellation_HTML;Order cancellation Email Html;$emailResource/osh_Email_Cancellation_HTML.vm
+;osh_Email_Order_Cancellation_Subject;Order Cancellation Email Subject;$emailResource/osh_Email_Order_Cancellation_Subject.vm
+
+# Preview Image for use in the CMS Cockpit
+INSERT_UPDATE Media;$contentCV[unique=true];code[unique=true];mime;realfilename;@media[translator=de.hybris.platform.impex.jalo.media.MediaDataTranslator][forceWrite=true]
+;;EmailPageModel_preview;text/gif;EmailPageModel_preview.gif;$jarResourceCms/preview-images/EmailPageModel_preview.gif
+
+################################# Email template for order shipped ################################################
+INSERT_UPDATE ContentSlotName;name[unique=true];template(uid,$contentCV)[unique=true][default='OrderShippedEmailTemplate'];validComponentTypes(code)
+;SiteLogo;;CMSImageComponent,BannerComponent
+;TopContent;;$wideContent;
+;BottomContent;;$wideContent;
+
+INSERT_UPDATE ContentSlotForTemplate;$contentCV;uid[unique=true];position[unique=true];pageTemplate(uid,$contentCV)[unique=true][default='OrderShippedEmailTemplate'];contentSlot(uid,$contentCV)[unique=true];allowOverwrite
+;;SiteLogo-OrderShippedEmail;SiteLogo;;SiteLogoSlot;true
+;;TopContent-OrderShippedEmail;TopContent;;EmailTopSlot;true
+;;BottomContent-OrderShippedEmail;BottomContent;;EmailBottomSlot;true
+
+ # Email Pages
+INSERT_UPDATE EmailPage;$contentCV[unique=true];uid[unique=true];name;masterTemplate(uid,$contentCV);defaultPage;approvalStatus(code)[default='approved']
+;;OrderShippedEmail;Order Shipped Email;OrderShippedEmailTemplate;true;
+
+# Email Pages
+UPDATE EmailPage;$contentCV[unique=true];uid[unique=true];fromEmail[lang=$lang];fromName[lang=$lang]
+;;OrderShippedEmail;"customerservices@osh.com";"Orchard Customer Care"
+
+UPDATE EmailPage;$contentCV[unique=true];uid[unique=true];previewImage(code, $contentCV)
+;;OrderShippedEmail;EmailPageModel_preview
+
+ #Email velocity templates
+UPDATE RendererTemplate;code[unique=true];description[lang=$lang];templateScript[lang=$lang,translator=de.hybris.platform.commerceservices.impex.impl.FileLoaderValueTranslator]
+;osh_Email_Order_Shipped_HTML;Order Shipped Email Html;$emailResource/osh_Email_Order_Shipped_HTML.vm
+;osh_Email_Order_Shipped_Subject;Order Shipped Email Subject;$emailResource/osh_Email_Order_Shipped__Subject.vm
+
+# Preview Image for use in the CMS Cockpit
+INSERT_UPDATE Media;$contentCV[unique=true];code[unique=true];mime;realfilename;@media[translator=de.hybris.platform.impex.jalo.media.MediaDataTranslator][forceWrite=true]
+;;EmailPageModel_preview;text/gif;EmailPageModel_preview.gif;$jarResourceCms/preview-images/EmailPageModel_preview.gif
+
+
+
+################################# Email template for order Return Confirmation ################################################
+INSERT_UPDATE ContentSlotName;name[unique=true];template(uid,$contentCV)[unique=true][default='OrderReturnConfirmationEmailTemplate'];validComponentTypes(code)
+;SiteLogo;;CMSImageComponent,BannerComponent
+;TopContent;;$wideContent;
+;BottomContent;;$wideContent;
+
+INSERT_UPDATE ContentSlotForTemplate;$contentCV;uid[unique=true];position[unique=true];pageTemplate(uid,$contentCV)[unique=true][default='OrderReturnConfirmationEmailTemplate'];contentSlot(uid,$contentCV)[unique=true];allowOverwrite
+;;SiteLogo-OrderReturnEmail;SiteLogo;;SiteLogoSlot;true
+;;TopContent-OrderReturnEmail;TopContent;;EmailTopSlot;true
+;;BottomContent-OrderReturnEmail;BottomContent;;EmailBottomSlot;true
+
+ # Email Pages
+INSERT_UPDATE EmailPage;$contentCV[unique=true];uid[unique=true];name;masterTemplate(uid,$contentCV);defaultPage;approvalStatus(code)[default='approved']
+;;OrderReturnEmail;Order Shipped Email;OrderReturnConfirmationEmailTemplate;true;
+
+# Email Pages
+UPDATE EmailPage;$contentCV[unique=true];uid[unique=true];fromEmail[lang=$lang];fromName[lang=$lang]
+;;OrderReturnEmail;"customerservices@osh.com";"Orchard Customer Care"
+
+UPDATE EmailPage;$contentCV[unique=true];uid[unique=true];previewImage(code, $contentCV)
+;;OrderReturnEmail;EmailPageModel_preview
+
+ #Email velocity templates
+UPDATE RendererTemplate;code[unique=true];description[lang=$lang];templateScript[lang=$lang,translator=de.hybris.platform.commerceservices.impex.impl.FileLoaderValueTranslator]
+;osh_Email_Order_Return_Confirmation_Subject;Order Refund Email Html;$emailResource/osh_Email_Order_Return_Confirmation_Subject.vm
+;osh_Email_Order_Returne_Confirmation_HTML;Order Refund Email Subject;$emailResource/osh_Email_Order_Returne_Confirmation_HTML.vm
+
+
+################################# Email template for order RMANumber email ################################################
+INSERT_UPDATE ContentSlotName;name[unique=true];template(uid,$contentCV)[unique=true][default='RMANumberEmailTemplate'];validComponentTypes(code)
+;SiteLogo;;CMSImageComponent,BannerComponent
+;TopContent;;$wideContent;
+;BottomContent;;$wideContent;
+
+INSERT_UPDATE ContentSlotForTemplate;$contentCV;uid[unique=true];position[unique=true];pageTemplate(uid,$contentCV)[unique=true][default='RMANumberEmailTemplate'];contentSlot(uid,$contentCV)[unique=true];allowOverwrite
+;;SiteLogo-RMANumberEmail;SiteLogo;;SiteLogoSlot;true
+;;TopContent-RMANumberEmail;TopContent;;EmailTopSlot;true
+;;BottomContent-RMANumberEmail;BottomContent;;EmailBottomSlot;true
+
+ # Email Pages
+INSERT_UPDATE EmailPage;$contentCV[unique=true];uid[unique=true];name;masterTemplate(uid,$contentCV);defaultPage;approvalStatus(code)[default='approved']
+;;RMANumberEmail;Order Shipped Email;RMANumberEmailTemplate;true;
+
+# Email Pages
+UPDATE EmailPage;$contentCV[unique=true];uid[unique=true];fromEmail[lang=$lang];fromName[lang=$lang]
+;;RMANumberEmail;"customerservices@osh.com";"Orchard Customer Care"
+
+UPDATE EmailPage;$contentCV[unique=true];uid[unique=true];previewImage(code, $contentCV)
+;;RMANumberEmail;EmailPageModel_preview
+
+ #Email velocity templates
+UPDATE RendererTemplate;code[unique=true];description[lang=$lang];templateScript[lang=$lang,translator=de.hybris.platform.commerceservices.impex.impl.FileLoaderValueTranslator]
+;RMA_number_email_Subject;RMA number email Html;$emailResource/osh_RMA_number_email_Subject.vm
+;RMA_number_email_HTML;RMA number email Subject;$emailResource/osh_RMA_number_email_HTML.vm
+
+# Preview Image for use in the CMS Cockpit
+INSERT_UPDATE Media;$contentCV[unique=true];code[unique=true];mime;realfilename;@media[translator=de.hybris.platform.impex.jalo.media.MediaDataTranslator][forceWrite=true]
+;;EmailPageModel_preview;text/gif;EmailPageModel_preview.gif;$jarResourceCms/preview-images/EmailPageModel_preview.gif
+
+
+
+
+################################# Email template for Order Ready For Pickup ################################################
+
+INSERT_UPDATE ContentSlotName;name[unique=true];template(uid,$contentCV)[unique=true][default='ReadyForPickUpEmailTemplate'];validComponentTypes(code)
+;SiteLogo;;CMSImageComponent,BannerComponent
+;TopContent;;$wideContent;
+;BottomContent;;$wideContent;
+
+INSERT_UPDATE ContentSlotForTemplate;$contentCV;uid[unique=true];position[unique=true];pageTemplate(uid,$contentCV)[unique=true][default='ReadyForPickUpEmailTemplate'];contentSlot(uid,$contentCV)[unique=true];allowOverwrite
+;;SiteLogo-ReadyForPickUpEmail;SiteLogo;;SiteLogoSlot;true
+;;TopContent-ReadyForPickUpEmail;TopContent;;EmailTopSlot;true
+;;BottomContent-ReadyForPickUpEmail;BottomContent;;EmailBottomSlot;true
+
+ # Email Pages
+INSERT_UPDATE EmailPage;$contentCV[unique=true];uid[unique=true];name;masterTemplate(uid,$contentCV);defaultPage;approvalStatus(code)[default='approved']
+;;ReadyForPickUpEmail;Ready For PickUp Email;ReadyForPickUpEmailTemplate;true;
+
+# Email Pages
+UPDATE EmailPage;$contentCV[unique=true];uid[unique=true];fromEmail[lang=$lang];fromName[lang=$lang]
+;;ReadyForPickUpEmail;"customerservices@osh.com";"Orchard Customer Care"
+
+UPDATE EmailPage;$contentCV[unique=true];uid[unique=true];previewImage(code, $contentCV)
+;;ReadyForPickUpEmail;EmailPageModel_preview
+
+ #Email velocity templates
+UPDATE RendererTemplate;code[unique=true];description[lang=$lang];templateScript[lang=$lang,translator=de.hybris.platform.commerceservices.impex.impl.FileLoaderValueTranslator]
+;osh_Email_ReadyFor_Pickup_Status_HTML;Order Ready For Pickup status Email Html;$emailResource/osh_Email_ReadyFor_PickUp_HTML.vm
+;osh_Email_ReadyFor_Pickup_Status_Subject;Order Ready For Pickup status Email Subject;$emailResource/osh_Email_ReadyFor_PickUp_Subject.vm
+
+# Preview Image for use in the CMS Cockpit
+INSERT_UPDATE Media;$contentCV[unique=true];code[unique=true];mime;realfilename;@media[translator=de.hybris.platform.impex.jalo.media.MediaDataTranslator][forceWrite=true]
+;;EmailPageModel_preview;text/gif;EmailPageModel_preview.gif;$jarResourceCms/preview-images/EmailPageModel_preview.gif
+
+################################# Email template for MailSendToFriend  ###################################
+INSERT_UPDATE ContentSlotName;name[unique=true];template(uid,$contentCV)[unique=true][default='EmailSendToFriendTemplate'];validComponentTypes(code)
+;SiteLogo;;CMSImageComponent,BannerComponent
+;TopContent;;$wideContent;
+;BottomContent;;$wideContent;
+
+INSERT_UPDATE ContentSlotForTemplate;$contentCV;uid[unique=true];position[unique=true];pageTemplate(uid,$contentCV)[unique=true][default='EmailSendToFriendTemplate'];contentSlot(uid,$contentCV)[unique=true];allowOverwrite
+;;SiteLogo-emailSendToFriend;SiteLogo;;SiteLogoSlot;true
+;;TopContent-emailSendToFriend;TopContent;;EmailTopSlot;true
+;;BottomContent-emailSendToFriend;BottomContent;;EmailBottomSlot;true
+
+# Email Pages
+INSERT_UPDATE EmailPage;$contentCV[unique=true];uid[unique=true];name;masterTemplate(uid,$contentCV);defaultPage;approvalStatus(code)[default='approved']
+;;emailSendToFriend;Email Send To Friend;EmailSendToFriendTemplate;true;
+
+# Email Pages
+UPDATE EmailPage;$contentCV[unique=true];uid[unique=true];fromEmail[lang=$lang];fromName[lang=$lang]
+;;emailSendToFriend;"customerservices@osh.com";"Orchard Customer Care"
+
+
+UPDATE EmailPage;$contentCV[unique=true];uid[unique=true];previewImage(code, $contentCV)
+;;emailSendToFriend;EmailPageModel_preview
+
+#Email velocity templates
+UPDATE RendererTemplate;code[unique=true];description[lang=$lang];templateScript[lang=$lang,translator=de.hybris.platform.commerceservices.impex.impl.FileLoaderValueTranslator]
+;email_SendToFriend_HTML;Send to friend Email Email Html;$emailResource/osh_EmailSendToFriend_HTML.vm
+;email_SendToFriend_Subject;Send to friend Email Subject;$emailResource/osh_EmailSendToFriend_Subject.vm
+
+# Preview Image for use in the CMS Cockpit
+INSERT_UPDATE Media;$contentCV[unique=true];code[unique=true];mime;realfilename;@media[translator=de.hybris.platform.impex.jalo.media.MediaDataTranslator][forceWrite=true]
+;;EmailPageModel_preview;text/gif;EmailPageModel_preview.gif;$jarResourceCms/preview-images/EmailPageModel_preview.gif
+
+
+################################# Email template for PaymentFailedEmail ###################################
+INSERT_UPDATE ContentSlotName;name[unique=true];template(uid,$contentCV)[unique=true][default='PaymentFailedEmailTemplate'];validComponentTypes(code)
+;SiteLogo;;CMSImageComponent,BannerComponent
+;TopContent;;$wideContent;
+;BottomContent;;$wideContent;
+
+INSERT_UPDATE ContentSlotForTemplate;$contentCV;uid[unique=true];position[unique=true];pageTemplate(uid,$contentCV)[unique=true][default='PaymentFailedEmailTemplate'];contentSlot(uid,$contentCV)[unique=true];allowOverwrite
+;;SiteLogo-paymentFailedEmail;SiteLogo;;SiteLogoSlot;true
+;;TopContent-paymentFailedEmail;TopContent;;EmailTopSlot;true
+;;BottomContent-paymentFailedEmail;BottomContent;;EmailBottomSlot;true
+
+# Email Pages
+INSERT_UPDATE EmailPage;$contentCV[unique=true];uid[unique=true];name;masterTemplate(uid,$contentCV);defaultPage;approvalStatus(code)[default='approved']
+;;paymentFailedEmail;Payment Failed Email;PaymentFailedEmailTemplate;true;
+
+# Email Pages
+UPDATE EmailPage;$contentCV[unique=true];uid[unique=true];fromEmail[lang=$lang];fromName[lang=$lang]
+;;paymentFailedEmail;"customerservices@osh.com";"Orchard Customer Care"
+
+UPDATE EmailPage;$contentCV[unique=true];uid[unique=true];previewImage(code, $contentCV)
+;;paymentFailedEmail;EmailPageModel_preview
+
+#Email velocity templates
+UPDATE RendererTemplate;code[unique=true];description[lang=$lang];templateScript[lang=$lang,translator=de.hybris.platform.commerceservices.impex.impl.FileLoaderValueTranslator]
+;payment_Failed_Subject;Payment Failed;$emailResource/osh_PaymentFailed_Subject.vm
+;payment_Failed_HTML;Payment Failed HTML;$emailResource/osh_PaymentFailed_HTML.vm	
+
+################################# Email template for PaymentFailedCancelEmail ###################################
+INSERT_UPDATE ContentSlotName;name[unique=true];template(uid,$contentCV)[unique=true][default='PaymentFailedCancelEmailTemplate'];validComponentTypes(code)
+;SiteLogo;;CMSImageComponent,BannerComponent
+;TopContent;;$wideContent;
+;BottomContent;;$wideContent;
+
+INSERT_UPDATE ContentSlotForTemplate;$contentCV;uid[unique=true];position[unique=true];pageTemplate(uid,$contentCV)[unique=true][default='PaymentFailedCancelEmailTemplate'];contentSlot(uid,$contentCV)[unique=true];allowOverwrite
+;;SiteLogo-paymentFailedCancelEmail;SiteLogo;;SiteLogoSlot;true
+;;TopContent-paymentFailedCancelEmail;TopContent;;EmailTopSlot;true
+;;BottomContent-paymentFailedCancelEmail;BottomContent;;EmailBottomSlot;true
+
+# Email Pages	
+INSERT_UPDATE EmailPage;$contentCV[unique=true];uid[unique=true];name;masterTemplate(uid,$contentCV);defaultPage;approvalStatus(code)[default='approved']
+;;paymentFailedCancelEmail;Payment Failed Cancel Email;PaymentFailedCancelEmailTemplate;true;
+
+# Email Pages
+UPDATE EmailPage;$contentCV[unique=true];uid[unique=true];fromEmail[lang=$lang];fromName[lang=$lang]
+;;paymentFailedCancelEmail;"customerservices@osh.com";"Orchard Customer Care"
+
+UPDATE EmailPage;$contentCV[unique=true];uid[unique=true];previewImage(code, $contentCV)
+;;paymentFailedCancelEmail;EmailPageModel_preview
+
+#Email velocity templates
+UPDATE RendererTemplate;code[unique=true];description[lang=$lang];templateScript[lang=$lang,translator=de.hybris.platform.commerceservices.impex.impl.FileLoaderValueTranslator]
+;payment_Failed_Cancel_Subject;Payment Failed Cancel;$emailResource/osh_PaymentFailedCancel_Subject.vm
+;payment_Failed_Cancel_HTML;Payment Failed Cancel HTML;$emailResource/osh_PaymentFailedCancel_HTML.vm	
+
+
+

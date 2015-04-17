@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<editor>
+	
+	<group qualifier="General" visible="true" initially-opened="true">
+		<label key="cockpit.config.label.General" />
+		<property qualifier="ProductReference.referenceType" />
+		<property qualifier="ProductReference.target" />
+		<property qualifier="ProductReference.active" />
+		<property qualifier="ProductReference.preselected" />
+		<property qualifier="ProductReference.description" />
+	</group>
+
+</editor>

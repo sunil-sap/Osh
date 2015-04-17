@@ -1,0 +1,17 @@
+#
+# Import Customers
+# 
+$regulargroup=regulargroup
+$customergroup=customergroup
+
+$passwordEncoding=md5
+$defaultPassword=12341234
+$setPassword=@password[translator=de.hybris.platform.impex.jalo.translators.ConvertPlaintextToEncodedUserPasswordTranslator][default='$passwordEncoding:$defaultPassword']
+
+#
+# These are the user groups for guest checkout and email opt in
+#
+
+INSERT_UPDATE Usergroup;uid[unique=true];groups(uid)[mode=append];locName[lang=en];locName[lang=de]
+;guestcustomergroup;
+;guestcustomergroup;customergroup;
