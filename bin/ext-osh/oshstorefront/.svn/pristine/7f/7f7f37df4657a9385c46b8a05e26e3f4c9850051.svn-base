@@ -1,0 +1,45 @@
+@charset "UTF-8";
+
+/**
+ * Columnar CSS Drop-Down Menu Component
+ *
+ * @file		dropdown.columnar.css
+ * @package		Dropdown
+ * @version		0.1.1
+ * @type		Transitional
+ * @requires	dropdown.columnar.css
+ * @browsers	Windows: IE7+, Opera7+, Firefox3+
+ *				Mac OS: Safari2+, Firefox3+
+ *
+ * @link		http://www.lwis.net/free-css-drop-down-menu
+ * @copyright	2008-2012 Live Web Initiatives, http://www.lwis.net, http://www.lwis.net                     
+ *
+ */
+
+@import "dropdown.linear.css";
+
+
+ul.dropdown-columnar ul li {
+ position: static;
+ width: auto;
+}
+ul.dropdown-columnar ul ul {
+ display: block !important;
+ position: static;
+ width: auto !important;
+}
+
+#headerNav ul.dropdown-columnar ul ul li {
+ float: left;
+ border:none;
+}
+
+ul.dropdown-columnar ul ul ul {
+ display: none;
+ padding:10px;
+}
+
+#headerNav ul.dropdown-columnar li.hover ul,
+#headerNav ul.dropdown-columnar li:hover ul {
+ visibility: visible !important;
+}

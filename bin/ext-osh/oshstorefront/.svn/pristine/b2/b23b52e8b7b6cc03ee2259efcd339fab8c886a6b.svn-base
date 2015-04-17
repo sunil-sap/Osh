@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ [y] hybris Platform
+
+ Copyright (c) 2000-2012 hybris AG
+ All rights reserved.
+
+ This software is the confidential and proprietary information of hybris
+ ("Confidential Information"). You shall not disclose such Confidential
+ Information and shall use it only in accordance with the terms of the
+ license agreement you entered into with hybris.
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans-3.1.xsd 
+		http://www.springframework.org/schema/aop 
+		http://www.springframework.org/schema/aop/spring-aop-3.1.xsd">
+
+	<!-- filter -->
+
+	<bean id="storefrontFilterChain" class="de.hybris.platform.servicelayer.web.PlatformFilterChain">
+		<constructor-arg>
+			<list>
+				<!-- generic platform filters -->
+				<ref bean="log4jFilter"/>
+				<ref bean="storefrontTenantActivationFilter"/>
+				<ref bean="storefrontSystemNotInitializedRedirectFilter"/>
+				<ref bean="sessionFilter"/>
+
+				<!-- filter to log the current request -->
+				<ref bean="requestLoggerFilter"/>
+
+				<!-- filter to setup the cms integration -->
+				<ref bean="cmsSiteFilter"/>
+
+				<!-- filter to initialize the storefront -->
+				<ref bean="storefrontFilter"/>
+
+				<!-- btg filters -->
+				<!-- Remove these filters to disable BTG integration. Also remove the BtgSegmentBeforeViewHandler -->
+				<ref bean="refererHeaderBtgFilter"/>
+				<ref bean="requestParamsBtgFilter"/>
+				<ref bean="productVisitedBtgFilter"/>
+				<ref bean="categoryVisitedBtgFilter"/>
+				<ref bean="btgSegmentFilter"/>
+				<ref bean="oshStoreLookUpFilter"/> 
+			</list>
+		</constructor-arg>
+	</bean>
+	<bean id="oshStoreLookUpFilter" class="com.hybris.osh.storefront.filters.OshStoreLookUpFilter"/>
+
+	<bean id="storefrontTenantActivationFilter" class="de.hybris.platform.servicelayer.web.TenantActivationFilter"/>
+
+	<bean id="storefrontSystemNotInitializedRedirectFilter" class="de.hybris.platform.servicelayer.web.RedirectWhenSystemIsNotInitializedFilter">
+		<constructor-arg>
+			<value><!-- nothing - redirect to default maintenance page --></value>
+		</constructor-arg>
+	</bean>
+
+	<bean id="requestLoggerFilter" class="com.hybris.osh.storefront.filters.RequestLoggerFilter"/>
+
+	<bean id="cmsSiteFilter" class="com.hybris.osh.storefront.filters.cms.CMSSiteFilter" scope="tenant">
+		<property name="previewDataModelUrlResolver" ref="previewDataModelUrlResolver" />
+		<property name="cmsSiteService" ref="cmsSiteService" />
+		<property name="cmsPreviewService" ref="cmsPreviewService" />
+		<property name="baseSiteService" ref="baseSiteService" />
+		<property name="commerceCommonI18NService" ref="commerceCommonI18NService" />
+		<property name="sessionService" ref="sessionService" />
+		<property name="contextInformationLoader">
+			<bean class="com.hybris.osh.storefront.filters.cms.ContextInformationLoader">
+				<property name="baseSiteService" ref="baseSiteService" />
+				<property name="catalogVersionService" ref="catalogVersionService" />
+				<property name="cmsSiteService" ref="cmsSiteService" />
+				<property name="i18NService" ref="i18NService" />
+				<property name="modelService" ref="modelService" />
+				<property name="timeService" ref="timeService" />
+				<property name="userService" ref="userService" />
+				<property name="uiExperienceService" ref="uiExperienceService"/>
+			</bean>
+		</property>
+		<aop:scoped-proxy />
+	</bean>
+
+	<bean id="storefrontFilter" class="com.hybris.osh.storefront.filters.StorefrontFilter" scope="tenant">
+		<property name="storeSessionFacade" ref="storeSessionFacade"/>
+		<property name="browseHistory" ref="browseHistory"/>
+		<property name="cookieGenerator" ref="sessionCookieGenerator"/>
+		<aop:scoped-proxy/>
+	</bean>
+
+	<alias name="defaultSessionCookieGenerator" alias="sessionCookieGenerator"/> 
+	<bean id="defaultSessionCookieGenerator" class="com.hybris.osh.storefront.security.cookie.EnhancedCookieGenerator" scope="tenant">
+		<property name="cookieSecure" value="false" />
+		<property name="cookieName" value="JSESSIONID"/>
+		<property name="cookieMaxAge" value="-1"/>
+		<property name="useDefaultPath" value="false"/>
+		<property name="httpOnly" value="false"/>
+		<!-- if context allows a httpOnly adjust to true  -->
+	</bean>
+
+	<!-- BTG filters -->
+	<bean id="abstractBtgFilter" class="com.hybris.osh.storefront.filters.btg.AbstractBtgFilter" abstract="true" scope="tenant">
+		<property name="eventService" ref="eventService" />
+	</bean>
+
+	<bean id="refererHeaderBtgFilter" class="com.hybris.osh.storefront.filters.btg.RefererHeaderBtgFilter"	parent="abstractBtgFilter" scope="tenant">
+		<aop:scoped-proxy />
+	</bean>
+
+	<bean id="requestParamsBtgFilter" class="com.hybris.osh.storefront.filters.btg.RequestParamsBtgFilter" parent="abstractBtgFilter" scope="tenant">
+		<aop:scoped-proxy />
+	</bean>
+
+	<bean id="productVisitedBtgFilter" class="com.hybris.osh.storefront.filters.btg.ProductVisitedBtgFilter" parent="abstractBtgFilter" scope="tenant">
+		<property name="pkResolvingStrategy" ref="productPkResolvingStrategy" />
+		<aop:scoped-proxy />
+	</bean>
+
+	<bean id="categoryVisitedBtgFilter" class="com.hybris.osh.storefront.filters.btg.CategoryVisitedBtgFilter" parent="abstractBtgFilter" scope="tenant">
+		<property name="pkResolvingStrategy" ref="categoryPkResolvingStrategy" />
+		<aop:scoped-proxy />
+	</bean>
+
+	<bean id="btgSegmentFilter" class="com.hybris.osh.storefront.filters.btg.BTGSegmentFilter" scope="tenant">
+		<property name="btgSegmentStrategy" ref="btgSegmentStrategy"/>
+		<aop:scoped-proxy />
+	</bean>
+
+</beans>

@@ -1,0 +1,44 @@
+#
+# Storefront apparel-uk site
+# ENGLISH LOCALIZATION
+#
+
+cart.checkout=Checkout
+cart.items={0} items
+cart.count={0}
+cart.page.checkout=Checkout
+cart.page.continue=Continue Shopping
+cart.page.title=Your Shopping Bag
+cart.page.total=Total:
+cart.view=View Bag
+category.navTitle=Shop by Category
+minicart.cart.alt=Your Shopping Basket
+text.actions=Actions
+text.addToCart=Add to Bag
+text.address=Address
+text.checkout.noDeliveryModes=Please check the delivery address. If not selected already, please select the delivery address first and try again.
+text.checkout=Checkout
+text.currency=Select Currency
+text.default=Default
+text.deliveryAddress=Delivery Address
+text.deliveryMethod=Delivery Method
+text.edit=Edit
+text.expires=Expires
+text.free=FREE
+text.iconCartRemove=Remove
+text.itemPrice=Item Price
+text.language=Select Language
+text.paymentMethod=Payment Method
+text.pleaseSelect=Please select...
+text.popupCartTitle=Your Shopping Bag
+text.product=Product
+text.productDetails=Product Details
+text.quantity=Quantity
+text.remove=Remove
+text.search=Search
+text.setDefault=Set as default
+text.status=Status
+text.toggleFacet=Hide or Show Refinement
+text.total=Total
+text.updates=Updates
+text.view=View

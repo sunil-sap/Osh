@@ -1,0 +1,41 @@
+@charset "utf-8";
+/* CSS Document */
+#mainContent { background:#fff}
+.checkoutwrapper { clear:both; padding:20px 10px; font-size:12px;}
+.checkoutwrapper h2{ font-size:16px; font-weight:700; }
+h2 .step{ background:url(../images/global/icon_step.png) no-repeat 0 1px; color:#fff; font-size:11px; font-family:Verdana, Geneva, sans-serif; float:left; padding:0 13px 6px 2px; line-height:16px;}
+.content_left { float:left;}
+.content_right { float:right; width:140px;}
+#errorwrapper label.error { border:#D8000C solid 1px; padding:5px 10px 5px 30px; color:#F00; position:static; background:#FFBABA url(../images/global/icon_error.png) no-repeat 5px center; display:block }
+.formsection { float:left; width:31%; margin:0 2% 0 0; }
+.borderbox { font-family:Arial, Helvetica, sans-serif; font-size:12px; border:#dcdcdc solid 1px; background:#f8f8f8; padding:10px}
+.borderbox p{ margin-top:0;}
+.cartformwarp_inner { min-height:140px; height:100%}
+.placeorderwrapper { float:right; text-align:right; margin:50px 0 0 0}
+.shoppingbaglist { clear:both; margin:20px 0 0}
+hr{clear: both;
+    margin: 0;
+    padding: 1em 0;
+    width: 100%;}
+.linkarrow {background: url("../images/cartpage/arrow_left.gif") no-repeat scroll left center transparent;
+    color: #5F3600;
+    font-family: 'liberation_serifregular';
+    font-size: 13px;
+    padding: 2px 5px 2px 20px;}
+	.linkgetdirection {color:#1155CC; }
+	.checkoutwrapper .order_summerywrapper { margin:10px 0 0 0}
+	form#updateshippingmethod label{ margin:0 0 0 5px}
+.viewpromotion { background:#F3E8D6; width:200px; border:#ccc solid 1px; padding:10px;}
+.viewpromotion .textfield { border: 1px solid #CCCCCC; padding: 5px 0; width: 120px; }
+
+.select_existing_add { float:left; width: 380px; border:#ccc solid 0px; margin-left: 20px}
+.leftwrapper { float: left; width:380px; border: #ccc solid 0px}
+.ui-dialog h2{color: #4A4A4A;
+    font-family: 'liberation_serifregular';
+    line-height: 17px;font-size: 16px;
+    font-weight: 700;}
+#containaddress p{ margin:10px 0 0 0}
+#containaddress .textfield,#containaddress select{ padding:2px 5px}
+#containaddress .borderbox{ height:570px;}
+.selectcard { margin:0 0 35px 0}
+a.btn_delete { background: url("../images/home/icon_delete.png") no-repeat scroll left center transparent;padding:0 0 0 20px; margin:0 0 0 10px; color:red !important}

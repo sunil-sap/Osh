@@ -1,0 +1,23 @@
+@charset "utf-8";
+/* CSS Document */
+#topLinksContent {display: none !important}
+#header { display: none !important}
+.breadcrumb_orderconform { display: none !important}
+.upperbreadcum_img { display: none !important}
+#footer { display: none !important}
+.logoforprint { display: block !important}
+.placeorderwrapper { margin-right: 10px !important}
+.placeorderpage div.cartformwarp_inner_orderdetail { min-height: 50px !important}
+.content_right_orderConfirmation div.bannnerwrap{margin-right:50px !important}
+.content_right_orderConfirmation div.guest_ES_ClubOrchard_img{margin-right:20px !important}
+/* #thankyoumessage {
+    background: none repeat scroll 0 0 #E9F9D4;
+    border: 1px solid #BACF9E;
+    color: #333333;
+    float: left;
+    font-family: Arial,Helvetica,sans-serif;
+    margin-bottom: 15px;
+    overflow: hidden;
+    padding: 4px 14px 0 26px;
+    width: 641px;
+} */

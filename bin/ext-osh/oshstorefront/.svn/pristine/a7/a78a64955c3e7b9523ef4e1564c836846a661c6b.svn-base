@@ -1,0 +1,20 @@
+
+@charset "utf-8";
+#mainBody {display: none !important}
+.logoforprint { display: block !important;}
+#headerContent {display: none !important}
+#headerNav {display: none !important}
+#footer {display: none !important}
+.breadcrumb {display: none !important}
+.banner {display: none !important}
+.leftmaincontent {display: none !important}
+.share_product {display: none !important}
+.acc_breadcrumb {display: none !important}
+.updates {display: none !important}
+.lastupper_right {display: none !important}
+.item_container_holder1
+{
+	margin-left: 0; 
+	margin-top: 0;
+	width: 100%;
+}
