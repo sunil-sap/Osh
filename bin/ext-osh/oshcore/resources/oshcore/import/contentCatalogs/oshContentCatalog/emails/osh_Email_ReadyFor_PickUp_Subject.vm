@@ -1,3 +1,0 @@
-Order ${ctx.order.code} #if($ctx.order.status == "READY_FOR_PICKUP") Ready For Pickup #end 
-#if($ctx.order.status == "COMPLETED") Picked Up From Store  #end
-

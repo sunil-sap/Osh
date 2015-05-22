@@ -1,9 +1,0 @@
-#% impex.setLocale(Locale.ENGLISH);
-$productCatalog=cyclegearProductCatalog
-$catalogVersion=catalogversion(catalog(id[default=$productCatalog]),version[default='Staged'])[unique=true,default='$productCatalog:Staged']
-
-INSERT_UPDATE OshPromotionVoucher;code[unique=true];name[lang=en];description[lang=en];value;redemptionQuantityLimit;redemptionQuantityLimitPerUser;voucherCode;freeShipping[default='false'];currency(isoCode)
-;New;;;10;1;1;20%OFF;;;
-;New;;;10;1;1;40%OFF;;;
-;001;;;75;1;1;$75OFF;;USD;
-;100;;;10;1;1;$10OFF;;USD;

@@ -1,1 +1,0 @@
-﻿<img src="${ctx.parentContext.mediaBaseUrl}${ctx.media.url}" alt="#if(${ctx.media.altText})${ctx.media.altText}#end" border="0"/>

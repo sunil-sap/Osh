@@ -1,2 +1,0 @@
-INSERT_UPDATE OshSFTP;transferHost[unique=true];transferPort;transferUser;transferPassword;transferUniqueKeyPath
-;10.17.1.20;22;transfer;;

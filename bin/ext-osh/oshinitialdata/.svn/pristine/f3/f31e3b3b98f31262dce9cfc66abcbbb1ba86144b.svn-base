@@ -1,3 +1,0 @@
-INSERT_UPDATE CronJob; code[unique=true];job(code);singleExecutable;sessionLanguage(isocode)
-;tLogEODFileCreationCronjob;tLogEODFileCreationCronjob;false;en
- 

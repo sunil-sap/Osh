@@ -1,5 +1,0 @@
-INSERT_UPDATE CronJob; code[unique=true];job(code);singleExecutable;sessionLanguage(isocode)
-;CategoryCMSLinksAddCronjobs;CategoryCMSLinksAddCronjobs;false;en
- 
-#INSERT_UPDATE Trigger;cronJob(code)[unique=true];active;activationTime[dateformat=yyyy-mm-dd HH:mm:ss];year;month;day;hour;minute;second;relative;maxAcceptableDelay
-#;CategoryCMSLinksAddCronjobs;true;2013-09-11 05:45:00;-1;-1;1;-1;-1;0;true;10	

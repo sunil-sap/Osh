@@ -1,3 +1,0 @@
-storeId|sku_number|on_hand
-6|OEF10001|12
-14|OEF10001|5

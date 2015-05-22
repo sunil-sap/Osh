@@ -1,2 +1,0 @@
-INSERT_UPDATE CronJob; code[unique=true];job(code);singleExecutable;sessionLanguage(isocode)
-;RemoveImagesFromSftpCronjob;removeImagesFromSftpCronjob;false;en

@@ -1,7 +1,0 @@
-# ImpEx for adding restrictions to the cscockpit wherein the cs associates can only see their respective consignments 
-#and products associated to those consignments
-
-INSERT_UPDATE SearchRestriction;code[unique=true];name[lang=en];query;principal(UID);restrictedType(code);active;generate
-;Osh_Order_Split_Consignment_Bopis;Osh Consignment Restriction Bopis;{warehouse} = ({{select pk from {warehouse}  where {code} = ({{select {name} from {pointofservice} where pk =?session.user.mystore }})}});csagentgroup;Consignment;true;true
-;Osh_Order_Split_Product;Osh Order Product Restriction;{ordertype}=({{select {pos.name} from {pointofservice as pos} where {pos.pk}=?session.user.mystore}});csagentgroup;AbstractOrderEntry;true;true
-;Osh_Order_Split_Consignment_Online;Osh Order Consignment Restriction Online;{warehouse}=({{select pk from {warehouse as w} where {w.code}='online'}});onlineagent;Consignment;true;true

@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<list-view unassigned-group-name="Other">
-	<group name="General">
-		<property qualifier="Consignment.status" visible="true"/>
-		<!-- <property qualifier="ConsignmentEntry.shippingAmt" visible="true" /> -->
-		<property qualifier="Consignment.trackingID" visible="true"/>
-		<property qualifier="Consignment.notes" visible="true"/>
-	</group>
-</list-view>
